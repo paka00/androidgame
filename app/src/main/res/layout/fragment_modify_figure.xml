@@ -6,7 +6,6 @@
     tools:context=".ModifyFigureFragment"
     android:orientation="vertical">
 
-
     <TextView
         android:gravity="center"
         android:layout_width="match_parent"
