@@ -12,6 +12,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
+
 import java.util.ArrayList;
 
 public class StepCounterService extends Service implements SensorEventListener {

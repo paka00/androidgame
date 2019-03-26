@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".StepCounterService"
+            android:enabled="true">
+        </service>
+        <receiver android:name=".ResetDailyStatsBroadcastReceiver"></receiver>
     </application>
 
 </manifest>

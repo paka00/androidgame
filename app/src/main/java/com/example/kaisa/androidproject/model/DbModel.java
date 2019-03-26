@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import com.example.kaisa.androidproject.model.db.DbContract;
+import com.example.kaisa.androidproject.model.db.DbHelper;
+
 import java.util.ArrayList;
 
 public class DbModel {
