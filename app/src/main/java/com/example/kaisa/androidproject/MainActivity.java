@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarmMgr;
@@ -49,15 +51,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     protected void setDailyResetAlarm() {
-        /*Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 00);*/
+        calendar.set(Calendar.HOUR_OF_DAY, 00);
         Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         alarmMgr = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000,
-                /*AlarmManager.INTERVAL_DAY*/60000, alarmPendingIntent);
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                AlarmManager.INTERVAL_DAY, alarmPendingIntent);
 
 
     }
