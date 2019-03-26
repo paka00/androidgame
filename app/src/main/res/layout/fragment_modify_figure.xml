@@ -1,17 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ModifyFigureFragment"
     android:orientation="vertical">
 
-
-    <TextView
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="Modify figure fragment" />
+        android:layout_height="40dp"
+        android:background="@android:color/holo_blue_light"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@android:color/holo_green_light">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/testi_button"
+                android:text="vaihda"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/peru_button"
+                android:text="poista"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/human"/>
+
+            <ImageView
+                android:id="@+id/imageview_hattu"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="60dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@android:color/holo_green_light">
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/black"
+        android:orientation="horizontal">
+    </LinearLayout>
+
 
 </LinearLayout>
+
