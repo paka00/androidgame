@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, StepCounterService.class);
-        startService(intent);
+        Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+        startService(stepCounterIntent);
         registerReceiver(broadcastReceiver, new IntentFilter(StepCounterService.BROADCAST_ACTION));
         setDailyResetAlarm();
         Log.v("stepsmain", "oncreate");
@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, StepCounterService.class);
-        intent.putExtra("reset", false);
-        startService(intent);
+        Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+        stepCounterIntent.putExtra("reset", false);
+        startService(stepCounterIntent);
         Log.v("stepsmain", "onresume");
     }
 
@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         /*Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 00);*/
-        Intent intent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         alarmMgr = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000,
-                /*AlarmManager.INTERVAL_DAY*/60000, alarmIntent);
+                /*AlarmManager.INTERVAL_DAY*/60000, alarmPendingIntent);
 
 
     }
