@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     fragment = new AchievementsFragment();
                     break;
+                case R.id.navigation_something:
+                    fragment = new SettingsFragment();
+                    break;
             }
             return selectFragment(fragment);
 
