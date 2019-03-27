@@ -51,6 +51,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         else {
             stepCounter = 0;
             isUserCreated = false;
+            Log.v("stepscounter", "total stepcounter reset");
         }
         super.onCreate();
         serviceStopped = false;
