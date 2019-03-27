@@ -28,7 +28,6 @@
             android:id="@+id/btn_Menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bell"
             android:layout_gravity="right"/>
 
         <android.support.v4.view.ViewPager
