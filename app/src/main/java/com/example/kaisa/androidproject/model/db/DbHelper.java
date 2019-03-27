@@ -8,8 +8,19 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DbContract.User.TABLE_NAME + " (" +
                     DbContract.User._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    DbContract.User.COLUMN_USERNAME + " STRING," +
+                    DbContract.User.COLUMN_GENDER + " INTEGER," +
+                    DbContract.User.COLUMN_HAT + " INTEGER," +
+                    DbContract.User.COLUMN_SHIRT + " INTEGER," +
+                    DbContract.User.COLUMN_PANTS + " INTEGER," +
+                    DbContract.User.COLUMN_SHOES + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_STEPS + " INTEGER," +
-                    DbContract.User.COLUMN_DAILY_STEPS + " INTEGER)";
+                    DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
+                    DbContract.User.COLUMN_TOTAL_DISTANCE + " DOUBLE," +
+                    DbContract.User.COLUMN_DAILY_DISTANCE + " DOUBLE," +
+                    DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +
+                    DbContract.User.COLUMN_WALK_START_TIME + " LONG," +
+                    DbContract.User.COLUMN_WALK_END_TIME + " LONG)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME;
