@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     ImageButton imageButton = null;
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new AchievementsFragment();
                     break;
                 case R.id.navigation_something:
-                    fragment = new SettingsFragment();
+                    fragment = new JoggingFragment();
                     break;
             }
             return selectFragment(fragment);
