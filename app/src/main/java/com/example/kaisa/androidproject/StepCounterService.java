@@ -31,7 +31,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     public static final String BROADCAST_ACTION = "StepCounter";
     boolean serviceStopped;
     private final Handler handler = new Handler();
-    ArrayList<User> userStats = new ArrayList<>();
+    User user = null;
     DbModel model = null;
 
     @Override
@@ -39,9 +39,9 @@ public class StepCounterService extends Service implements SensorEventListener {
         final DbModel model = new DbModel(this);
         if(!model.checkIfTableEmpty()) {
             try {
-                userStats = model.readUserFromDb();
-                totalStepCounter = userStats.get(0).getSteps();
-                dailyStepCounter = userStats.get(0).getDailySteps();
+                user = model.readUserFromDb();
+                totalStepCounter = user.getSteps();
+                dailyStepCounter = user.getDailySteps();
             } catch (SQLiteException e) {
                 if (e.getMessage().contains("no such table")) {
                     Log.e("stepdb", "table doesn't exist");

@@ -23,8 +23,18 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(DbContract.User.COLUMN_USERNAME, addable.name);
+        values.put(DbContract.User.COLUMN_GENDER, addable.gender);
+        values.put(DbContract.User.COLUMN_HAT, addable.hat);
+        values.put(DbContract.User.COLUMN_SHIRT, addable.shirt);
+        values.put(DbContract.User.COLUMN_PANTS, addable.pants);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, addable.totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, addable.dailySteps);
+        values.put(DbContract.User.COLUMN_TOTAL_DISTANCE, addable.totalDistance);
+        values.put(DbContract.User.COLUMN_DAILY_DISTANCE, addable.dailyDistance);
+        values.put(DbContract.User.COLUMN_AVERAGE_SPEED, addable.averageSpeed);
+        values.put(DbContract.User.COLUMN_WALK_START_TIME, addable.walkStartTime);
+        values.put(DbContract.User.COLUMN_WALK_END_TIME, addable.walkEndTime);
 
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME, null, values);
@@ -36,13 +46,24 @@ public class DbModel {
         }
     }
 
-    public ArrayList<User> readUserFromDb() {
+    public User readUserFromDb() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        ArrayList<User> userStats = new ArrayList<>();
+        User user = null;
 
         String[] projection = {
+                DbContract.User.COLUMN_USERNAME,
+                DbContract.User.COLUMN_GENDER,
+                DbContract.User.COLUMN_HAT,
+                DbContract.User.COLUMN_SHIRT,
+                DbContract.User.COLUMN_PANTS,
+                DbContract.User.COLUMN_SHOES,
                 DbContract.User.COLUMN_TOTAL_STEPS,
-                DbContract.User.COLUMN_DAILY_STEPS
+                DbContract.User.COLUMN_DAILY_STEPS,
+                DbContract.User.COLUMN_TOTAL_DISTANCE,
+                DbContract.User.COLUMN_DAILY_DISTANCE,
+                DbContract.User.COLUMN_AVERAGE_SPEED,
+                DbContract.User.COLUMN_WALK_START_TIME,
+                DbContract.User.COLUMN_WALK_END_TIME
         };
 
         String sortOrder = DbContract.User._ID + " DESC";
@@ -58,14 +79,24 @@ public class DbModel {
         );
 
         while(cursor.moveToNext()){
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_USERNAME));
+            int gender = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_GENDER));
+            int hat = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_HAT));
+            int shirt = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHIRT));
+            int pants = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_PANTS));
+            int shoes = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHOES));
             int totalSteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_STEPS));
             int dailySteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEPS));
-            User user = new User(totalSteps, dailySteps);
-            userStats.add(user);
+            double totalDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_DISTANCE));
+            double dailyDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_DISTANCE));
+            double averageSpeed = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_AVERAGE_SPEED));
+            long walkStartTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_START_TIME));
+            long walkEndTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_END_TIME));
+            user = new User(totalSteps, dailySteps);
         }
         cursor.close();
 
-        return userStats;
+        return user;
     }
 
     public void updateUser(User user) {
