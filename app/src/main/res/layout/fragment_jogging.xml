@@ -10,15 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
+
     <Button
+        android:id="@+id/start_jog_button"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="center"
-        android:id="@+id/start_jog_button"
         android:background="@drawable/round_button"
 
         />
-
 
 
 </FrameLayout>

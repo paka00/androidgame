@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity  {
 
     ImageButton imageButton = null;
     ViewPager viewPager = null;
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,6 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-            Fragment fragment = null;
-
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     fragment = new HomeFragment();
@@ -73,6 +73,17 @@ public class MainActivity extends AppCompatActivity  {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.dropdown, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.menu_settings){
+            fragment = new SettingsFragment();
+            TextView textView = findViewById(R.id.fragment_settings_text);
+            textView.setText("Test");
+        }
+        return selectFragment(fragment);
     }
 
     public boolean selectFragment(Fragment fragment) {
