@@ -1,9 +1,11 @@
 package com.example.kaisa.androidproject;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,7 @@ import android.widget.PopupMenu;
 public class MainActivity extends AppCompatActivity {
 
     ImageButton imageButton = null;
+    ViewPager viewPager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         getSupportActionBar().hide();
-
+        /*
+        viewPager = findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 3);
+        viewPager.setAdapter(adapter);
+        */
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             return selectFragment(fragment);
-
-
         }
     };
 
