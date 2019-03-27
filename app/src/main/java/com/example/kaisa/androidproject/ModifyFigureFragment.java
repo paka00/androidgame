@@ -1,5 +1,6 @@
 package com.example.kaisa.androidproject;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class ModifyFigureFragment extends Fragment {
+
+    private OnFragmentInteractionListener mListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,5 +42,9 @@ public class ModifyFigureFragment extends Fragment {
             }
         });
 
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 }
