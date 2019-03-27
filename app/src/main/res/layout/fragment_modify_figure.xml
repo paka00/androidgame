@@ -74,14 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/character_male"
-                android:layout_marginBottom="60dp"/>
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="30dp"/>
 
             <ImageView
                 android:id="@+id/imageview_hattu"
                 android:layout_width="80dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="75dp"
-                android:layout_marginTop="1dp" />
+                android:layout_marginLeft="75dp"/>
         </RelativeLayout>
 
         <LinearLayout
