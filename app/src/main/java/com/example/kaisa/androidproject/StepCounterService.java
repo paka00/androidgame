@@ -1,6 +1,9 @@
 package com.example.kaisa.androidproject;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
@@ -14,6 +17,8 @@ import android.util.Log;
 
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
+
+import java.util.Calendar;
 
 public class StepCounterService extends Service implements SensorEventListener {
 
@@ -51,6 +56,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             }
         }
         else {
+            setDailyResetAlarm();
             stepHelper = 0;
             isUserCreated = false;
             checkDailySteps = true;
@@ -147,5 +153,18 @@ public class StepCounterService extends Service implements SensorEventListener {
         intent.putExtra("steps_string", sSteps);
         intent.putExtra("dsteps_string", dSteps);
         sendBroadcast(intent);
+    }
+
+    protected void setDailyResetAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 00);
+        Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        AlarmManager alarmMgr = (AlarmManager)StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
+
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmPendingIntent);
+        Log.v("stepsalarm", "alarm set");
     }
 }
