@@ -20,8 +20,7 @@ public class AchievementsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-            broadcastReceiver, new IntentFilter("StepCounter"));
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         return inflater.inflate(R.layout.fragment_achievements, container, false);
     }
 
@@ -31,11 +30,23 @@ public class AchievementsFragment extends Fragment {
             TextView textView = getView().findViewById(R.id.steps);
             String steps = intent.getStringExtra("steps_string");
             String dSteps = intent.getStringExtra("dsteps_string");
-            textView.setText("Total steps: " + steps + "\n Daily steps: " + dSteps);
+            textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
         }
     };
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }
