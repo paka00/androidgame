@@ -3,6 +3,7 @@ package com.example.kaisa.androidproject.model.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
@@ -16,6 +17,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_SHOES + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
+                    DbContract.User.COLUMN_STEP_COUNTER_HELPER + " INTEGER," +
+                    DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_DAILY_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +

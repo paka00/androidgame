@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
         registerReceiver(broadcastReceiver, new IntentFilter(StepCounterService.BROADCAST_ACTION));
-        setDailyResetAlarm();
+        //setDailyResetAlarm();
         Log.v("stepsmain", "oncreate");
     }
 
@@ -36,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         stepCounterIntent.putExtra("reset", false);
         startService(stepCounterIntent);
         Log.v("stepsmain", "onresume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    protected void setDailyResetAlarm() {
+    /*protected void setDailyResetAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 00);
@@ -60,7 +66,5 @@ public class MainActivity extends AppCompatActivity {
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmPendingIntent);
-
-
-    }
+    }*/
 }

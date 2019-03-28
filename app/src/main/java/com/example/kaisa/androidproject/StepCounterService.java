@@ -15,18 +15,16 @@ import android.util.Log;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
-import java.util.ArrayList;
-
 public class StepCounterService extends Service implements SensorEventListener {
 
     SensorManager sensorManager = null;
     Sensor stepCounterSensor = null;
     Sensor stepDetectorSensor = null;
-    int stepCounter;
+    int stepHelper;
     int totalStepCounter;
     int dailyStepCounter;
     int dailyStepHelper;
-    public boolean checkDailySteps = true;
+    public boolean checkDailySteps = false;
     boolean isUserCreated = true;
     public static final String BROADCAST_ACTION = "StepCounter";
     boolean serviceStopped;
@@ -42,15 +40,20 @@ public class StepCounterService extends Service implements SensorEventListener {
                 user = model.readUserFromDb();
                 totalStepCounter = user.getSteps();
                 dailyStepCounter = user.getDailySteps();
+                stepHelper = user.getStepHelper();
+                dailyStepHelper = user.getDailyStepHelper();
+                Log.v("stepservice", "totalsteps from db " + totalStepCounter);
+                Log.v("stepservice", "stepcounter: " + stepHelper);
             } catch (SQLiteException e) {
                 if (e.getMessage().contains("no such table")) {
-                    Log.e("stepdb", "table doesn't exist");
+                    Log.v("stepsdb", "table doesn't exist");
                 }
             }
         }
         else {
-            stepCounter = 0;
+            stepHelper = 0;
             isUserCreated = false;
+            checkDailySteps = true;
             Log.v("stepscounter", "total stepcounter reset");
         }
         super.onCreate();
@@ -68,11 +71,15 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepservice", "onstart");
         handler.removeCallbacks(updateBroadcastData);
         handler.post(updateBroadcastData);
-        if (intent.hasExtra("reset")) {
-            if (intent.getBooleanExtra("reset", true)) {
-                checkDailySteps = intent.getBooleanExtra("reset", true);
-                dailyStepCounter = 0;
+        try {
+            if (intent.hasExtra("reset")) {
+                if (intent.getBooleanExtra("reset", true)) {
+                    checkDailySteps = intent.getBooleanExtra("reset", true);
+                    dailyStepCounter = 0;
+                }
             }
+        } catch (Exception e) {
+            Log.v("stepservice", "intent null");
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -98,10 +105,11 @@ public class StepCounterService extends Service implements SensorEventListener {
                 dailyStepHelper = (int) event.values[0];
                 checkDailySteps = false;
             }
-            if (stepCounter == 0) {
-                stepCounter = (int) event.values[0];
+            if (stepHelper == 0) {
+                Log.v("stepscounter", "stepcounter = 0");
+                stepHelper = (int) event.values[0];
             }
-            totalStepCounter = countSteps - stepCounter;
+            totalStepCounter = countSteps - stepHelper;
             dailyStepCounter = countSteps - dailyStepHelper;
             Log.v("newsteps", "" + totalStepCounter);
         }
@@ -127,7 +135,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         Intent intent = new Intent(BROADCAST_ACTION);
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
-        User user = new User(totalStepCounter, dailyStepCounter);
+        User user = new User(totalStepCounter, dailyStepCounter, stepHelper, dailyStepHelper);
         if(!isUserCreated) {
             model.addUserToDb(user);
             isUserCreated = true;

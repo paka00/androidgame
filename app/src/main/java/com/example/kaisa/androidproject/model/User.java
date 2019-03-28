@@ -12,15 +12,19 @@ public class User implements Serializable {
     int shoes;
     int totalSteps;
     int dailySteps;
+    int stepHelper;
+    int dailyStepHelper;
     double totalDistance;
     double dailyDistance;
     double averageSpeed;
     long walkStartTime;
     long walkEndTime;
 
-    public User(int totalSteps, int dailySteps) {
+    public User(int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper) {
         this.totalSteps = totalSteps;
         this.dailySteps = dailySteps;
+        this.stepHelper = stepHelper;
+        this.dailyStepHelper = dailyStepHelper;
     }
 
     public int getSteps() {
@@ -133,5 +137,21 @@ public class User implements Serializable {
 
     public void setWalkEndTime(long walkEndTime) {
         this.walkEndTime = walkEndTime;
+    }
+
+    public int getStepHelper() {
+        return stepHelper;
+    }
+
+    public void setStepHelper(int stepHelper) {
+        this.stepHelper = stepHelper;
+    }
+
+    public int getDailyStepHelper() {
+        return dailyStepHelper;
+    }
+
+    public void setDailyStepHelper(int dailyStepHelper) {
+        this.dailyStepHelper = dailyStepHelper;
     }
 }

@@ -30,6 +30,8 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_PANTS, addable.pants);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, addable.totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, addable.dailySteps);
+        values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, addable.stepHelper);
+        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, addable.dailyStepHelper);
         values.put(DbContract.User.COLUMN_TOTAL_DISTANCE, addable.totalDistance);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, addable.dailyDistance);
         values.put(DbContract.User.COLUMN_AVERAGE_SPEED, addable.averageSpeed);
@@ -59,6 +61,8 @@ public class DbModel {
                 DbContract.User.COLUMN_SHOES,
                 DbContract.User.COLUMN_TOTAL_STEPS,
                 DbContract.User.COLUMN_DAILY_STEPS,
+                DbContract.User.COLUMN_STEP_COUNTER_HELPER,
+                DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER,
                 DbContract.User.COLUMN_TOTAL_DISTANCE,
                 DbContract.User.COLUMN_DAILY_DISTANCE,
                 DbContract.User.COLUMN_AVERAGE_SPEED,
@@ -87,12 +91,14 @@ public class DbModel {
             int shoes = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHOES));
             int totalSteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_STEPS));
             int dailySteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEPS));
+            int stepHelper = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_STEP_COUNTER_HELPER));
+            int dailyStepHelper = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER));
             double totalDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_DISTANCE));
             double dailyDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_DISTANCE));
             double averageSpeed = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_AVERAGE_SPEED));
             long walkStartTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_START_TIME));
             long walkEndTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_END_TIME));
-            user = new User(totalSteps, dailySteps);
+            user = new User(totalSteps, dailySteps, stepHelper, dailyStepHelper);
         }
         cursor.close();
 
@@ -104,10 +110,14 @@ public class DbModel {
 
         int totalSteps = user.getSteps();
         int dailySteps = user.getDailySteps();
+        int stepHelper = user.getStepHelper();
+        int dailyStepHelper = user.getDailyStepHelper();
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, dailySteps);
+        values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, stepHelper);
+        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, dailyStepHelper);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";
