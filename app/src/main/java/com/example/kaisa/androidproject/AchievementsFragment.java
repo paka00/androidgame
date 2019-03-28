@@ -13,13 +13,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
+
 public class AchievementsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    TextView textView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final DbModel model = new DbModel(getContext());
+        if(!model.checkIfTableEmpty()){
+            User user = model.readUserFromDb();
+            int totalSteps = user.getTotalSteps();
+            int dailySteps = user.getDailySteps();
+            textView = getView().findViewById(R.id.steps);
+            String steps = String.valueOf(totalSteps);
+            String dSteps = String.valueOf(dailySteps);
+            textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+        }
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         return inflater.inflate(R.layout.fragment_achievements, container, false);
     }
@@ -27,7 +41,7 @@ public class AchievementsFragment extends Fragment {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            TextView textView = getView().findViewById(R.id.steps);
+            textView = getView().findViewById(R.id.steps);
             String steps = intent.getStringExtra("steps_string");
             String dSteps = intent.getStringExtra("dsteps_string");
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
