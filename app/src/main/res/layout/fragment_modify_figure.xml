@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ModifyFigureFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nimi" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_gender_male"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="male" />
+
+        <Button
+            android:id="@+id/button_gender_female"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="female" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/testi_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="vaihda" />
+
+            <Button
+                android:id="@+id/peru_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="poista" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageview_character"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:src="@drawable/character_male" />
+
+            <ImageView
+                android:id="@+id/imageview_hattu"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="1dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
