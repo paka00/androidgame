@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
-        registerReceiver(broadcastReceiver, new IntentFilter(StepCounterService.BROADCAST_ACTION));
-        //setDailyResetAlarm();
         Log.v("stepsmain", "oncreate");
         imageButton = findViewById(R.id.btn_Menu);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -72,20 +70,9 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(broadcastReceiver);
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            TextView textViewTotal = findViewById(R.id.total_steps_text_view);
-            TextView textViewDaily = findViewById(R.id.daily_steps_text_view);
-            String steps = intent.getStringExtra("steps_string");
-            String dSteps = intent.getStringExtra("dsteps_string");
-            textViewTotal.setText("Total steps: " + steps);
-            textViewDaily.setText("Daily steps: " + dSteps);
-        }
-    };
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

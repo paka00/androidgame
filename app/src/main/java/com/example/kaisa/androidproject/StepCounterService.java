@@ -31,7 +31,6 @@ public class StepCounterService extends Service implements SensorEventListener {
     int dailyStepHelper;
     public boolean checkDailySteps = false;
     boolean isUserCreated = true;
-    public static final String BROADCAST_ACTION = "StepCounter";
     boolean serviceStopped;
     private final Handler handler = new Handler();
     User user = null;
@@ -138,7 +137,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     private void broadcastSteps() {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
-        Intent intent = new Intent(BROADCAST_ACTION);
+        Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
         User user = new User(totalStepCounter, dailyStepCounter, stepHelper, dailyStepHelper);
