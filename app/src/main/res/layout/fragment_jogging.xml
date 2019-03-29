@@ -6,19 +6,32 @@
     tools:context=".JoggingFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+
+        android:text="Juu"/>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="jees"
+        android:gravity="center"
+         />
     <Button
-        android:id="@+id/start_jog_button"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="center"
+        android:id="@+id/start_jog_button"
         android:background="@drawable/round_button"
 
         />
+
 
 
 </FrameLayout>

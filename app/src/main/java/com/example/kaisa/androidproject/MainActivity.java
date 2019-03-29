@@ -1,6 +1,16 @@
 package com.example.kaisa.androidproject;
 
 
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,32 +26,28 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     ImageButton imageButton = null;
     ViewPager viewPager = null;
     Fragment fragment = null;
-    HomeFragment homeFragment = null;
-    AchievementsFragment achievementsFragment = null;
-    ModifyFigureFragment modifyFigureFragment = null;
-    JoggingFragment joggingFragment = null;
-    SettingsFragment settingsFragment = null;
-    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        homeFragment = new HomeFragment();
-        achievementsFragment = new AchievementsFragment();
-        modifyFigureFragment = new ModifyFigureFragment();
-        joggingFragment = new JoggingFragment();
-        settingsFragment = new SettingsFragment();
         imageButton = findViewById(R.id.btn_Menu);
-        viewPager = findViewById(R.id.pager);
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         getSupportActionBar().hide();
+        Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+        startService(stepCounterIntent);
+        Log.v("stepsmain", "oncreate");
+        /*
+        viewPager = findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 3);
+        viewPager.setAdapter(adapter);
+        */
         //selectFragment(homeFragment);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -50,36 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 PopupMenu menu = new PopupMenu(getApplicationContext(), imageButton);
                 menu.getMenuInflater().inflate(R.menu.dropdown, menu.getMenu());
                 menu.show();
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.menu_settings) {
-                            return selectFragment(settingsFragment);
-                        }
-                        return false;
-                    }
-                });
             }
         });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                navigation.getMenu().getItem(i).setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-
-        });
-        setupViewpager(viewPager);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -90,33 +68,39 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    // fragment = homeFragment;
-                    viewPager.setCurrentItem(0);
+                    fragment = new HomeFragment();
                     break;
                 case R.id.navigation_dashboard:
-                    //fragment = modifyFigureFragment;
-                    viewPager.setCurrentItem(1);
+                    fragment = new ModifyFigureFragment();
                     break;
                 case R.id.navigation_notifications:
-                    //fragment = achievementsFragment;
-                    viewPager.setCurrentItem(2);
+                    fragment = new AchievementsFragment();
                     break;
                 case R.id.navigation_something:
-                    //fragment = joggingFragment;
-                    viewPager.setCurrentItem(3);
+                    fragment = new JoggingFragment();
                     break;
             }
-            // return selectFragment(fragment);
-            return true;
+            return selectFragment(fragment);
         }
     };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.dropdown, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dropdown, menu);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.menu_settings){
+            fragment = new SettingsFragment();
+            TextView textView = findViewById(R.id.fragment_settings_text);
+            textView.setText("Test");
+        }
+        return selectFragment(fragment);
+    }
 
     public boolean selectFragment(Fragment fragment) {
         getSupportFragmentManager()
@@ -125,10 +109,4 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         return true;
     }
-
-    public void setupViewpager(ViewPager viewPager) {
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 4);
-        viewPager.setAdapter(adapter);
-    }
-
 }
