@@ -52,6 +52,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     TextView tv1 = null;
     TextView tv2 = null;
     LocationCallback mLocationCallback = null;
+    SensorEventListener sensorlistener= null;
 
 
         @Override
@@ -93,6 +94,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startbuttontxt = "Stop";
                     startButton.setText(startbuttontxt);
                     requestLocationUpdates();
+                    startSensor();
                 }
                 else{
                     startbuttontxt ="Start";
@@ -107,7 +109,34 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         });
 
 
-        sensorManager.registerListener(new SensorEventListener() {
+
+
+
+
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+    public void startSensor(){
+        sensorManager.registerListener(sensorlistener= new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
 
@@ -140,30 +169,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
             }
         }, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-
-
-    }
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
     @Override
@@ -196,6 +201,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             locationOld = null;
             distance = 0;
             distance2 = 0;
+            sensorManager.unregisterListener(sensorlistener, sensor);
+
 
     }
     @Override
