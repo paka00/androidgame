@@ -28,6 +28,7 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_HAT, addable.hat);
         values.put(DbContract.User.COLUMN_SHIRT, addable.shirt);
         values.put(DbContract.User.COLUMN_PANTS, addable.pants);
+        values.put(DbContract.User.COLUMN_SHOES, addable.shoes);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, addable.totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, addable.dailySteps);
         values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, addable.stepHelper);
@@ -98,7 +99,7 @@ public class DbModel {
             double averageSpeed = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_AVERAGE_SPEED));
             long walkStartTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_START_TIME));
             long walkEndTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_END_TIME));
-            user = new User(totalSteps, dailySteps, stepHelper, dailyStepHelper);
+            user = new User(name, gender, hat, shirt, pants, shoes, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkStartTime, walkEndTime);
         }
         cursor.close();
 
@@ -108,16 +109,36 @@ public class DbModel {
     public void updateUser(User user) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        String name = user.getName();
+        int gender = user.getGender();
+        int hat = user.getHat();
+        int shirt = user.getShirt();
+        int pants = user.getPants();
         int totalSteps = user.getSteps();
         int dailySteps = user.getDailySteps();
         int stepHelper = user.getStepHelper();
         int dailyStepHelper = user.getDailyStepHelper();
+        double totalDistance = user.getTotalDistance();
+        double dailyDistance = user.getDailyDistance();
+        double averageSpeed = user.getAverageSpeed();
+        long walkStartTime = user.getWalkStartTime();
+        long walkEndTime = user.getWalkEndTime();
         // New value for one column
         ContentValues values = new ContentValues();
+        values.put(DbContract.User.COLUMN_USERNAME, name);
+        values.put(DbContract.User.COLUMN_GENDER, gender);
+        values.put(DbContract.User.COLUMN_HAT, hat);
+        values.put(DbContract.User.COLUMN_SHIRT, shirt);
+        values.put(DbContract.User.COLUMN_PANTS, pants);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, dailySteps);
         values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, stepHelper);
         values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, dailyStepHelper);
+        values.put(DbContract.User.COLUMN_TOTAL_DISTANCE, totalDistance);
+        values.put(DbContract.User.COLUMN_DAILY_DISTANCE, dailyDistance);
+        values.put(DbContract.User.COLUMN_AVERAGE_SPEED, averageSpeed);
+        values.put(DbContract.User.COLUMN_WALK_START_TIME, walkStartTime);
+        values.put(DbContract.User.COLUMN_WALK_END_TIME, walkEndTime);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";
@@ -135,6 +156,7 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
+        values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
         String selection = DbContract.User._ID + " LIKE ?";
         String[] selectionArgs = { "1" };
 

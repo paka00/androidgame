@@ -57,6 +57,9 @@ public class StepCounterService extends Service implements SensorEventListener {
         else {
             setDailyResetAlarm();
             stepHelper = 0;
+            totalStepCounter = 0;
+            dailyStepHelper = 0;
+            dailyStepCounter = 0;
             isUserCreated = false;
             checkDailySteps = true;
             Log.v("stepscounter", "total stepcounter reset");
@@ -140,12 +143,17 @@ public class StepCounterService extends Service implements SensorEventListener {
         Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
-        User user = new User(totalStepCounter, dailyStepCounter, stepHelper, dailyStepHelper);
         if(!isUserCreated) {
-            model.addUserToDb(user);
+            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, 0, 0);
+            model.addUserToDb(newUser);
             isUserCreated = true;
         }
         else {
+            User user = model.readUserFromDb();
+            user.setTotalSteps(totalStepCounter);
+            user.setDailySteps(dailyStepCounter);
+            user.setDailyStepHelper(dailyStepHelper);
+            user.setStepHelper(stepHelper);
             model.updateUser(user);
         }
         intent.putExtra("steps_int", totalStepCounter);

@@ -20,11 +20,22 @@ public class User implements Serializable {
     long walkStartTime;
     long walkEndTime;
 
-    public User(int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, long walkStartTime, long walkEndTime) {
+        this.name = name;
+        this.gender = gender;
+        this.hat = hat;
+        this.shirt = shirt;
+        this.pants = pants;
+        this.shoes = shoes;
         this.totalSteps = totalSteps;
         this.dailySteps = dailySteps;
         this.stepHelper = stepHelper;
         this.dailyStepHelper = dailyStepHelper;
+        this.totalDistance = totalDistance;
+        this.dailyDistance = dailyDistance;
+        this.averageSpeed = averageSpeed;
+        this.walkStartTime = walkStartTime;
+        this.walkEndTime = walkEndTime;
     }
 
     public int getSteps() {
