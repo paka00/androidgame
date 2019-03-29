@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModifyFigureFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ModifyFigureFragment">
 
 
     <LinearLayout
@@ -19,25 +19,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Nimi"/>
+            android:text="Nimi" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_light"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
-        android:id="@+id/button_gender_male"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="male"/>
+            android:id="@+id/button_gender_male"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="male" />
+
         <Button
             android:id="@+id/button_gender_female"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="female"/>
+            android:text="female" />
 
     </LinearLayout>
 
@@ -73,8 +75,8 @@
                 android:id="@+id/imageview_character"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/character_male"
-                android:layout_marginBottom="60dp"/>
+                android:layout_marginBottom="60dp"
+                android:src="@drawable/character_male" />
 
             <ImageView
                 android:id="@+id/imageview_hattu"
@@ -90,11 +92,7 @@
             android:orientation="vertical"></LinearLayout>
 
 
-
-
-
     </LinearLayout>
-
 
 
 </LinearLayout>
