@@ -28,6 +28,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 AchievementsFragment achievementsFragment = new AchievementsFragment();
                 return achievementsFragment;
+            case 3:
+                JoggingFragment joggingFragment = new JoggingFragment();
+                return joggingFragment;
             default:
                 return null;
         }
@@ -39,3 +42,4 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         return numberOfTabs;
     }
 }
+
