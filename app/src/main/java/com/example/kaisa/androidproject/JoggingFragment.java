@@ -31,7 +31,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.os.Looper.getMainLooper;
@@ -57,6 +59,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     TextView tv2 = null;
     LocationCallback mLocationCallback = null;
     SensorEventListener sensorlistener= null;
+    Date startTime = null;
+    Date stopTime = null;
 
 
         @Override
@@ -99,12 +103,14 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startButton.setText(startbuttontxt);
                     requestLocationUpdates();
                     startSensor();
+                    getTime();
                 }
                 else{
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                     resetValues();
+                    compareTime();
                 }
             }
         });
@@ -288,12 +294,19 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
     }
 public void getTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String currentDateandTime = sdf.format(new Date());
+        startTime = Calendar.getInstance().getTime();
     }
     public void compareTime(){
+            stopTime = Calendar.getInstance().getTime();
 
+        long mills = stopTime.getTime() - startTime.getTime();
+        int hours = (int)(mills/(1000*60*60));
+        int mins = (int)(mills/(1000*60))%60;
+        int sec = (int)(mills/1000);
+        String elapsedTime=hours+":"+ mins+":"+sec;
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
     }
-    //lenkin aika,päiväys
+    
     //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
 }
