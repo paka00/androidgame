@@ -52,8 +52,10 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double totalacceleration = 0;
     TextView tv1 = null;
     TextView tv2 = null;
+    LocationCallback mLocationCallback = null;
 
-    @Override
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -87,7 +89,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(startbuttontxt== "Start")
+                if(startbuttontxt.equals("Start"))
                 {
                     startbuttontxt = "Stop";
                     startButton.setText(startbuttontxt);
@@ -96,14 +98,14 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 else{
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
-
+                    fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+                    resetValues();
 
 
                 }
 
             }
         });
-
 
 
         sensorManager.registerListener(new SensorEventListener() {
@@ -143,6 +145,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
 
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -189,6 +192,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
     }
 
+    public void resetValues(){
+            locationNew = null;
+            locationOld = null;
+            distance = 0;
+            distance2 = 0;
+
+    }
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -208,8 +218,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             requestPermission();
 
         }
+
         else {
-            fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, mLocationCallback = new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
                     updategps();
@@ -262,17 +273,15 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                                         distance = locationNew.distanceTo(locationOld);
                                         distance2 = distance + distance2;
                                         locationOld = locationNew;
-                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
-                                        //etaisyys.setText("Distance:" + Float.toString(distance2) + " Speed:" + location.getSpeed());
-                                        tv1.setText("Distance:" + distance2);
+                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                       tv1.setText("Distance:" + distance2);
 
 
                                     }
                                     else{
 
-                                        tv1.setText("Distance:" + distance2 );
-                                        String nopeusv = Float.toString(location.getSpeed());
-                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                       tv1.setText("Distance:" + distance2 );
+                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
 
 
 
