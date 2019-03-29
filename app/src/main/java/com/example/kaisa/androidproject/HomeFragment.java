@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
     int dailySteps;
+    int dailyStepGoal = 10000;
     CountDownTimer countDownTimer= null;
 
 
@@ -47,6 +48,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dailyTask = getView().findViewById(R.id.daily_task);
+        dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         DbModel model = new DbModel(getContext());
         User user = model.readUserFromDb();
         dailySteps = user.getDailySteps();
@@ -64,8 +67,8 @@ public class HomeFragment extends Fragment {
     };
 
     protected void dailyStepsCheck() {
-        if (dailySteps < 1000) {
-            double percentage = (double)dailySteps / 1000.0 * 100.0;
+        if (dailySteps < dailyStepGoal) {
+            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
@@ -109,7 +112,7 @@ public class HomeFragment extends Fragment {
                 long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000)) / 1000;
                 String timeRemaining = formatTime(hours, minutes, seconds);
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
-                if (dailySteps < 1000) {
+                if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
                 }
                 else {
