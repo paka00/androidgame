@@ -29,6 +29,7 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_SHIRT, addable.shirt);
         values.put(DbContract.User.COLUMN_PANTS, addable.pants);
         values.put(DbContract.User.COLUMN_SHOES, addable.shoes);
+        values.put(DbContract.User.COLUMN_LEVEL, addable.level);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, addable.totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, addable.dailySteps);
         values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, addable.stepHelper);
@@ -60,6 +61,7 @@ public class DbModel {
                 DbContract.User.COLUMN_SHIRT,
                 DbContract.User.COLUMN_PANTS,
                 DbContract.User.COLUMN_SHOES,
+                DbContract.User.COLUMN_LEVEL,
                 DbContract.User.COLUMN_TOTAL_STEPS,
                 DbContract.User.COLUMN_DAILY_STEPS,
                 DbContract.User.COLUMN_STEP_COUNTER_HELPER,
@@ -90,6 +92,7 @@ public class DbModel {
             int shirt = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHIRT));
             int pants = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_PANTS));
             int shoes = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHOES));
+            int level = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_LEVEL));
             int totalSteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_STEPS));
             int dailySteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEPS));
             int stepHelper = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_STEP_COUNTER_HELPER));
@@ -99,7 +102,7 @@ public class DbModel {
             double averageSpeed = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_AVERAGE_SPEED));
             long walkStartTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_START_TIME));
             long walkEndTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_END_TIME));
-            user = new User(name, gender, hat, shirt, pants, shoes, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkStartTime, walkEndTime);
+            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkStartTime, walkEndTime);
         }
         cursor.close();
 
@@ -114,6 +117,8 @@ public class DbModel {
         int hat = user.getHat();
         int shirt = user.getShirt();
         int pants = user.getPants();
+        int shoes = user.getShoes();
+        int level = user.getLevel();
         int totalSteps = user.getSteps();
         int dailySteps = user.getDailySteps();
         int stepHelper = user.getStepHelper();
@@ -130,6 +135,8 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_HAT, hat);
         values.put(DbContract.User.COLUMN_SHIRT, shirt);
         values.put(DbContract.User.COLUMN_PANTS, pants);
+        values.put(DbContract.User.COLUMN_SHOES, shoes);
+        values.put(DbContract.User.COLUMN_LEVEL, level);
         values.put(DbContract.User.COLUMN_TOTAL_STEPS, totalSteps);
         values.put(DbContract.User.COLUMN_DAILY_STEPS, dailySteps);
         values.put(DbContract.User.COLUMN_STEP_COUNTER_HELPER, stepHelper);

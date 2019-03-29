@@ -14,6 +14,7 @@ public class DbContract {
         public static final String COLUMN_SHIRT = "shirt";
         public static final String COLUMN_PANTS = "pants";
         public static final String COLUMN_SHOES = "shoes";
+        public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_TOTAL_STEPS = "totalSteps";
         public static final String COLUMN_DAILY_STEPS = "dailySteps";
         public static final String COLUMN_STEP_COUNTER_HELPER = "stepHelper";

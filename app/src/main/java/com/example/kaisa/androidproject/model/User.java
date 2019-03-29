@@ -10,6 +10,7 @@ public class User implements Serializable {
     int shirt;
     int pants;
     int shoes;
+    int level;
     int totalSteps;
     int dailySteps;
     int stepHelper;
@@ -20,13 +21,14 @@ public class User implements Serializable {
     long walkStartTime;
     long walkEndTime;
 
-    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, long walkStartTime, long walkEndTime) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, long walkStartTime, long walkEndTime) {
         this.name = name;
         this.gender = gender;
         this.hat = hat;
         this.shirt = shirt;
         this.pants = pants;
         this.shoes = shoes;
+        this.level = level;
         this.totalSteps = totalSteps;
         this.dailySteps = dailySteps;
         this.stepHelper = stepHelper;
@@ -164,5 +166,13 @@ public class User implements Serializable {
 
     public void setDailyStepHelper(int dailyStepHelper) {
         this.dailyStepHelper = dailyStepHelper;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
