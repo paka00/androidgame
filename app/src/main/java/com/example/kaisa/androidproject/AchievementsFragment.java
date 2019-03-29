@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -24,6 +26,13 @@ public class AchievementsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        return inflater.inflate(R.layout.fragment_achievements, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         final DbModel model = new DbModel(getContext());
         if(!model.checkIfTableEmpty()){
             User user = model.readUserFromDb();
@@ -34,8 +43,6 @@ public class AchievementsFragment extends Fragment {
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
         }
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
-        return inflater.inflate(R.layout.fragment_achievements, container, false);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
