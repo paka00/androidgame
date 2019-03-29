@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.os.Looper.getMainLooper;
@@ -101,18 +105,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                     resetValues();
-
-
                 }
-
             }
         });
-
-
-
-
-
-
     }
 
 
@@ -192,8 +187,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         }
                     });
         }
-
-
     }
 
     public void resetValues(){
@@ -281,16 +274,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                                         locationOld = locationNew;
                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
                                        tv1.setText("Distance:" + distance2);
-
-
                                     }
                                     else{
 
                                        tv1.setText("Distance:" + distance2 );
                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
-
-
-
                                     }
                                 }
                             }
@@ -299,9 +287,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         }
 
     }
+public void getTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String currentDateandTime = sdf.format(new Date());
+    }
+    public void compareTime(){
 
-
-
-
-
+    }
+    //lenkin aika,päiväys
+    //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
 }
