@@ -23,14 +23,14 @@
     </LinearLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_weight="0.2"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -48,32 +48,36 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="220dp"
-            android:layout_height="wrap_content">
+            android:layout_weight="4"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageview_male_head"
-                android:layout_width="124.6dp"
-                android:layout_height="163.3dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="1dp"
-                android:src="@drawable/male_paa_0" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mies_paa_0" />
 
             <ImageView
                 android:id="@+id/imageview_male_torso"
-                android:layout_width="204dp"
-                android:layout_height="230dp"
-                android:layout_alignTop="@+id/imageview_male_head"
-                android:layout_marginTop="155dp"
-                android:src="@drawable/male_torso_0" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mies_torso_0" />
 
 
         </RelativeLayout>
-
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_weight="0.2"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+</LinearLayout>
+
 
 
     </LinearLayout>
@@ -81,5 +85,5 @@
 
 
 
-</LinearLayout>
+
 

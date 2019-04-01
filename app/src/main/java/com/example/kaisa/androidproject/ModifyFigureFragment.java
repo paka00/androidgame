@@ -31,12 +31,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         buttonHat.setOnClickListener(this);
         buttonCancel = getView().findViewById(R.id.peru_button);
         buttonCancel.setOnClickListener(this);
-        buttonMale = getView().findViewById(R.id.button_gender_male);
-        buttonMale.setOnClickListener(this);
-        buttonFemale = getView().findViewById(R.id.button_gender_female);
-        buttonFemale.setOnClickListener(this);
-        imageView = getView().findViewById(R.id.imageview_hattu);
-        imageView1 = getView().findViewById(R.id.imageview_character);
+
 
 
     }
@@ -44,16 +39,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int ID = v.getId();
         if(ID == R.id.testi_button){
-            imageView.setImageResource(R.drawable.hattu);
         }
         if(ID == R.id.peru_button){
             imageView.setImageResource(0);
-        }
-        if(ID == R.id.button_gender_male){
-            imageView1.setImageResource(R.drawable.character_male);
-        }
-        if(ID == R.id.button_gender_female){
-            imageView1.setImageResource(R.drawable.character_female);
         }
     }
 
