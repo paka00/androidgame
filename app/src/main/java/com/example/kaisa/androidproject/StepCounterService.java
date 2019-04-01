@@ -157,6 +157,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             model.updateUser(user);
         }
         intent.putExtra("steps_int", totalStepCounter);
+        intent.putExtra("daily_steps_int", dailyStepCounter);
         intent.putExtra("steps_string", sSteps);
         intent.putExtra("dsteps_string", dSteps);
         sendBroadcast(intent);

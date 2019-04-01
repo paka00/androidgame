@@ -100,6 +100,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             public void onClick(View v) {
                 if(startbuttontxt.equals("Start"))
                 {
+                    MainActivity.navigation.setVisibility(View.INVISIBLE);
+                    MainActivity.imageButton.setEnabled(false);
                     startbuttontxt = "Stop";
                     startButton.setText(startbuttontxt);
                     requestLocationUpdates();
@@ -107,6 +109,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     getTime();
                 }
                 else{
+                    MainActivity.navigation.setVisibility(View.VISIBLE);
+                    MainActivity.imageButton.setEnabled(true);
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
