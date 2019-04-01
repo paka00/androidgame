@@ -90,6 +90,8 @@
                 android:id="@+id/imageview_male_torso"
                 android:layout_width="fill_parent"
                 android:layout_height="110dp"
+                android:scaleY="1.03"
+                android:scaleX="1.1"
                 android:src="@drawable/male_torso_0"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_head" />
 
@@ -98,18 +100,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="110dp"
                 android:layout_marginTop="-10dp"
-                android:scaleY="1.41"
-                android:scaleX="1.27"
+                android:scaleY="1.46"
+                android:scaleX="1.46"
                 android:src="@drawable/ukko_alaosa"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_torso" />
 
             <ImageView
                 android:id="@+id/imageview_male_feet"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="69dp"
-                android:scaleX="0.3"
-                android:scaleY="0.42"
-                android:src="@drawable/ukko_feet"
+                android:scaleX="0.298"
+                android:scaleY="0.28"
+                android:src="@drawable/ukko_jalat"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_legs" />
 
 
