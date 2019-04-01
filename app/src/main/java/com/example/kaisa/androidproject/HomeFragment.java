@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
     int dailySteps;
     int dailyStepGoal = 10000;
     CountDownTimer countDownTimer= null;
-
+    DbModel model = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,11 +50,11 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
-        DbModel model = new DbModel(getContext());
+        model = new DbModel(getContext());
+        dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
         if(!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
-            dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
             dailyStepsCheck();
         }
         startCountdownTimer();
@@ -64,11 +64,17 @@ public class HomeFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
-            dailyStepsCheck();
+            model = new DbModel(getContext());
+            if(!model.checkIfTableEmpty()) {
+                dailyStepsCheck();
+            }
         }
     };
 
     protected void dailyStepsCheck() {
+        if (dailySteps == 0) {
+            dailyTaskProgress.setText("Current progress: 0 %");
+        }
         if (dailySteps < dailyStepGoal) {
             double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
