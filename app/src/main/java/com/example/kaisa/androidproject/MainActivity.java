@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onBackPressed();
         }
-        if(viewPager.getCurrentItem()==1||viewPager.getCurrentItem()==2||viewPager.getCurrentItem()==3)
+        else
         {
             viewPager.setCurrentItem(0);
 
