@@ -4,82 +4,164 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModifyFigureFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ModifyFigureFragment">
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
 
         <EditText
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Nimi"/>
+            android:text="Nimi" />
     </LinearLayout>
 
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:id="@+id/layout_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="45dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_nuoli"
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_gravity="clip_vertical"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
+
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
+
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
+
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:backgroundTint="#ffffff"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
+        </LinearLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/testi_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="vaihda" />
-
-            <Button
-                android:id="@+id/peru_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="poista" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="220dp"
-            android:layout_height="wrap_content">
-
             <ImageView
                 android:id="@+id/imageview_male_head"
-                android:layout_width="124.6dp"
-                android:layout_height="163.3dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="1dp"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
                 android:src="@drawable/male_paa_0" />
 
             <ImageView
                 android:id="@+id/imageview_male_torso"
-                android:layout_width="204dp"
-                android:layout_height="230dp"
-                android:layout_alignTop="@+id/imageview_male_head"
-                android:layout_marginTop="155dp"
-                android:src="@drawable/male_torso_0" />
+                android:layout_width="fill_parent"
+                android:layout_height="110dp"
+                android:src="@drawable/male_torso_0"
+                app:layout_constraintTop_toBottomOf="@id/imageview_male_head" />
+
+            <ImageView
+                android:id="@+id/imageview_male_legs"
+                android:layout_width="fill_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="-10dp"
+                android:scaleY="1.41"
+                android:scaleX="1.27"
+                android:src="@drawable/ukko_alaosa"
+                app:layout_constraintTop_toBottomOf="@id/imageview_male_torso" />
+
+            <ImageView
+                android:id="@+id/imageview_male_feet"
+                android:layout_width="fill_parent"
+                android:layout_height="69dp"
+                android:scaleX="0.3"
+                android:scaleY="0.42"
+                android:src="@drawable/ukko_feet"
+                app:layout_constraintTop_toBottomOf="@id/imageview_male_legs" />
 
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
+
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:id="@+id/layout_right"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp"
+            android:orientation="vertical">
 
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_gravity="clip_vertical"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
 
-    </LinearLayout>
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
 
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#ffffff"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
 
+            <ImageButton
+                android:layout_width="64dp"
+                android:layout_height="50dp"
+                android:backgroundTint="#ffffff"
+                android:rotation="180"
+                android:scaleType="fitXY"
+                android:src="@drawable/nuoli_icon" />
 
-
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
 

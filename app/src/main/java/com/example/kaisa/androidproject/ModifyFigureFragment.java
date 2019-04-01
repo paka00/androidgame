@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -45,20 +46,15 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
         });
 
-        buttonHat = getView().findViewById(R.id.testi_button);
-        buttonHat.setOnClickListener(this);
-        buttonCancel = getView().findViewById(R.id.peru_button);
-        buttonCancel.setOnClickListener(this);
+        ImageButton btntest = getView().findViewById(R.id.btn_nuoli);
+        btntest.setOnClickListener(this);
 
 
     }
     @Override
     public void onClick(View v) {
         int ID = v.getId();
-        if(ID == R.id.testi_button){
-
-        }
-        if(ID == R.id.peru_button){
+        if(ID == R.id.btn_nuoli){
             imageView.setImageResource(0);
         }
     }
