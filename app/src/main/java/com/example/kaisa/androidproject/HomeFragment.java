@@ -51,10 +51,12 @@ public class HomeFragment extends Fragment {
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         DbModel model = new DbModel(getContext());
-        User user = model.readUserFromDb();
-        dailySteps = user.getDailySteps();
-        dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        dailyStepsCheck();
+        if(!model.checkIfTableEmpty()) {
+            User user = model.readUserFromDb();
+            dailySteps = user.getDailySteps();
+            dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
+            dailyStepsCheck();
+        }
         startCountdownTimer();
     }
 
