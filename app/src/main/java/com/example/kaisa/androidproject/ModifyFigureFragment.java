@@ -56,7 +56,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int ID = v.getId();
         if(ID == R.id.testi_button){
-            imageView.setImageResource(R.drawable.hattu);
+
         }
         if(ID == R.id.peru_button){
             imageView.setImageResource(0);
