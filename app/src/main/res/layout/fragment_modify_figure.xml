@@ -21,25 +21,7 @@
             android:gravity="center"
             android:text="Nimi"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:orientation="horizontal"
-        android:gravity="center">
 
-        <Button
-        android:id="@+id/button_gender_male"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="male"/>
-        <Button
-            android:id="@+id/button_gender_female"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="female"/>
-
-    </LinearLayout>
 
 
     <LinearLayout
@@ -67,21 +49,25 @@
 
         <RelativeLayout
             android:layout_width="220dp"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageview_character"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/character_male"
-                android:layout_marginBottom="60dp"
-                android:layout_marginTop="30dp"/>
+                android:id="@+id/imageview_male_head"
+                android:layout_width="124.6dp"
+                android:layout_height="163.3dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/male_paa_0" />
 
             <ImageView
-                android:id="@+id/imageview_hattu"
-                android:layout_width="80dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="75dp"/>
+                android:id="@+id/imageview_male_torso"
+                android:layout_width="204dp"
+                android:layout_height="230dp"
+                android:layout_alignTop="@+id/imageview_male_head"
+                android:layout_marginTop="155dp"
+                android:src="@drawable/male_torso_0" />
+
+
         </RelativeLayout>
 
         <LinearLayout
@@ -90,10 +76,8 @@
             android:orientation="vertical"></LinearLayout>
 
 
-
-
-
     </LinearLayout>
+
 
 
 
