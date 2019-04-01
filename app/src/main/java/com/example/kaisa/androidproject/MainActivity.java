@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton imageButton = null;
+    public static ImageButton imageButton = null;
     ViewPager viewPager = null;
     Fragment fragment = null;
     HomeFragment homeFragment = null;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     ModifyFigureFragment modifyFigureFragment = null;
     JoggingFragment joggingFragment = null;
     SettingsFragment settingsFragment = null;
-    BottomNavigationView navigation;
+    public static BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
