@@ -23,8 +23,9 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_TOTAL_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_DAILY_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +
-                    DbContract.User.COLUMN_WALK_START_TIME + " LONG," +
-                    DbContract.User.COLUMN_WALK_END_TIME + " LONG)";
+                    DbContract.User.COLUMN_WALK_DATE + " STRING," +
+                    DbContract.User.COLUMN_WALK_TIME + " STRING," +
+                    DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME;

@@ -22,7 +22,8 @@ public class DbContract {
         public static final String COLUMN_TOTAL_DISTANCE = "totalDistance";
         public static final String COLUMN_DAILY_DISTANCE = "dailyDistance";
         public static final String COLUMN_AVERAGE_SPEED = "averageSpeed";
-        public static final String COLUMN_WALK_START_TIME = "walkStartTime";
-        public static final String COLUMN_WALK_END_TIME = "walkEndTime";
+        public static final String COLUMN_WALK_DATE = "walkDate";
+        public static final String COLUMN_WALK_TIME = "walkTime";
+        public static final String COLUMN_WALK_DISTANCE = "walkDistance";
     }
 }
