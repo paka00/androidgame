@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,6 +64,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     SensorEventListener sensorlistener= null;
     Date startTime = null;
     Date stopTime = null;
+    boolean jogStarted = false;
 
 
         @Override
@@ -77,7 +80,28 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
 
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if(jogStarted == true)
+                        {
+                            Toast.makeText(getActivity(), "Please press stop before you exit", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            ((MainActivity)getActivity()).setFragmentToHome();
+
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         tv1= getView().findViewById(R.id.tv1);
         tv2= getView().findViewById(R.id.tv2);
 
@@ -107,6 +131,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     requestLocationUpdates();
                     startSensor();
                     getTime();
+                    jogStarted = true;
+
                 }
                 else{
                     MainActivity.navigation.setVisibility(View.VISIBLE);
@@ -116,6 +142,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                     resetValues();
                     compareTime();
+                    jogStarted = false;
                 }
             }
         });
@@ -312,6 +339,6 @@ public void getTime(){
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
     }
-    
+
     //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
 }

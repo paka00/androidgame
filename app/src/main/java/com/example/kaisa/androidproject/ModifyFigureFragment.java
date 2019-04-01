@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,23 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                            ((MainActivity)getActivity()).setFragmentToHome();
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         buttonHat = getView().findViewById(R.id.testi_button);
         buttonHat.setOnClickListener(this);
         buttonCancel = getView().findViewById(R.id.peru_button);

@@ -172,6 +172,18 @@ public class MainActivity extends AppCompatActivity {
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 4);
         viewPager.setAdapter(adapter);
     }
+    public void setFragmentToHome()
+    {
+        if(viewPager.getCurrentItem()==0)
+        {
+            super.onBackPressed();
+        }
+        else{
+            viewPager.setCurrentItem(0);
+
+        }
+
+    }
 
 }
 
