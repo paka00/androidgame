@@ -31,6 +31,9 @@
             android:background="@color/design_default_color_primary_dark"/>
 
         <TextView
+            android:id="@+id/steps"
+            android:text="test"
+            android:textColor="#FFFFFF"
             android:layout_width="320dp"
             android:layout_height="70dp"
             android:layout_gravity="right"
