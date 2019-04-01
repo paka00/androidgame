@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,31 +48,21 @@ public class MainActivity extends AppCompatActivity {
 
     public static ImageButton imageButton = null;
     ViewPager viewPager = null;
-    Fragment fragment = null;
-    HomeFragment homeFragment = null;
-    AchievementsFragment achievementsFragment = null;
-    ModifyFigureFragment modifyFigureFragment = null;
-    JoggingFragment joggingFragment = null;
-    SettingsFragment settingsFragment = null;
     public static BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        homeFragment = new HomeFragment();
-        achievementsFragment = new AchievementsFragment();
-        modifyFigureFragment = new ModifyFigureFragment();
-        joggingFragment = new JoggingFragment();
-        settingsFragment = new SettingsFragment();
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setItemIconTintList(null);
+        navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
         getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
-        //selectFragment(homeFragment);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.menu_settings) {
-                            return selectFragment(settingsFragment);
+                            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                            startActivity(intent);
                         }
                         return false;
                     }
@@ -118,23 +111,18 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    // fragment = homeFragment;
                     viewPager.setCurrentItem(0);
                     break;
                 case R.id.navigation_dashboard:
-                    //fragment = modifyFigureFragment;
                     viewPager.setCurrentItem(1);
                     break;
                 case R.id.navigation_notifications:
-                    //fragment = achievementsFragment;
                     viewPager.setCurrentItem(2);
                     break;
                 case R.id.navigation_something:
-                    //fragment = joggingFragment;
                     viewPager.setCurrentItem(3);
                     break;
             }
-            // return selectFragment(fragment);
             return true;
         }
     };
