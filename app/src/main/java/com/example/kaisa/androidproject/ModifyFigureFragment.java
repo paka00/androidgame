@@ -1,7 +1,6 @@
 package com.example.kaisa.androidproject;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,8 +20,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_modify_figure, container, false);
-
-
     }
 
     @Override
@@ -35,33 +32,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
-
                             ((MainActivity)getActivity()).setFragmentToHome();
-
                         return true;
                     }
                 }
                 return false;
             }
         });
-
-        buttonHat = getView().findViewById(R.id.testi_button);
-        buttonHat.setOnClickListener(this);
-        buttonCancel = getView().findViewById(R.id.peru_button);
-        buttonCancel.setOnClickListener(this);
-
-
     }
+
     @Override
     public void onClick(View v) {
         int ID = v.getId();
-        if(ID == R.id.testi_button){
-
-        }
-        if(ID == R.id.peru_button){
-            imageView.setImageResource(0);
-        }
     }
-
-
 }
