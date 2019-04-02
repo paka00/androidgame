@@ -38,36 +38,34 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/btn_nuoli"
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_gravity="clip_vertical"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_marginBottom="70dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="50dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
         </LinearLayout>
@@ -124,38 +122,37 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_gravity="clip_vertical"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_marginBottom="70dp"
+                android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="60dp"
+                android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="50dp"
+                android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
             <ImageButton
-                android:layout_width="64dp"
-                android:layout_height="50dp"
-                android:backgroundTint="#ffffff"
+                android:layout_width="54dp"
+                android:layout_height="36dp"
+                android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
