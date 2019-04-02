@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double totalacceleration = 0;
     TextView tv1 = null;
     TextView tv2 = null;
+    TextView previousWalk =null;
     LocationCallback mLocationCallback = null;
     SensorEventListener sensorlistener= null;
     Date startTime = null;
