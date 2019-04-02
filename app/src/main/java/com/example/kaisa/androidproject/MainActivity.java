@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import android.net.Uri;
@@ -49,8 +50,9 @@ import com.example.kaisa.androidproject.model.DbModel;
 public class MainActivity extends AppCompatActivity {
 
     public static ImageButton imageButton = null;
-    ViewPager viewPager = null;
+    public static ViewPager viewPager = null;
     public static BottomNavigationView navigation;
+    public static boolean databaseEmpty = false;
     DbModel model = new DbModel(MainActivity.this);
 
     @Override
@@ -106,16 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         setupViewpager(viewPager);
-
-        boolean database = model.checkIfTableEmpty();
-        if(database){
-            Log.d("Moro", "on");
-
-        } else {
-            Log.d("Moro", "EI");
-            viewPager.setCurrentItem(1);
-            navigation.setVisibility(View.INVISIBLE);
-        }
+        setInfo();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -175,18 +168,27 @@ public class MainActivity extends AppCompatActivity {
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 4);
         viewPager.setAdapter(adapter);
     }
+
     public void setFragmentToHome()
     {
-        if(viewPager.getCurrentItem()==0)
-        {
+        if(viewPager.getCurrentItem()==0){
             super.onBackPressed();
         }
-        else
-        {
+        else {
             viewPager.setCurrentItem(0);
-
         }
+    }
 
+    public void setInfo(){
+        databaseEmpty = model.checkIfTableEmpty();
+        if(databaseEmpty){
+            Log.d("TESTI", "ON");
+            viewPager.setCurrentItem(1);
+            navigation.setVisibility(View.INVISIBLE);
+            databaseEmpty = false;
+        } else {
+            Log.d("TESTI", "EI");
+        }
     }
 
 }

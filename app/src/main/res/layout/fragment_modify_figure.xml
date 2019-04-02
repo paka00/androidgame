@@ -111,8 +111,13 @@
                 android:src="@drawable/ukko_jalat"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_legs" />
 
-
-
+            <Button
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Done" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -159,6 +164,12 @@
                 android:rotation="180"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
+
+
         </LinearLayout>
+
+
     </RelativeLayout>
+
+
 </LinearLayout>
