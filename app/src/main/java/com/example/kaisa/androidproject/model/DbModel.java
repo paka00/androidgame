@@ -37,8 +37,9 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_TOTAL_DISTANCE, addable.totalDistance);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, addable.dailyDistance);
         values.put(DbContract.User.COLUMN_AVERAGE_SPEED, addable.averageSpeed);
-        values.put(DbContract.User.COLUMN_WALK_START_TIME, addable.walkStartTime);
-        values.put(DbContract.User.COLUMN_WALK_END_TIME, addable.walkEndTime);
+        values.put(DbContract.User.COLUMN_WALK_DATE, addable.walkDate);
+        values.put(DbContract.User.COLUMN_WALK_TIME, addable.walkDate);
+        values.put(DbContract.User.COLUMN_WALK_DISTANCE, addable.walkDistance);
 
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME, null, values);
@@ -69,8 +70,9 @@ public class DbModel {
                 DbContract.User.COLUMN_TOTAL_DISTANCE,
                 DbContract.User.COLUMN_DAILY_DISTANCE,
                 DbContract.User.COLUMN_AVERAGE_SPEED,
-                DbContract.User.COLUMN_WALK_START_TIME,
-                DbContract.User.COLUMN_WALK_END_TIME
+                DbContract.User.COLUMN_WALK_DATE,
+                DbContract.User.COLUMN_WALK_TIME,
+                DbContract.User.COLUMN_WALK_DISTANCE
         };
 
         String sortOrder = DbContract.User._ID + " DESC";
@@ -100,9 +102,10 @@ public class DbModel {
             double totalDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_DISTANCE));
             double dailyDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_DISTANCE));
             double averageSpeed = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_AVERAGE_SPEED));
-            long walkStartTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_START_TIME));
-            long walkEndTime = cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_END_TIME));
-            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkStartTime, walkEndTime);
+            String walkDate = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DATE));
+            String walkTime = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_TIME));
+            float walkDistance = cursor.getFloat(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DISTANCE));
+            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance);
         }
         cursor.close();
 
@@ -126,8 +129,9 @@ public class DbModel {
         double totalDistance = user.getTotalDistance();
         double dailyDistance = user.getDailyDistance();
         double averageSpeed = user.getAverageSpeed();
-        long walkStartTime = user.getWalkStartTime();
-        long walkEndTime = user.getWalkEndTime();
+        String walkDate = user.getWalkDate();
+        String walkTime = user.getWalkTime();
+        float walkDistance = user.getWalkDistance();
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_USERNAME, name);
@@ -144,8 +148,9 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_TOTAL_DISTANCE, totalDistance);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, dailyDistance);
         values.put(DbContract.User.COLUMN_AVERAGE_SPEED, averageSpeed);
-        values.put(DbContract.User.COLUMN_WALK_START_TIME, walkStartTime);
-        values.put(DbContract.User.COLUMN_WALK_END_TIME, walkEndTime);
+        values.put(DbContract.User.COLUMN_WALK_DATE, walkDate);
+        values.put(DbContract.User.COLUMN_WALK_TIME, walkTime);
+        values.put(DbContract.User.COLUMN_WALK_DISTANCE, walkDistance);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";

@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,16 +118,14 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
         final int locationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
 
+        previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
         startButton.setText(startbuttontxt);
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(startbuttontxt.equals("Start"))
-                {   if (locationPermission != PackageManager.PERMISSION_GRANTED)
-                    {
-                        requestPermission();
-                    }else {
+                {
                     MainActivity.navigation.setVisibility(View.INVISIBLE);
                     MainActivity.imageButton.setEnabled(false);
                     startbuttontxt = "Stop";
@@ -137,7 +134,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startSensor();
                     getTime();
                     jogStarted = true;
-                }
+
                 }
                 else{
                     MainActivity.navigation.setVisibility(View.VISIBLE);
@@ -275,18 +272,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     }
     private void requestPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, RequestPermissionCode);
-        final int locationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-        if (locationPermission == PackageManager.PERMISSION_GRANTED)
-        {
-            Toast.makeText(getActivity(), "Please wait a moment", Toast.LENGTH_SHORT).show();
-
-        }else
-        {
-            Toast.makeText(getActivity(), "You need to allow location if you want to start a jog", Toast.LENGTH_SHORT).show();
-
-        }
-
-
     }
     @Override
     public void onStart() {
