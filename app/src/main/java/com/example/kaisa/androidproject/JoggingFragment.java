@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -65,6 +67,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
+    String elapsedTime;
+    String currentDate;
+    TextView previousWalk = null;
 
 
         @Override
@@ -116,7 +121,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-
+        previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
         startButton.setText(startbuttontxt);
         startButton.setOnClickListener(new View.OnClickListener(){
@@ -140,12 +145,30 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                    resetValues();
                     compareTime();
+                    DbModel model = new DbModel(getContext());
+                    User user = model.readUserFromDb();
+                    if(distance2 > 0) {
+                        user.setWalkDate(currentDate);
+                        user.setWalkTime(elapsedTime);
+                        user.setWalkDistance(distance2);
+                        model.updateUser(user);
+                        previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
+                    }
+                    resetValues();
                     jogStarted = false;
                 }
             }
         });
+        DbModel model = new DbModel(getContext());
+        User user = model.readUserFromDb();
+        if (user.getWalkDistance() > 0){
+            previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
+        }
+        else {
+            previousWalk.setText("No previous walk yet!");
+        }
+
     }
 
 
@@ -335,8 +358,8 @@ public void getTime(){
         int hours = (int)(mills/(1000*60*60));
         int mins = (int)(mills/(1000*60))%60;
         int sec = (int)(mills/1000);
-        String elapsedTime=hours+":"+ mins+":"+sec;
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        elapsedTime=hours+":"+ mins+":"+sec;
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
     }
 
