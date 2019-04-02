@@ -44,11 +44,14 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.example.kaisa.androidproject.model.DbModel;
+
 public class MainActivity extends AppCompatActivity {
 
     public static ImageButton imageButton = null;
     ViewPager viewPager = null;
     public static BottomNavigationView navigation;
+    DbModel model = new DbModel(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
+
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
         });
         setupViewpager(viewPager);
+
+        boolean database = model.checkIfTableEmpty();
+        if(database){
+            Log.d("Moro", "on");
+
+        } else {
+            Log.d("Moro", "EI");
+            viewPager.setCurrentItem(1);
+            navigation.setVisibility(View.INVISIBLE);
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
