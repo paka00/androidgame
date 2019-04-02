@@ -29,6 +29,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     int totalStepCounter;
     int dailyStepCounter;
     int dailyStepHelper;
+    int countSteps;
     public boolean checkDailySteps = false;
     boolean isUserCreated = true;
     boolean serviceStopped;
@@ -84,6 +85,8 @@ public class StepCounterService extends Service implements SensorEventListener {
                 if (intent.getBooleanExtra("reset", true)) {
                     checkDailySteps = intent.getBooleanExtra("reset", true);
                     dailyStepCounter = 0;
+                    resetDailySteps();
+                    Log.v("stepsdailycheck", "" + dailyStepCounter);
                 }
             }
         } catch (Exception e) {
@@ -108,10 +111,10 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            int countSteps = (int) event.values[0];
+            countSteps = (int) event.values[0];
             if (checkDailySteps) {
-                dailyStepHelper = (int) event.values[0];
-                checkDailySteps = false;
+                resetDailySteps();
+                Log.v("stepsdailycheck", "in if " + dailyStepCounter);
             }
             if (stepHelper == 0) {
                 Log.v("stepscounter", "stepcounter = 0");
@@ -126,6 +129,12 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public void resetDailySteps() {
+        dailyStepHelper = countSteps;
+        dailyStepCounter = 0;
+        checkDailySteps = false;
     }
 
     private Runnable updateBroadcastData = new Runnable() {
@@ -144,7 +153,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
         if(!isUserCreated) {
-            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, 0, 0);
+            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0);
             model.addUserToDb(newUser);
             isUserCreated = true;
         }

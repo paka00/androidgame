@@ -18,10 +18,11 @@ public class User implements Serializable {
     double totalDistance;
     double dailyDistance;
     double averageSpeed;
-    long walkStartTime;
-    long walkEndTime;
+    String walkDate;
+    String walkTime;
+    float walkDistance;
 
-    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, long walkStartTime, long walkEndTime) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance) {
         this.name = name;
         this.gender = gender;
         this.hat = hat;
@@ -36,8 +37,9 @@ public class User implements Serializable {
         this.totalDistance = totalDistance;
         this.dailyDistance = dailyDistance;
         this.averageSpeed = averageSpeed;
-        this.walkStartTime = walkStartTime;
-        this.walkEndTime = walkEndTime;
+        this.walkDate = walkDate;
+        this.walkTime = walkTime;
+        this.walkDistance = walkDistance;
     }
 
     public int getSteps() {
@@ -136,20 +138,12 @@ public class User implements Serializable {
         this.averageSpeed = averageSpeed;
     }
 
-    public long getWalkStartTime() {
-        return walkStartTime;
+    public String getWalkTime() {
+        return walkTime;
     }
 
-    public void setWalkStartTime(long walkStartTime) {
-        this.walkStartTime = walkStartTime;
-    }
-
-    public long getWalkEndTime() {
-        return walkEndTime;
-    }
-
-    public void setWalkEndTime(long walkEndTime) {
-        this.walkEndTime = walkEndTime;
+    public void setWalkTime(String walkTime) {
+        this.walkTime = walkTime;
     }
 
     public int getStepHelper() {
@@ -174,5 +168,21 @@ public class User implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String getWalkDate() {
+        return walkDate;
+    }
+
+    public void setWalkDate(String walkDate) {
+        this.walkDate = walkDate;
+    }
+
+    public float getWalkDistance() {
+        return walkDistance;
+    }
+
+    public void setWalkDistance(float walkDistance) {
+        this.walkDistance = walkDistance;
     }
 }
