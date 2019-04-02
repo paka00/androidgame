@@ -82,6 +82,15 @@
                     app:layout_constraintBottom_toTopOf="parent"
                     />
 
+                <View
+                    android:id="@+id/box"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toTopOf="@+id/distanceline"
+
+                    tools:layout_editor_absoluteX="1dp" />
+
                 <TextView
                     android:id="@+id/distancelinestart"
                     android:layout_width="wrap_content"
