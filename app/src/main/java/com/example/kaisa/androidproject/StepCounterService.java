@@ -149,16 +149,19 @@ public class StepCounterService extends Service implements SensorEventListener {
     private void broadcastSteps() {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
+        User user = model.readUserFromDb();
         Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
+        if (user.getDailySteps() == 0){
+            resetDailySteps();
+        }
         if(!isUserCreated) {
             User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0);
             model.addUserToDb(newUser);
             isUserCreated = true;
         }
         else {
-            User user = model.readUserFromDb();
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
