@@ -4,16 +4,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
@@ -23,6 +30,14 @@ public class AchievementsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     TextView textView = null;
+    Button boxButton = null;
+    View character = null;
+    float distancem = 0;
+    static final float distancerange =  10000;
+    float percentagedistance = 0;
+    TextView characterdistancetxt = null;
+    float travelleddistance = 0;
+    ImageView giftimg = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +49,41 @@ public class AchievementsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        boxButton = getView().findViewById(R.id.moveButton);
+        character = getView().findViewById(R.id.box);
+
+        giftimg = getView().findViewById(R.id.gift);
+        characterdistancetxt = getView().findViewById(R.id.distancecharacter);
+        boxButton.setOnClickListener(new View.OnClickListener(){
+            DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+
+            float dpWidth = displayMetrics.widthPixels;
+
+            @Override
+            public void onClick(View v) {
+
+
+                percentagedistance = dpWidth/distancerange;
+
+                travelleddistance = travelleddistance + 50;
+                distancem = travelleddistance % 5000;
+                boxButton.setText(Float.toString(distancem));
+                distancem = distancem*percentagedistance;
+               // steps = steps +(percentagedistance*50);
+                giftimg.setX(distancem-60);
+
+                character.setX(distancem);
+                characterdistancetxt.setText(Float.toString(travelleddistance));
+                if( distancem >= (dpWidth/2)){
+                    distancem = -10;
+                    character.setX(distancem);
+                }
+
+
+
+            }
+        });
+
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {

@@ -54,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
+                android:id="@+id/layout"
                 >
 
 
@@ -72,7 +73,7 @@
                     tools:ignore="MissingConstraints" />
 
                 <View
-                    android:layout_width="370dp"
+                    android:layout_width="match_parent"
                     android:layout_height="7dp"
                     android:background="#000000"
                     android:id="@+id/distanceline"
@@ -85,29 +86,43 @@
                 <View
                     android:id="@+id/box"
                     android:layout_width="7dp"
-                    android:layout_height="7dp"
+                    android:layout_height="20dp"
                     android:background="#000000"
                     app:layout_constraintBottom_toTopOf="@+id/distanceline"
 
-                    tools:layout_editor_absoluteX="1dp" />
+                    />
+                <ImageView
+                    android:id="@+id/gift"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toTopOf="@+id/box"
+                    app:layout_constraintLeft_toLeftOf="@+id/box"
+                    app:layout_constraintRight_toRightOf="@+id/box"
+                    android:src="@drawable/home_icon"/>
+                <View
+                    android:id="@+id/character"
+                    android:layout_width="7dp"
+                    android:layout_height="20dp"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toTopOf="@+id/distanceline"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+                <Button
+                    android:id="@+id/moveButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
 
                 <TextView
-                    android:id="@+id/distancelinestart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/distanceline"
-                    android:text="0m"
-                    android:textSize="30dp"
-                    tools:ignore="MissingConstraints" />
-                <TextView
-                    android:id="@+id/distancelinestop"
+                    android:id="@+id/distancecharacter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/distanceline"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:text="10000m"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="0"
                     android:textSize="30dp"
-                    tools:ignore="MissingConstraints" />
+                     />
 
 
             </android.support.constraint.ConstraintLayout>
