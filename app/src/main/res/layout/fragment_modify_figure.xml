@@ -38,6 +38,7 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/button_head_to_left"
                 android:layout_width="54dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="40dp"
@@ -78,23 +79,23 @@
 
             <ImageView
                 android:id="@+id/imageview_male_head"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleY="1.1"
-                android:src="@drawable/male_paa_0" />
+                android:src="@drawable/mies_paa_0" />
 
             <ImageView
                 android:id="@+id/imageview_male_torso"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:scaleX="1.1"
                 android:scaleY="1.03"
-                android:src="@drawable/male_torso_0"
+                android:src="@drawable/mies_torso_0"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_head" />
 
             <ImageView
                 android:id="@+id/imageview_male_legs"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginTop="-10dp"
                 android:scaleX="1.46"
@@ -122,6 +123,7 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/button_head_to_right"
                 android:layout_width="54dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="40dp"
