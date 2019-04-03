@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
@@ -27,7 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     private OnFragmentInteractionListener mListener;
     TextView dailyTask = null;

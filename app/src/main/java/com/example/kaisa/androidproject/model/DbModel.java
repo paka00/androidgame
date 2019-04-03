@@ -3,6 +3,7 @@ package com.example.kaisa.androidproject.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
@@ -41,12 +42,14 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_WALK_DATE, addable.walkDate);
         userValues.put(DbContract.User.COLUMN_WALK_TIME, addable.walkDate);
         userValues.put(DbContract.User.COLUMN_WALK_DISTANCE, addable.walkDistance);
+        userValues.put(DbContract.User.COLUMN_DAILY_REWARD, addable.dailyReward);
 
         ContentValues clothesValues = new ContentValues();
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_HATS, 0);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, 0);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_PANTS, 0);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHOES, 0);
+        clothesValues.put(DbContract.ClothesUnlocks._ID, 1);
+        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_HATS, 1);
+        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, 1);
+        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_PANTS, 1);
+        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHOES, 1);
 
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME_USER, null, userValues);
@@ -80,7 +83,8 @@ public class DbModel {
                 DbContract.User.COLUMN_AVERAGE_SPEED,
                 DbContract.User.COLUMN_WALK_DATE,
                 DbContract.User.COLUMN_WALK_TIME,
-                DbContract.User.COLUMN_WALK_DISTANCE
+                DbContract.User.COLUMN_WALK_DISTANCE,
+                DbContract.User.COLUMN_DAILY_REWARD
         };
 
         String sortOrder = DbContract.User._ID + " DESC";
@@ -113,7 +117,8 @@ public class DbModel {
             String walkDate = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DATE));
             String walkTime = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_TIME));
             float walkDistance = cursor.getFloat(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DISTANCE));
-            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance);
+            int dailyReward = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_REWARD));
+            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward);
         }
         cursor.close();
 
@@ -140,6 +145,7 @@ public class DbModel {
         String walkDate = user.getWalkDate();
         String walkTime = user.getWalkTime();
         float walkDistance = user.getWalkDistance();
+        int dailyReward = user.getDailyReward();
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_USERNAME, name);
@@ -159,6 +165,7 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_WALK_DATE, walkDate);
         values.put(DbContract.User.COLUMN_WALK_TIME, walkTime);
         values.put(DbContract.User.COLUMN_WALK_DISTANCE, walkDistance);
+        values.put(DbContract.User.COLUMN_DAILY_REWARD, dailyReward);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";
@@ -177,6 +184,7 @@ public class DbModel {
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
+        values.put(DbContract.User.COLUMN_DAILY_REWARD, 0);
         String selection = DbContract.User._ID + " LIKE ?";
         String[] selectionArgs = { "1" };
 
@@ -202,62 +210,100 @@ public class DbModel {
 
     public void addHat (int hatNumber) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Integer> hats = readHats();
-        String size =  String.valueOf(hats.size() + 1);
-        String selection = DbContract.ClothesUnlocks._ID + " LIKE ?";
-        String[] selectionArgs = { size };
         ContentValues values = new ContentValues();
         values.put(DbContract.ClothesUnlocks.COLUMN_HATS, hatNumber);
-        int count = db.update(
-                DbContract.User.TABLE_NAME_USER,
-                values,
-                selection,
-                selectionArgs);
+        ArrayList<Integer> hats = readHats();
+        int size = hats.size() + 1;
+        Log.v("clothesdb", "hat array size" + size);
+        long rows = getRowsCount();
+        if (size > rows) {
+            values.put(DbContract.ClothesUnlocks._ID, size);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES, 0);
+            db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
+        }
+        else {
+            String selection = DbContract.ClothesUnlocks._ID + " = " + size;
+            int count = db.update(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    values,
+                    selection,
+                    null);
+        }
     }
 
     public void addShirt (int shirtNumber) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> shirts = readShirts();
-        String size =  String.valueOf(shirts.size() + 1);
-        String selection = DbContract.ClothesUnlocks._ID + " LIKE ?";
-        String[] selectionArgs = { size };
+        int size = shirts.size() + 1;
+        Log.v("clothesdb", "shirt array size" + size);
+        long rows = getRowsCount();
         ContentValues values = new ContentValues();
         values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, shirtNumber);
-        int count = db.update(
-                DbContract.User.TABLE_NAME_USER,
-                values,
-                selection,
-                selectionArgs);
+        if (size > rows) {
+            values.put(DbContract.ClothesUnlocks._ID, size);
+            values.put(DbContract.ClothesUnlocks.COLUMN_HATS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES, 0);
+            db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
+        }
+        else {
+            String selection = DbContract.ClothesUnlocks._ID + " = " + size;
+            int count = db.update(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    values,
+                    selection,
+                    null);
+        }
     }
 
     public void addPants (int pantsNumber) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> pants = readPants();
-        String size =  String.valueOf(pants.size() + 1);
-        String selection = DbContract.ClothesUnlocks._ID + " LIKE ?";
-        String[] selectionArgs = { size };
+        int size = pants.size() + 1;
+        long rows = getRowsCount();
         ContentValues values = new ContentValues();
         values.put(DbContract.ClothesUnlocks.COLUMN_PANTS, pantsNumber);
-        int count = db.update(
-                DbContract.User.TABLE_NAME_USER,
-                values,
-                selection,
-                selectionArgs);
+        if (size > rows) {
+            values.put(DbContract.ClothesUnlocks._ID, size);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_HATS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES, 0);
+            db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
+        }
+        else {
+            String selection = DbContract.ClothesUnlocks._ID + " = " + size;
+            int count = db.update(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    values,
+                    selection,
+                    null);
+        }
     }
 
     public void addShoes (int shoesNumber) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> shoes = readShoes();
-        String size =  String.valueOf(shoes.size() + 1);
-        String selection = DbContract.ClothesUnlocks._ID + " LIKE ?";
-        String[] selectionArgs = { size };
+        int size = shoes.size() + 1;
+        long rows = getRowsCount();
         ContentValues values = new ContentValues();
         values.put(DbContract.ClothesUnlocks.COLUMN_SHOES, shoesNumber);
-        int count = db.update(
-                DbContract.User.TABLE_NAME_USER,
-                values,
-                selection,
-                selectionArgs);
+        if (size > rows) {
+            values.put(DbContract.ClothesUnlocks._ID, size);
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS, 0);
+            values.put(DbContract.ClothesUnlocks.COLUMN_HATS, 0);
+            db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
+        }
+        else {
+            String selection = DbContract.ClothesUnlocks._ID + " = " + size;
+            int count = db.update(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    values,
+                    selection,
+                    null);
+        }
     }
 
     public ArrayList<Integer> readHats() {
@@ -269,11 +315,14 @@ public class DbModel {
                 DbContract.ClothesUnlocks.COLUMN_HATS
         };
 
+        String selection = DbContract.ClothesUnlocks.COLUMN_HATS + " != ?";
+        String[] selectionArgs = { "0" };
+
         Cursor cursor = db.query(
                 DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -295,11 +344,14 @@ public class DbModel {
                 DbContract.ClothesUnlocks.COLUMN_SHIRTS
         };
 
+        String selection = DbContract.ClothesUnlocks.COLUMN_SHIRTS + " != ?";
+        String[] selectionArgs = { "0" };
+
         Cursor cursor = db.query(
                 DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -321,11 +373,14 @@ public class DbModel {
                 DbContract.ClothesUnlocks.COLUMN_PANTS
         };
 
+        String selection = DbContract.ClothesUnlocks.COLUMN_PANTS + " != ?";
+        String[] selectionArgs = { "0" };
+
         Cursor cursor = db.query(
                 DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -347,11 +402,14 @@ public class DbModel {
                 DbContract.ClothesUnlocks.COLUMN_SHOES
         };
 
+        String selection = DbContract.ClothesUnlocks.COLUMN_SHOES + " != ?";
+        String[] selectionArgs = { "0" };
+
         Cursor cursor = db.query(
                 DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -360,8 +418,13 @@ public class DbModel {
         while(cursor.moveToNext()){
             shoes.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES)));
         }
-
         return shoes;
+    }
+
+    public long getRowsCount() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES);
+        return count;
     }
 
 }

@@ -16,6 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_PANTS + " INTEGER," +
                     DbContract.User.COLUMN_SHOES + " INTEGER," +
                     DbContract.User.COLUMN_LEVEL + " INTEGER," +
+                    DbContract.User.COLUMN_DAILY_REWARD + " BOOLEAN," +
                     DbContract.User.COLUMN_TOTAL_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_STEP_COUNTER_HELPER + " INTEGER," +
@@ -29,7 +30,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_CLOTHES_TABLE =
             "CREATE TABLE " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES + " (" +
-                    DbContract.ClothesUnlocks._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    DbContract.ClothesUnlocks._ID + " INTEGER PRIMARY KEY NOT NULL," +
                     DbContract.ClothesUnlocks.COLUMN_HATS + " INTEGER," +
                     DbContract.ClothesUnlocks.COLUMN_SHIRTS + " INTEGER," +
                     DbContract.ClothesUnlocks.COLUMN_PANTS + " INTEGER," +

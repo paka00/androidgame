@@ -25,6 +25,7 @@ public class DbContract {
         public static final String COLUMN_WALK_DATE = "walkDate";
         public static final String COLUMN_WALK_TIME = "walkTime";
         public static final String COLUMN_WALK_DISTANCE = "walkDistance";
+        public static final String COLUMN_DAILY_REWARD = "dailyReward";
     }
 
     public static class ClothesUnlocks implements BaseColumns {
