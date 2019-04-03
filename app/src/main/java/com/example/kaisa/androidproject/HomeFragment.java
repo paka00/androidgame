@@ -127,8 +127,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                DbModel model = new DbModel(getContext());
-                model.resetDailyStats();
                 startCountdownTimer();
             }
         };
