@@ -1,7 +1,5 @@
 package com.example.kaisa.androidproject;
 
-
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +9,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import android.net.Uri;
@@ -43,12 +42,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import com.example.kaisa.androidproject.model.DbModel;
 
 public class MainActivity extends AppCompatActivity {
 
     public static ImageButton imageButton = null;
-    ViewPager viewPager = null;
+    public static ViewPager viewPager = null;
     public static BottomNavigationView navigation;
+    public static boolean databaseEmpty = false;
+    DbModel model = new DbModel(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         setupViewpager(viewPager);
+        setInfo();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -160,21 +165,25 @@ public class MainActivity extends AppCompatActivity {
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 4);
         viewPager.setAdapter(adapter);
     }
-    public void setFragmentToHome()
-    {
-        if(viewPager.getCurrentItem()==0)
-        {
+
+    public void setFragmentToHome() {
+        if (viewPager.getCurrentItem() == 0) {
             super.onBackPressed();
-        }
-        else
-        {
+        } else {
             viewPager.setCurrentItem(0);
-
         }
+    }
 
+    public void setInfo() {
+        databaseEmpty = model.checkIfTableEmpty();
+        if (databaseEmpty) {
+            Log.d("TESTI", "ON");
+            viewPager.setCurrentItem(1);
+            navigation.setVisibility(View.INVISIBLE);
+            databaseEmpty = false;
+        } else {
+            Log.d("TESTI", "EI");
+        }
     }
 
 }
-
-
-
