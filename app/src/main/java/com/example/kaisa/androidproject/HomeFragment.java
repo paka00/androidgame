@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
@@ -27,7 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     private OnFragmentInteractionListener mListener;
     TextView dailyTask = null;
@@ -102,9 +103,6 @@ public class HomeFragment extends Fragment {
     protected void startCountdownTimer() {
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTimeZone(TimeZone.getDefault());
-        /*int curYear = currentCalendar.get(Calendar.YEAR);
-        int curMonth = currentCalendar.get(Calendar.MONTH);
-        int curDay = currentCalendar.get(Calendar.DAY_OF_MONTH);*/
         Calendar timerEndCalendar = Calendar.getInstance();
         timerEndCalendar.setTimeZone(TimeZone.getDefault());
         timerEndCalendar.add(Calendar.DATE, 1);
