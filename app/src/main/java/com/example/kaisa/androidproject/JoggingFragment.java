@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kaisa.androidproject.model.DbModel;
-import com.example.kaisa.androidproject.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,14 +61,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double totalacceleration = 0;
     TextView tv1 = null;
     TextView tv2 = null;
+    TextView previousWalk =null;
     LocationCallback mLocationCallback = null;
     SensorEventListener sensorlistener= null;
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
-    String elapsedTime;
-    String currentDate;
-    TextView previousWalk = null;
 
 
         @Override
@@ -121,6 +118,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        final int locationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+
         previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
         startButton.setText(startbuttontxt);
@@ -145,30 +144,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                    compareTime();
-                    DbModel model = new DbModel(getContext());
-                    User user = model.readUserFromDb();
-                    if(distance2 > 0) {
-                        user.setWalkDate(currentDate);
-                        user.setWalkTime(elapsedTime);
-                        user.setWalkDistance(distance2);
-                        model.updateUser(user);
-                        previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
-                    }
                     resetValues();
+                    compareTime();
                     jogStarted = false;
                 }
             }
         });
-        DbModel model = new DbModel(getContext());
-        User user = model.readUserFromDb();
-        if (user.getWalkDistance() > 0){
-            previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
-        }
-        else {
-            previousWalk.setText("No previous walk yet!");
-        }
-
     }
 
 
@@ -358,8 +339,8 @@ public void getTime(){
         int hours = (int)(mills/(1000*60*60));
         int mins = (int)(mills/(1000*60))%60;
         int sec = (int)(mills/1000);
-        elapsedTime=hours+":"+ mins+":"+sec;
-        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String elapsedTime=hours+":"+ mins+":"+sec;
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
     }
 
