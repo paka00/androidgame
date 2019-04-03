@@ -10,11 +10,13 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
@@ -34,9 +36,13 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
     int dailySteps;
-    int dailyStepGoal = 10000;
+    int dailyStepGoal = 5000;
     CountDownTimer countDownTimer= null;
     DbModel model = null;
+    Button btnClaimReward = null;
+    FrameLayout layout = null;
+    boolean buttonVisibility = false;
+    boolean rewardClaimed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +54,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        layout = getView().findViewById(R.id.fragment_home);
+        btnClaimReward = getView().findViewById(R.id.button_claim_reward);
+        btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
@@ -80,6 +89,7 @@ public class HomeFragment extends Fragment {
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
+
         else {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done!");
@@ -155,5 +165,31 @@ public class HomeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    public void claimReward() {
+        btnClaimReward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
+                btnClaimReward.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    public boolean rewardClaimed() {
+        if(buttonVisibility){
+            btnClaimReward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
+                    btnClaimReward.setVisibility(View.GONE);
+                }
+            });
+            return true;
+        }
+        return false;
     }
 }

@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Nimi" />
-
     </LinearLayout>
 
 
@@ -43,6 +42,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="70dp"
                 android:background="@null"
+                android:id="@+id/btn_nuoli"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
@@ -111,6 +111,14 @@
                 android:src="@drawable/ukko_jalat"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_legs" />
 
+            <Button
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Done" />
+
         </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
@@ -157,6 +165,11 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
 
+
         </LinearLayout>
+
+
     </RelativeLayout>
+
+
 </LinearLayout>
