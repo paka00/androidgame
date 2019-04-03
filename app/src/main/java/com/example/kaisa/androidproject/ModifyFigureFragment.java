@@ -10,12 +10,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
@@ -44,6 +46,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         ImageButton button_head_to_right = getView().findViewById(R.id.button_head_to_right);
         button_head_to_right.setOnClickListener(this);
 
+        Button doneButton = getView().findViewById(R.id.done_button);
+        doneButton.setOnClickListener(this);
+
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -68,17 +73,25 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         if (buttonID == R.id.button_head_to_left) {
             if (position >= ListMinValue || position <= headListMaxValue) {
                 position--;
-                Log.d("testi", "ali meni");
                 imageview_maleHead.setImageResource(maleHeadList.get(position));
             }
         }
-            if (buttonID == R.id.button_head_to_right) {
-                if (position >= ListMinValue || position <= headListMaxValue) {
-                    position++;
-                    Log.d("testi", "ali meni");
-                    imageview_maleHead.setImageResource(maleHeadList.get(position));
-
-                }
-                }
+        if (buttonID == R.id.button_head_to_right) {
+            if (position >= ListMinValue || position <= headListMaxValue) {
+                position++;
+                imageview_maleHead.setImageResource(maleHeadList.get(position));
             }
+        }
+
+        if(buttonID == R.id.done_button){
+            if(MainActivity.databaseEmpty){
+                //jos tietokanta on tyhjä
+                MainActivity.viewPager.setCurrentItem(0);
+                MainActivity.navigation.setVisibility(View.VISIBLE);
+            }else{
+                Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
+                //Tietojen tallennus tietokantaan
+            }
+        }
+    }
 }
