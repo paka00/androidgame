@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DbContract.User.TABLE_NAME + " (" +
+            "CREATE TABLE " + DbContract.User.TABLE_NAME_USER + " (" +
                     DbContract.User._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     DbContract.User.COLUMN_USERNAME + " STRING," +
                     DbContract.User.COLUMN_GENDER + " INTEGER," +
@@ -27,8 +27,17 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_WALK_TIME + " STRING," +
                     DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE)";
 
+    private static final String SQL_CREATE_CLOTHES_TABLE =
+            "CREATE TABLE " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES + " (" +
+                    DbContract.ClothesUnlocks._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    DbContract.ClothesUnlocks.COLUMN_HATS + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHIRTS + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_PANTS + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHOES + " INTEGER);";
+
+
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME_USER;
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "UserStats.db";
@@ -40,6 +49,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_CLOTHES_TABLE);
     }
 
     @Override

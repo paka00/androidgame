@@ -7,7 +7,7 @@ public class DbContract {
     private DbContract() {}
 
     public static class User implements BaseColumns {
-        public static final String TABLE_NAME = "user";
+        public static final String TABLE_NAME_USER = "user";
         public static final String COLUMN_USERNAME = "username";
         public static final String COLUMN_GENDER = "gender";
         public static final String COLUMN_HAT = "hat";
@@ -25,5 +25,13 @@ public class DbContract {
         public static final String COLUMN_WALK_DATE = "walkDate";
         public static final String COLUMN_WALK_TIME = "walkTime";
         public static final String COLUMN_WALK_DISTANCE = "walkDistance";
+    }
+
+    public static class ClothesUnlocks implements BaseColumns {
+        public static final String TABLE_NAME_CLOTHES = "clothesUnlocks";
+        public static final String COLUMN_HATS = "hats";
+        public static final String COLUMN_SHIRTS = "shirts";
+        public static final String COLUMN_PANTS = "pants";
+        public static final String COLUMN_SHOES = "shoes";
     }
 }
