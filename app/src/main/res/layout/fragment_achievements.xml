@@ -96,8 +96,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     app:layout_constraintBottom_toTopOf="@+id/box"
-                    app:layout_constraintLeft_toLeftOf="@+id/box"
-                    app:layout_constraintRight_toRightOf="@+id/box"
+
                     android:src="@drawable/home_icon"/>
                 <View
                     android:id="@+id/character"
