@@ -334,6 +334,7 @@ public class DbModel {
         while(cursor.moveToNext()){
             hats.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS)));
         }
+        cursor.close();
 
         return hats;
     }
@@ -363,6 +364,7 @@ public class DbModel {
         while(cursor.moveToNext()){
             shirts.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS)));
         }
+        cursor.close();
 
         return shirts;
     }
@@ -392,6 +394,7 @@ public class DbModel {
         while(cursor.moveToNext()){
             pants.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS)));
         }
+        cursor.close();
 
         return pants;
     }
@@ -421,6 +424,7 @@ public class DbModel {
         while(cursor.moveToNext()){
             shoes.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES)));
         }
+        cursor.close();
         return shoes;
     }
 
