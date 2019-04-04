@@ -171,32 +171,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/sukupuoli_mies"
-            android:layout_marginLeft="45dp"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:button="@null"
-            android:background="@drawable/sukupuoli_man" />
+            <RadioButton
+                android:id="@+id/radio_button_man"
+                android:layout_marginLeft="45dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:button="@null"
+                android:background="@drawable/sukupuoli_man" />
 
 
-        <Button
-            android:id="@+id/done_button"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/sukupuoli_mies"
-            android:text="Done" />
+            <Button
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/radio_button_man"
+                android:text="Done" />
 
-        <RadioButton
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:button="@null"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="45dp"
-            android:background="@drawable/sukupuoli_akka"
+            <RadioButton
+                android:id="@+id/radio_button_woman"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:button="@null"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="45dp"
+                android:background="@drawable/sukupuoli_akka"
 
-            />
+                />
+
+
+
 
     </RelativeLayout>
 
