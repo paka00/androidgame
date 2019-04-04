@@ -44,6 +44,11 @@ public class HomeFragment extends Fragment {
     boolean rewardClaimed = false;
     MainActivity context;
 
+
+
+
+    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
