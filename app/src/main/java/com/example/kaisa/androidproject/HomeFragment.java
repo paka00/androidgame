@@ -25,6 +25,7 @@ import com.example.kaisa.androidproject.model.User;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -187,24 +188,41 @@ public class HomeFragment extends Fragment {
 
     public void selectRandomClothes() {
         DbModel model = new DbModel(getContext());
+        ArrayList<Integer> clothesArrayList;
         User user = model.readUserFromDb();
         Random clothesRandom = new Random();
         int clothes = clothesRandom.nextInt(4);
         switch (clothes) {
             case 0:
                 int hat = randomInt(max);
+                clothesArrayList = model.readHats();
+                while(!clothesArrayList.contains(hat)){
+                    hat = randomInt(max);
+                }
                 user.setHat(hat);
                 return;
             case 1:
                 int shirt = randomInt(max);
+                clothesArrayList = model.readShirts();
+                while(!clothesArrayList.contains(shirt)){
+                    shirt = randomInt(max);
+                }
                 user.setShirt(shirt);
                 return;
             case 2:
                 int pants = randomInt(max);
+                clothesArrayList = model.readPants();
+                while(!clothesArrayList.contains(pants)){
+                    pants = randomInt(max);
+                }
                 user.setPants(pants);
                 return;
             case 3:
                 int shoes = randomInt(max);
+                clothesArrayList = model.readShoes();
+                while(!clothesArrayList.contains(shoes)){
+                    shoes = randomInt(max);
+                }
                 user.setShoes(shoes);
                 return;
         }
