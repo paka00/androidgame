@@ -208,6 +208,9 @@ public class DbModel {
         return empty;
     }
 
+
+
+
     public void addHat (int hatNumber) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();

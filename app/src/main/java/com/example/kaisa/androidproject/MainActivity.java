@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -47,10 +48,10 @@ import com.example.kaisa.androidproject.model.DbModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ImageButton imageButton = null;
-    public static ViewPager viewPager = null;
-    public static BottomNavigationView navigation;
-    public static boolean databaseEmpty = false;
+    public ImageButton imageButton = null;
+    public NonSwipeableViewPager viewPager = null;
+    public BottomNavigationView navigation;
+    public boolean databaseEmpty = false;
     DbModel model = new DbModel(MainActivity.this);
 
     @Override
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
-
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         setupViewpager(viewPager);
-        setInfo();
+        checkIfUserExist();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -174,16 +174,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setInfo() {
-        databaseEmpty = model.checkIfTableEmpty();
-        if (databaseEmpty) {
-            Log.d("TESTI", "ON");
+    public void checkIfUserExist() {
+        if(model.checkIfTableEmpty()) {
+            this.databaseEmpty = true;
             viewPager.setCurrentItem(1);
             navigation.setVisibility(View.INVISIBLE);
-            databaseEmpty = false;
-        } else {
-            Log.d("TESTI", "EI");
+            viewPager.disableScroll(true);
+            imageButton.setVisibility(View.INVISIBLE);
+        }
+        else if(!model.checkIfTableEmpty()) {
+            viewPager.setCurrentItem(0);
         }
     }
-
 }
