@@ -3,6 +3,7 @@ package com.example.kaisa.androidproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -67,6 +71,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
+    User user = null;
+    DbModel model = null;
 
 
         @Override
@@ -342,6 +348,26 @@ public void getTime(){
         String elapsedTime=hours+":"+ mins+":"+sec;
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
+    }
+    public void intitializedb(){
+        final DbModel model = new DbModel(getContext());
+        if(!model.checkIfTableEmpty()) {
+            try {
+                user = model.readUserFromDb();
+               
+
+            } catch (SQLiteException e) {
+                if (e.getMessage().contains("no such table")) {
+                    Log.v("stepsdb", "table doesn't exist");
+                }
+            }
+        }
+        else {
+
+        }
+    }
+    public void savedatatodb(){
+
     }
 
     //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä

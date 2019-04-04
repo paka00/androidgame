@@ -45,6 +45,7 @@ public class AchievementsFragment extends Fragment {
     String dbwalktime ;
     String dbjogdate;
     TextView jogdata = null;
+    double dbdailydistance = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,12 +94,12 @@ public class AchievementsFragment extends Fragment {
             dbdistance = user.getWalkDistance();
             dbjogdate = user.getWalkDate();
             dbwalktime = user.getWalkTime();
-
+            dbdailydistance = user.getDailyDistance();
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-            jogdata.setText("Distance: " + dbdistance +"\nToal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
+            jogdata.setText("Distance: " + dbdistance +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
 
 
@@ -146,7 +147,6 @@ public class AchievementsFragment extends Fragment {
         boxButton.setText(Float.toString(distancem));
         distancem = distancem * percentagedistance;
         // steps = steps +(percentagedistance*50);
-
         character.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/18);
