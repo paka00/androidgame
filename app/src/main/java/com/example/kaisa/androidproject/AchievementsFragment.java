@@ -42,7 +42,9 @@ public class AchievementsFragment extends Fragment {
     int totalSteps = 0;
     int memorysteps = 0;
     float dbdistance = 0;
-    float dbwalktime = 0;
+    String dbwalktime ;
+    String dbjogdate;
+    TextView jogdata = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +67,7 @@ public class AchievementsFragment extends Fragment {
                 updatedistance();
             }
         });
-
+        jogdata = getView().findViewById(R.id.userdata);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -88,11 +90,15 @@ public class AchievementsFragment extends Fragment {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
+            dbdistance = user.getWalkDistance();
+            dbjogdate = user.getWalkDate();
+            dbwalktime = user.getWalkTime();
 
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+            jogdata.setText("Distance: " + dbdistance +"\nToal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
 
 
