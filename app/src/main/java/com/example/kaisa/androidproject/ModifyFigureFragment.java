@@ -107,5 +107,25 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void setImage(){
         imageview_maleHead.setImageResource(maleHeadList.get(position));
+        int ID = v.getId();
+        if (ID == R.id.done_button) {
+            if (context.databaseEmpty) {
+                //Jos tietokanta on tyhjä
+                createNewFigure();
+            } else {
+                Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
+                //Tietojentallennus tietokantaan
+            }
+        }
+    }
+
+
+    public void createNewFigure() {
+        context.viewPager.disableScroll(false);
+        context.navigation.setVisibility(View.VISIBLE);
+        context.imageButton.setVisibility(View.VISIBLE);
+        context.viewPager.setCurrentItem(0);
+        context.databaseEmpty = false;
+        Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
 }
