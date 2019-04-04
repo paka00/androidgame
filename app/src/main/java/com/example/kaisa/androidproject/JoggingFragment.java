@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +67,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double totalacceleration = 0;
     TextView tv1 = null;
     TextView tv2 = null;
+    TextView previousWalk =null;
     LocationCallback mLocationCallback = null;
     SensorEventListener sensorlistener= null;
     Date startTime = null;
@@ -71,9 +75,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     boolean jogStarted = false;
     String elapsedTime;
     String currentDate;
-    TextView previousWalk = null;
     NonSwipeableViewPager testPager;
     MainActivity context;
+    User user = null;
+    DbModel model = null;
+
 
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,6 +131,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        final int locationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+
         previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
         startButton.setText(startbuttontxt);
@@ -152,30 +160,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     startButton.setText(startbuttontxt);
                     testPager.disableScroll(false);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                    compareTime();
-                    DbModel model = new DbModel(getContext());
-                    User user = model.readUserFromDb();
-                    if(distance2 > 0) {
-                        user.setWalkDate(currentDate);
-                        user.setWalkTime(elapsedTime);
-                        user.setWalkDistance(distance2);
-                        model.updateUser(user);
-                        previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
-                    }
                     resetValues();
+                    compareTime();
                     jogStarted = false;
                 }
             }
         });
-        DbModel model = new DbModel(getContext());
-        User user = model.readUserFromDb();
-        if (user.getWalkDistance() > 0){
-            previousWalk.setText("Previous walk: Distance: " + user.getWalkDistance() + " Time: " + user.getWalkTime() + " Date: " + user.getWalkDate());
-        }
-        else {
-            previousWalk.setText("No previous walk yet!");
-        }
-
     }
 
 
@@ -365,9 +355,29 @@ public void getTime(){
         int hours = (int)(mills/(1000*60*60));
         int mins = (int)(mills/(1000*60))%60;
         int sec = (int)(mills/1000);
-        elapsedTime=hours+":"+ mins+":"+sec;
-        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String elapsedTime=hours+":"+ mins+":"+sec;
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
+    }
+    public void intitializedb(){
+        final DbModel model = new DbModel(getContext());
+        if(!model.checkIfTableEmpty()) {
+            try {
+                user = model.readUserFromDb();
+
+
+            } catch (SQLiteException e) {
+                if (e.getMessage().contains("no such table")) {
+                    Log.v("stepsdb", "table doesn't exist");
+                }
+            }
+        }
+        else {
+
+        }
+    }
+    public void savedatatodb(){
+
     }
 
     //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
