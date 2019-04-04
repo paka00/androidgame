@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/pager">
-
         </com.example.kaisa.androidproject.NonSwipeableViewPager>
     </android.support.constraint.ConstraintLayout>
 

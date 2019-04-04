@@ -82,7 +82,7 @@
                 android:id="@+id/imageview_male_head"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:scaleY="1.1"
+                android:scaleY="1"
                 android:src="@drawable/mies_paa_0" />
 
             <ImageView
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:scaleX="1.1"
-                android:scaleY="1.03"
+                android:scaleY="1.1"
                 android:src="@drawable/mies_torso_0"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_head" />
 
@@ -100,7 +100,7 @@
                 android:layout_height="110dp"
                 android:layout_marginTop="-10dp"
                 android:scaleX="1.46"
-                android:scaleY="1.46"
+                android:scaleY="1.5"
                 android:src="@drawable/ukko_alaosa"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_torso" />
 
@@ -162,14 +162,9 @@
                 android:layout_marginBottom="40dp"
                 android:src="@drawable/nuoli_icon" />
 
-
-
-
         </LinearLayout>
 
-
     </RelativeLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -203,9 +198,6 @@
 
             />
 
-
-
     </RelativeLayout>
-
 
 </LinearLayout>

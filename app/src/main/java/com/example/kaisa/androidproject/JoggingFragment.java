@@ -68,13 +68,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
-
+    MainActivity context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_jogging, container, false);
 
 
@@ -129,8 +129,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             public void onClick(View v) {
                 if(startbuttontxt.equals("Start"))
                 {
-                    MainActivity.navigation.setVisibility(View.INVISIBLE);
-                    MainActivity.imageButton.setEnabled(false);
+                    context.navigation.setVisibility(View.INVISIBLE);
+                    context.imageButton.setEnabled(false);
+                    context.viewPager.disableScroll(true);
                     startbuttontxt = "Stop";
                     startButton.setText(startbuttontxt);
                     requestLocationUpdates();
@@ -140,8 +141,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
                 }
                 else{
-                    MainActivity.navigation.setVisibility(View.VISIBLE);
-                    MainActivity.imageButton.setEnabled(true);
+                    context.navigation.setVisibility(View.VISIBLE);
+                    context.imageButton.setEnabled(true);
+                    context.viewPager.disableScroll(false);
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);

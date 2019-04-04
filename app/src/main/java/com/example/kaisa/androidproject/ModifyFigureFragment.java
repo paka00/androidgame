@@ -16,11 +16,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
+
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
     int position = 0;
     int ListMinValue = 0;
@@ -33,6 +31,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_modify_figure, container, false);
     }
 
@@ -71,7 +70,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
-
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
     }
@@ -99,15 +97,12 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         if(buttonID == R.id.done_button){
 
             if (context.databaseEmpty) {
-                //Jos tietokanta on tyhjä
-                Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
+                //If database is empty
                 createNewFigure();
             } else {
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 //Tietojentallennus tietokantaan
             }
-
-
 
         }
     }
@@ -115,7 +110,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void setImage(){
         imageview_maleHead.setImageResource(maleHeadList.get(position));
-
     }
 
 
