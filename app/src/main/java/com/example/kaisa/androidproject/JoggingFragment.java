@@ -1,5 +1,6 @@
 package com.example.kaisa.androidproject;
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -75,7 +76,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     NonSwipeableViewPager testPager;
     MainActivity context;
 
-        @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -258,11 +259,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     }
 
     public void resetValues(){
-            locationNew = null;
-            locationOld = null;
-            distance = 0;
-            distance2 = 0;
-            sensorManager.unregisterListener(sensorlistener, sensor);
+        locationNew = null;
+        locationOld = null;
+        distance = 0;
+        distance2 = 0;
+        sensorManager.unregisterListener(sensorlistener, sensor);
 
 
     }
@@ -340,13 +341,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                                         distance = locationNew.distanceTo(locationOld);
                                         distance2 = distance + distance2;
                                         locationOld = locationNew;
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
-                                       tv1.setText("Distance:" + distance2);
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2);
                                     }
                                     else{
 
-                                       tv1.setText("Distance:" + distance2 );
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2 );
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
                                     }
                                 }
                             }
@@ -355,11 +356,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         }
 
     }
-public void getTime(){
+    public void getTime(){
         startTime = Calendar.getInstance().getTime();
     }
     public void compareTime(){
-            stopTime = Calendar.getInstance().getTime();
+        stopTime = Calendar.getInstance().getTime();
 
         long mills = stopTime.getTime() - startTime.getTime();
         int hours = (int)(mills/(1000*60*60));
