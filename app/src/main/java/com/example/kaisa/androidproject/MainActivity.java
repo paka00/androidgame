@@ -48,7 +48,7 @@ import com.example.kaisa.androidproject.model.DbModel;
 public class MainActivity extends AppCompatActivity {
 
     public static ImageButton imageButton = null;
-    public static ViewPager viewPager = null;
+    public static NonSwipeableViewPager viewPager = null;
     public static BottomNavigationView navigation;
     public static boolean databaseEmpty = false;
     DbModel model = new DbModel(MainActivity.this);
