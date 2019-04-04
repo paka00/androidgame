@@ -25,7 +25,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     int position = 0;
     int ListMinValue = 0;
     ImageView imageview_maleHead;
-    ListIterator<Integer> iterator;
 
     ImageView imageView, imageView1;
     MainActivity context;
@@ -45,7 +44,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         maleHeadList.add(R.drawable.mies_paa_1);
 
         imageview_maleHead.setImageResource(maleHeadList.get(position));
-        //iterator = maleHeadList.listIterator(position);
 
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
@@ -80,10 +78,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        Log.d("test","onclick !!!!");
         int buttonID = v.getId();
-        int headListMaxValue = Collections.max(maleHeadList);
-
         if (buttonID == R.id.button_head_to_left) {
             if (position <= ListMinValue){
                 position = maleHeadList.size()-1;
