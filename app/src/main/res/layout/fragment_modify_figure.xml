@@ -25,12 +25,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/layout_left"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="45dp"
@@ -67,13 +67,15 @@
                 android:layout_height="36dp"
                 android:background="@null"
                 android:scaleType="fitXY"
+                android:layout_marginBottom="40dp"
                 android:src="@drawable/nuoli_icon" />
+
         </LinearLayout>
 
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -111,20 +113,13 @@
                 android:src="@drawable/ukko_jalat"
                 app:layout_constraintTop_toBottomOf="@id/imageview_male_legs" />
 
-            <Button
-                android:id="@+id/done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="Done" />
 
         </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/layout_right"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="45dp"
             android:orientation="vertical">
@@ -163,10 +158,50 @@
                 android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
+                android:layout_marginBottom="40dp"
                 android:src="@drawable/nuoli_icon" />
 
 
+
+
         </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/sukupuoli_mies"
+            android:layout_marginLeft="45dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:button="@null"
+            android:background="@drawable/sukupuoli_man" />
+
+
+        <Button
+            android:id="@+id/done_button"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sukupuoli_mies"
+            android:text="Done" />
+
+        <RadioButton
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:button="@null"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp"
+            android:background="@drawable/sukupuoli_akka"
+
+            />
+
 
 
     </RelativeLayout>
