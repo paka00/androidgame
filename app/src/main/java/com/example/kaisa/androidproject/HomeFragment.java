@@ -24,9 +24,11 @@ import com.example.kaisa.androidproject.model.User;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
@@ -43,6 +45,8 @@ public class HomeFragment extends Fragment {
     FrameLayout layout = null;
     boolean buttonVisibility = false;
     boolean rewardClaimed = false;
+    MainActivity context;
+    int max = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -180,7 +184,7 @@ public class HomeFragment extends Fragment {
 
 
     public boolean rewardClaimed() {
-        if(buttonVisibility){
+        if (buttonVisibility) {
             btnClaimReward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,5 +195,54 @@ public class HomeFragment extends Fragment {
             return true;
         }
         return false;
+    }
+
+    public void selectRandomClothes() {
+        DbModel model = new DbModel(getContext());
+        ArrayList<Integer> clothesArrayList;
+        User user = model.readUserFromDb();
+        Random clothesRandom = new Random();
+        int clothes = clothesRandom.nextInt(4);
+        switch (clothes) {
+            case 0:
+                int hat = randomInt(max);
+                clothesArrayList = model.readHats();
+                while(!clothesArrayList.contains(hat)){
+                    hat = randomInt(max);
+                }
+                user.setHat(hat);
+                return;
+            case 1:
+                int shirt = randomInt(max);
+                clothesArrayList = model.readShirts();
+                while(!clothesArrayList.contains(shirt)){
+                    shirt = randomInt(max);
+                }
+                user.setShirt(shirt);
+                return;
+            case 2:
+                int pants = randomInt(max);
+                clothesArrayList = model.readPants();
+                while(!clothesArrayList.contains(pants)){
+                    pants = randomInt(max);
+                }
+                user.setPants(pants);
+                return;
+            case 3:
+                int shoes = randomInt(max);
+                clothesArrayList = model.readShoes();
+                while(!clothesArrayList.contains(shoes)){
+                    shoes = randomInt(max);
+                }
+                user.setShoes(shoes);
+                return;
+        }
+        model.updateUser(user);
+    }
+
+    public int randomInt(int max) {
+        Random random = new Random();
+        int rand = random.nextInt(2) + 1;
+        return rand;
     }
 }
