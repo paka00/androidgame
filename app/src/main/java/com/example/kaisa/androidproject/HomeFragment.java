@@ -10,7 +10,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,11 @@ import com.example.kaisa.androidproject.model.User;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
@@ -37,12 +38,17 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
     int dailySteps;
-    int dailyStepGoal = 10000;
-    CountDownTimer countDownTimer = null;
-    DbModel model;
+    int dailyStepGoal = 5000;
+    CountDownTimer countDownTimer= null;
+    DbModel model = null;
     Button btnClaimReward = null;
-    boolean rewardClaimed = false;
     MainActivity context;
+    int max = 1;
+
+
+
+
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +67,7 @@ public class HomeFragment extends Fragment {
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if (!model.checkIfTableEmpty()) {
+        if(!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepsCheck();
@@ -74,7 +80,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if (!model.checkIfTableEmpty()) {
+            if(!model.checkIfTableEmpty()) {
                 dailyStepsCheck();
             }
         }
@@ -87,19 +93,19 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
+            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done! You can now claim the reward!");
+            dailyTask.setText("Task done! You can now claim the reward");
             btnClaimReward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
-                    dailyTask.setText("Task done! Wait for tomorrow!");
+                    dailyTask.setText("Task done! Wait for tomorrow");
                     btnClaimReward.setVisibility(View.GONE);
                     user.setDailyReward(1);
                     model.updateUser(user);
@@ -107,7 +113,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -149,7 +155,8 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                } else {
+                }
+                else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
                 }
             }
@@ -162,7 +169,7 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected String formatTime(long hours, long minutes, long seconds) {
+    protected String formatTime (long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -181,5 +188,55 @@ public class HomeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    public void selectRandomClothes() {
+        DbModel model = new DbModel(getContext());
+        ArrayList<Integer> clothesArrayList;
+        User user = model.readUserFromDb();
+        Random clothesRandom = new Random();
+        int clothes = clothesRandom.nextInt(4);
+        switch (clothes) {
+            case 0:
+                int hat = randomInt(max);
+                clothesArrayList = model.readHats();
+                while(!clothesArrayList.contains(hat)){
+                    hat = randomInt(max);
+                }
+                user.setHat(hat);
+                return;
+            case 1:
+                int shirt = randomInt(max);
+                clothesArrayList = model.readShirts();
+                while(!clothesArrayList.contains(shirt)){
+                    shirt = randomInt(max);
+                }
+                user.setShirt(shirt);
+                return;
+            case 2:
+                int pants = randomInt(max);
+                clothesArrayList = model.readPants();
+                while(!clothesArrayList.contains(pants)){
+                    pants = randomInt(max);
+                }
+                user.setPants(pants);
+                return;
+            case 3:
+                int shoes = randomInt(max);
+                clothesArrayList = model.readShoes();
+                while(!clothesArrayList.contains(shoes)){
+                    shoes = randomInt(max);
+                }
+                user.setShoes(shoes);
+                return;
+        }
+        model.updateUser(user);
+    }
+
+    public int randomInt(int max) {
+        Random random = new Random();
+        int rand = random.nextInt(2) + 1;
+        return rand;
     }
 }

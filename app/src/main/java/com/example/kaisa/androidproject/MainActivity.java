@@ -9,25 +9,8 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.TextView;
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+        stepCounterIntent.putExtra("reset", false);
         startService(stepCounterIntent);
         Log.v("stepsmain", "onresume");
     }
@@ -174,15 +159,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkIfUserExist() {
-        if(model.checkIfTableEmpty()) {
+        if (model.checkIfTableEmpty()) {
             this.databaseEmpty = true;
             viewPager.setCurrentItem(1);
             navigation.setVisibility(View.INVISIBLE);
             viewPager.disableScroll(true);
             imageButton.setVisibility(View.INVISIBLE);
-        }
-        else if(!model.checkIfTableEmpty()) {
+        } else {
             viewPager.setCurrentItem(0);
         }
     }
+
 }
