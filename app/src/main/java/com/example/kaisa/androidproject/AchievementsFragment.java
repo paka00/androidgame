@@ -153,7 +153,7 @@ public class AchievementsFragment extends Fragment {
         // steps = steps +(percentagedistance*50);
         character.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
-        giftimg.setX(distancem-dpWidth/18);
+        giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
 
         if (distancem >= (dpWidth / 2)) {
