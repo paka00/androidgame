@@ -16,11 +16,13 @@ import android.widget.ImageButton;
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
 
     ImageView imageView, imageView1;
+    MainActivity context;
     public Button buttonHat, buttonMale, buttonFemale, buttonCancel, doneButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_modify_figure, container, false);
     }
 
@@ -54,10 +56,13 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int ID = v.getId();
         if (ID == R.id.done_button) {
-            if (MainActivity.databaseEmpty) {
+            if (context.databaseEmpty) {
                 //Jos tietokanta on tyhjä
-                MainActivity.viewPager.setCurrentItem(0);
-                MainActivity.navigation.setVisibility(View.VISIBLE);
+                Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
+                context.viewPager.disableScroll(false);
+                context.navigation.setVisibility(View.VISIBLE);
+                context.imageButton.setVisibility(View.VISIBLE);
+                context.viewPager.setCurrentItem(0);
             } else {
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 //Tietojentallennus tietokantaan

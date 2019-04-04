@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteException;
@@ -42,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.os.Looper.getMainLooper;
@@ -71,6 +73,10 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
+    String elapsedTime;
+    String currentDate;
+    NonSwipeableViewPager testPager;
+    MainActivity context;
     User user = null;
     DbModel model = null;
 
@@ -79,7 +85,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_jogging, container, false);
 
 
@@ -90,6 +96,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         super.onViewCreated(view, savedInstanceState);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
+        testPager = context.viewPager;
 
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -134,8 +141,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             public void onClick(View v) {
                 if(startbuttontxt.equals("Start"))
                 {
-                    MainActivity.navigation.setVisibility(View.INVISIBLE);
-                    MainActivity.imageButton.setEnabled(false);
+                    context.navigation.setVisibility(View.INVISIBLE);
+                    context.imageButton.setEnabled(false);
+                    testPager.disableScroll(true);
                     startbuttontxt = "Stop";
                     startButton.setText(startbuttontxt);
                     requestLocationUpdates();
@@ -145,10 +153,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
                 }
                 else{
-                    MainActivity.navigation.setVisibility(View.VISIBLE);
-                    MainActivity.imageButton.setEnabled(true);
+                    context.navigation.setVisibility(View.VISIBLE);
+                    context.imageButton.setEnabled(true);
+
                     startbuttontxt ="Start";
                     startButton.setText(startbuttontxt);
+                    testPager.disableScroll(false);
                     fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                     resetValues();
                     compareTime();
@@ -354,7 +364,7 @@ public void getTime(){
         if(!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();
-               
+
 
             } catch (SQLiteException e) {
                 if (e.getMessage().contains("no such table")) {

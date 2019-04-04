@@ -11,7 +11,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     HomeFragment homeFragment = new HomeFragment();
     ModifyFigureFragment modifyFigureFragment = new ModifyFigureFragment();
     AchievementsFragment achievementsFragment = new AchievementsFragment();
-    JoggingFragment joggingFragment = new JoggingFragment();
+    JoggingFragment joggingFragment = new JoggingFragment();;
+
 
 
     public PagerAdapter(FragmentManager fm, int NoT) {

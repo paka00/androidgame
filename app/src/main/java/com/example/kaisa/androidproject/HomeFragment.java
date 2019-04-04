@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,32 +37,31 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
     int dailySteps;
-    int dailyStepGoal = 5000;
-    CountDownTimer countDownTimer= null;
-    DbModel model = null;
+    int dailyStepGoal = 10000;
+    CountDownTimer countDownTimer = null;
+    DbModel model;
     Button btnClaimReward = null;
-    FrameLayout layout = null;
-    boolean buttonVisibility = false;
     boolean rewardClaimed = false;
+    MainActivity context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layout = getView().findViewById(R.id.fragment_home);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty()) {
+        if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepsCheck();
@@ -74,25 +74,42 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty()) {
+            if (!model.checkIfTableEmpty()) {
                 dailyStepsCheck();
             }
         }
     };
 
     protected void dailyStepsCheck() {
+        final User user = model.readUserFromDb();
+
         if (dailySteps == 0) {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
+            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-
-        else {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+            btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done!");
+            dailyTask.setText("Task done! You can now claim the reward!");
+            btnClaimReward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
+                    dailyTask.setText("Task done! Wait for tomorrow!");
+                    btnClaimReward.setVisibility(View.GONE);
+                    user.setDailyReward(1);
+                    model.updateUser(user);
+                }
+            });
+        }
+
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+            dailyTaskProgress.setText("");
+            dailyTask.setText("Task done! Wait for tomorrow!");
         }
     }
 
@@ -132,8 +149,7 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                }
-                else {
+                } else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
                 }
             }
@@ -146,7 +162,7 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected String formatTime (long hours, long minutes, long seconds) {
+    protected String formatTime(long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -165,31 +181,5 @@ public class HomeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
-    }
-
-
-    public void claimReward() {
-        btnClaimReward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
-                btnClaimReward.setVisibility(View.GONE);
-            }
-        });
-    }
-
-
-    public boolean rewardClaimed() {
-        if(buttonVisibility){
-            btnClaimReward.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
-                    btnClaimReward.setVisibility(View.GONE);
-                }
-            });
-            return true;
-        }
-        return false;
     }
 }
