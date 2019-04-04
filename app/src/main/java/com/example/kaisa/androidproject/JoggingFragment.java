@@ -144,6 +144,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                
                 if(startbuttontxt.equals("Start"))
                 {
                     context.navigation.setVisibility(View.INVISIBLE);

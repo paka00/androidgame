@@ -88,8 +88,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     app:layout_constraintBottom_toTopOf="@+id/box"
-
-                    android:src="@drawable/home_icon"/>
+                    android:src="@drawable/home_icon"
+                    />
                 <View
                     android:id="@+id/character"
                     android:layout_width="7dp"
