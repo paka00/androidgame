@@ -16,19 +16,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
+
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
     int position = 0;
     int ListMinValue = 0;
     ImageView imageview_maleHead;
-    ListIterator<Integer> iterator;
+
+    ImageView imageView, imageView1;
+    MainActivity context;
+    public Button buttonHat, buttonMale, buttonFemale, buttonCancel, doneButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_modify_figure, container, false);
     }
 
@@ -40,7 +43,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         maleHeadList.add(R.drawable.mies_paa_1);
 
         imageview_maleHead.setImageResource(maleHeadList.get(position));
-        //iterator = maleHeadList.listIterator(position);
 
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
@@ -68,14 +70,13 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
+        doneButton = getView().findViewById(R.id.done_button);
+        doneButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        Log.d("test","onclick !!!!");
         int buttonID = v.getId();
-        int headListMaxValue = Collections.max(maleHeadList);
-
         if (buttonID == R.id.button_head_to_left) {
             if (position <= ListMinValue){
                 position = maleHeadList.size()-1;
@@ -94,18 +95,30 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
 
         if(buttonID == R.id.done_button){
-            if(MainActivity.databaseEmpty){
-                //jos tietokanta on tyhjä
-                MainActivity.viewPager.setCurrentItem(0);
-                MainActivity.navigation.setVisibility(View.VISIBLE);
-            }else{
+
+            if (context.databaseEmpty) {
+                //If database is empty
+                createNewFigure();
+            } else {
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
-                //Tietojen tallennus tietokantaan
+                //Tietojentallennus tietokantaan
             }
+
         }
-        }
+    }
+
 
     public void setImage(){
         imageview_maleHead.setImageResource(maleHeadList.get(position));
+    }
+
+
+    public void createNewFigure() {
+        context.viewPager.disableScroll(false);
+        context.navigation.setVisibility(View.VISIBLE);
+        context.imageButton.setVisibility(View.VISIBLE);
+        context.viewPager.setCurrentItem(0);
+        context.databaseEmpty = false;
+        Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
 }

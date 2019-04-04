@@ -24,9 +24,11 @@ import com.example.kaisa.androidproject.model.User;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
@@ -40,21 +42,25 @@ public class HomeFragment extends Fragment {
     CountDownTimer countDownTimer= null;
     DbModel model = null;
     Button btnClaimReward = null;
-    FrameLayout layout = null;
-    boolean buttonVisibility = false;
-    boolean rewardClaimed = false;
+    MainActivity context;
+    int max = 1;
+
+
+
+
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layout = getView().findViewById(R.id.fragment_home);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
@@ -81,6 +87,8 @@ public class HomeFragment extends Fragment {
     };
 
     protected void dailyStepsCheck() {
+        final User user = model.readUserFromDb();
+
         if (dailySteps == 0) {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
@@ -89,10 +97,25 @@ public class HomeFragment extends Fragment {
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-
-        else {
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+            btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done!");
+            dailyTask.setText("Task done! You can now claim the reward");
+            btnClaimReward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
+                    dailyTask.setText("Task done! Wait for tomorrow");
+                    btnClaimReward.setVisibility(View.GONE);
+                    user.setDailyReward(1);
+                    model.updateUser(user);
+                }
+            });
+        }
+
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+            dailyTaskProgress.setText("");
+            dailyTask.setText("Task done! Wait for tomorrow!");
         }
     }
 
@@ -168,28 +191,52 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void claimReward() {
-        btnClaimReward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
-                btnClaimReward.setVisibility(View.GONE);
-            }
-        });
+    public void selectRandomClothes() {
+        DbModel model = new DbModel(getContext());
+        ArrayList<Integer> clothesArrayList;
+        User user = model.readUserFromDb();
+        Random clothesRandom = new Random();
+        int clothes = clothesRandom.nextInt(4);
+        switch (clothes) {
+            case 0:
+                int hat = randomInt(max);
+                clothesArrayList = model.readHats();
+                while(!clothesArrayList.contains(hat)){
+                    hat = randomInt(max);
+                }
+                user.setHat(hat);
+                return;
+            case 1:
+                int shirt = randomInt(max);
+                clothesArrayList = model.readShirts();
+                while(!clothesArrayList.contains(shirt)){
+                    shirt = randomInt(max);
+                }
+                user.setShirt(shirt);
+                return;
+            case 2:
+                int pants = randomInt(max);
+                clothesArrayList = model.readPants();
+                while(!clothesArrayList.contains(pants)){
+                    pants = randomInt(max);
+                }
+                user.setPants(pants);
+                return;
+            case 3:
+                int shoes = randomInt(max);
+                clothesArrayList = model.readShoes();
+                while(!clothesArrayList.contains(shoes)){
+                    shoes = randomInt(max);
+                }
+                user.setShoes(shoes);
+                return;
+        }
+        model.updateUser(user);
     }
 
-
-    public boolean rewardClaimed() {
-        if(buttonVisibility){
-            btnClaimReward.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
-                    btnClaimReward.setVisibility(View.GONE);
-                }
-            });
-            return true;
-        }
-        return false;
+    public int randomInt(int max) {
+        Random random = new Random();
+        int rand = random.nextInt(2) + 1;
+        return rand;
     }
 }
