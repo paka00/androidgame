@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,12 +42,12 @@ public class AchievementsFragment extends Fragment {
     int dailySteps = 0;
     int totalSteps = 0;
     int memorysteps = 0;
-    float dbdistance = 0;
+    double dbdistance = 0;
     String dbwalktime ;
     String dbjogdate;
     TextView jogdata = null;
     double dbdailydistance = 0;
-
+    AnimationDrawable wifianimation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class AchievementsFragment extends Fragment {
         boxButton = getView().findViewById(R.id.moveButton);
         character = getView().findViewById(R.id.box);
         giftimg = getView().findViewById(R.id.gift);
+        giftimg.setBackgroundResource(R.drawable.animationtest);
+        wifianimation = (AnimationDrawable) giftimg.getBackground();
+
         characterdistancetxt = getView().findViewById(R.id.distancecharacter);
         boxButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +95,7 @@ public class AchievementsFragment extends Fragment {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
-            dbdistance = user.getWalkDistance();
+            dbdistance = user.getTotalDistance();
             dbjogdate = user.getWalkDate();
             dbwalktime = user.getWalkTime();
             dbdailydistance = user.getDailyDistance();
@@ -150,6 +154,7 @@ public class AchievementsFragment extends Fragment {
         character.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/18);
+        wifianimation.start();
 
         if (distancem >= (dpWidth / 2)) {
             distancem = -dpWidth/1000;

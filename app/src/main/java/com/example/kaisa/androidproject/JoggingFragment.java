@@ -80,6 +80,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     User user = null;
     DbModel model = null;
 
+    double dbdistance = 0;
+    double dbwalktime = 0;
+    String dbwalkdate = null;
+
+
 
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -364,6 +369,7 @@ public void getTime(){
         if(!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();
+
 
 
             } catch (SQLiteException e) {
