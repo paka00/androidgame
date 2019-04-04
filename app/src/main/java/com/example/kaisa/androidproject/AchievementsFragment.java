@@ -41,6 +41,8 @@ public class AchievementsFragment extends Fragment {
     int dailySteps = 0;
     int totalSteps = 0;
     int memorysteps = 0;
+    float dbdistance = 0;
+    float dbwalktime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +88,7 @@ public class AchievementsFragment extends Fragment {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
+
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
@@ -139,7 +142,7 @@ public class AchievementsFragment extends Fragment {
         // steps = steps +(percentagedistance*50);
 
         character.setX(distancem);
-        characterdistancetxt.setText(Float.toString(travelleddistance));
+        characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/18);
 
         if (distancem >= (dpWidth / 2)) {
