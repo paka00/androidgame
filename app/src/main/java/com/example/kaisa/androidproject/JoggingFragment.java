@@ -145,30 +145,37 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             @Override
             public void onClick(View v) {
 
-                if(startbuttontxt.equals("Start"))
-                {
-                    context.navigation.setVisibility(View.INVISIBLE);
-                    context.imageButton.setEnabled(false);
-                    testPager.disableScroll(true);
-                    startbuttontxt = "Stop";
-                    startButton.setText(startbuttontxt);
-                    requestLocationUpdates();
-                    startSensor();
-                    getTime();
-                    jogStarted = true;
+                if (ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission();
+                    Toast.makeText(getActivity(), "You need to permit location to use jog functionality", Toast.LENGTH_SHORT).show();
 
-                }
-                else{
-                    context.navigation.setVisibility(View.VISIBLE);
-                    context.imageButton.setEnabled(true);
 
-                    startbuttontxt ="Start";
-                    startButton.setText(startbuttontxt);
-                    testPager.disableScroll(false);
-                    fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                    resetValues();
-                    compareTime();
-                    jogStarted = false;
+
+                } else {
+                    if (startbuttontxt.equals("Start")) {
+                        context.navigation.setVisibility(View.INVISIBLE);
+                        context.imageButton.setEnabled(false);
+                        testPager.disableScroll(true);
+                        startbuttontxt = "Stop";
+                        startButton.setText(startbuttontxt);
+                        requestLocationUpdates();
+                        startSensor();
+                        getTime();
+                        jogStarted = true;
+
+
+                    } else {
+                        context.navigation.setVisibility(View.VISIBLE);
+                        context.imageButton.setEnabled(true);
+
+                        startbuttontxt = "Start";
+                        startButton.setText(startbuttontxt);
+                        testPager.disableScroll(false);
+                        fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+                        resetValues();
+                        compareTime();
+                        jogStarted = false;
+                    }
                 }
             }
         });

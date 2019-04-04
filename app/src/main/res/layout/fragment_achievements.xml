@@ -82,14 +82,13 @@
                     android:background="#000000"
                     app:layout_constraintBottom_toTopOf="@+id/distanceline"
 
-                    />
+                    tools:ignore="MissingConstraints" />
                 <ImageView
                     android:id="@+id/gift"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     app:layout_constraintBottom_toTopOf="@+id/box"
-                    android:src="@drawable/home_icon"
-                    />
+                    tools:ignore="MissingConstraints" />
                 <View
                     android:id="@+id/character"
                     android:layout_width="7dp"
@@ -102,7 +101,8 @@
                 <Button
                     android:id="@+id/moveButton"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/distancecharacter"
