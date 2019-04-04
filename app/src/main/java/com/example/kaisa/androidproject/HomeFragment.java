@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment {
     Button btnClaimReward = null;
     boolean rewardClaimed = false;
     MainActivity context;
+    int max = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,5 +183,37 @@ public class HomeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void selectRandomClothes() {
+        DbModel model = new DbModel(getContext());
+        User user = model.readUserFromDb();
+        Random clothesRandom = new Random();
+        int clothes = clothesRandom.nextInt(4);
+        switch (clothes) {
+            case 0:
+                int hat = randomInt(max);
+                user.setHat(hat);
+                return;
+            case 1:
+                int shirt = randomInt(max);
+                user.setShirt(shirt);
+                return;
+            case 2:
+                int pants = randomInt(max);
+                user.setPants(pants);
+                return;
+            case 3:
+                int shoes = randomInt(max);
+                user.setShoes(shoes);
+                return;
+        }
+        model.updateUser(user);
+    }
+
+    public int randomInt(int max) {
+        Random random = new Random();
+        int rand = random.nextInt(2) + 1;
+        return rand;
     }
 }
