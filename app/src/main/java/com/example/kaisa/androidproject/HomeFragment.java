@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
     Button btnClaimReward = null;
     MainActivity context;
     int max = 10;
-    Button addHat = null;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
 
@@ -68,13 +67,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
-        addHat = getView().findViewById(R.id.add_hat_button);
-        addHat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectRandomClothes();
-            }
-        });
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
