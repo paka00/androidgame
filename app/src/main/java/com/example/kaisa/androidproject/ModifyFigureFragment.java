@@ -39,7 +39,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imageview_maleHead = getView().findViewById(R.id.imageview_male_head);
-        maleHeadList.add(R.drawable.mies_paa_0);
+        maleHeadList.add(R.drawable.ukko_paa_rajattu);
         maleHeadList.add(R.drawable.mies_paa_1);
 
         imageview_maleHead.setImageResource(maleHeadList.get(position));
