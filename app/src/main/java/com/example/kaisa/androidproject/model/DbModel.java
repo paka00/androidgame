@@ -19,6 +19,7 @@ public class DbModel {
 
     public DbModel(Context context) {
         this.mDbHelper = new DbHelper(context);
+
     }
 
     public void addUserToDb(User addable){
