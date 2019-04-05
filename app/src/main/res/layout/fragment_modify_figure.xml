@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -26,7 +26,7 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp">
 
@@ -36,15 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="20dp"
+            android:paddingLeft="85dp"
+            android:layout_marginTop="80dp"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/button_head_to_left"
                 android:layout_width="35dp"
                 android:layout_height="24dp"
-                android:layout_marginBottom="70dp"
+                android:layout_marginBottom="55dp"
                 android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/nuoli_icon" />
@@ -70,23 +70,23 @@
                 android:layout_height="24dp"
                 android:background="@null"
                 android:scaleType="fitXY"
-                android:layout_marginBottom="40dp"
                 android:src="@drawable/nuoli_icon" />
 
         </LinearLayout>
 
 
-        <RelativeLayout
-            android:layout_width="117dp"
-            android:layout_height="300dp"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/layout_left">
+            android:layout_toRightOf="@id/layout_left"
+            android:paddingRight="120dp">
 
             <ImageView
                 android:id="@+id/imageview_male_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ukko_paa" />
+                android:src="@drawable/ukko_paa"/>
 
             <ImageView
                 android:id="@+id/imageview_male_torso"
@@ -105,10 +105,10 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ukko_jalat"/>
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="80dp"
             android:id="@+id/layout_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                 android:id="@+id/button_head_to_right"
                 android:layout_width="35dp"
                 android:layout_height="24dp"
-                android:layout_marginBottom="70dp"
+                android:layout_marginBottom="55dp"
                 android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
@@ -150,7 +150,6 @@
                 android:background="@null"
                 android:rotation="180"
                 android:scaleType="fitXY"
-                android:layout_marginBottom="40dp"
                 android:src="@drawable/nuoli_icon" />
 
         </LinearLayout>
@@ -159,37 +158,40 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal"
+        android:paddingBottom="55dp">
+
 
         <RadioButton
             android:id="@+id/sukupuoli_mies"
-            android:layout_marginLeft="5dp"
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:button="@null"
-            android:background="@drawable/sukupuoli_man" />
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/sukupuoli_man"
+            android:button="@null" />
 
 
         <Button
             android:id="@+id/done_button"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="80dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
             android:layout_toRightOf="@id/sukupuoli_mies"
+            android:layout_centerInParent="true"
             android:text="Done" />
 
         <RadioButton
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:button="@null"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
             android:background="@drawable/sukupuoli_akka"
-
-            />
+            android:button="@null"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
