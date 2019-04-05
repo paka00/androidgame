@@ -83,8 +83,10 @@ public class StepCounterService extends Service implements SensorEventListener {
         handler.post(updateBroadcastData);
         try {
             if (intent.hasExtra("reset")) {
-                resetDailySteps();
-                Log.v("stepsdailyreset", "reset intent");
+                if (intent.getBooleanExtra("reset", true)){
+                    resetDailySteps();
+                    Log.v("stepsdailyreset", "reset intent");
+                }
             }
         } catch (Exception e) {
             Log.v("stepservice", "intent null");
