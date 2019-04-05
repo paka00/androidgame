@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
-        stepCounterIntent.putExtra("reset", false);
         startService(stepCounterIntent);
         Log.v("stepsmain", "onresume");
     }
