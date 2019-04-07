@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-        getSupportActionBar().hide();
         Intent stepCounterIntent = new Intent(this, StepCounterService.class);
         startService(stepCounterIntent);
 
