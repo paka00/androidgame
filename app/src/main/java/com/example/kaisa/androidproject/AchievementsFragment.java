@@ -103,7 +103,10 @@ public class AchievementsFragment extends Fragment {
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-            jogdata.setText("Distance: " + dbdistance +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
+            dbdistance = dbdistance + totalSteps*1;
+            String formattedValue = String.format("%.2f", dbdistance);
+
+            jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
 
 
@@ -120,6 +123,7 @@ public class AchievementsFragment extends Fragment {
 
         }
     };
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
@@ -147,6 +151,7 @@ public class AchievementsFragment extends Fragment {
         percentagedistance = dpWidth / distancerange;
         travelleddistance = totalSteps;
 
+
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = distancem * percentagedistance;
@@ -155,6 +160,7 @@ public class AchievementsFragment extends Fragment {
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
+
 
         if (distancem >= (dpWidth / 2)) {
             distancem = -dpWidth/1000;
