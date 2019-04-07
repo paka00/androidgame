@@ -428,7 +428,7 @@ public void getTime(){
        {
 
        }
-        dbwalktime=Double.valueOf(user.getWalkTime());
+      //  dbwalktime=Double.valueOf(user.getWalkTime());
 
        
 

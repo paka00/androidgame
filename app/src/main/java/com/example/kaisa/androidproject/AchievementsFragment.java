@@ -69,6 +69,7 @@ public class AchievementsFragment extends Fragment {
         boxButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               getdbdata();
                 updatedistance();
             }
         });
@@ -91,6 +92,12 @@ public class AchievementsFragment extends Fragment {
         });
 
         final DbModel model = new DbModel(getContext());
+        getdbdata();
+
+        updatedistance();
+    }
+    private void getdbdata(){
+        final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
@@ -108,7 +115,6 @@ public class AchievementsFragment extends Fragment {
 
             jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
-
 
     }
 
@@ -133,6 +139,7 @@ public class AchievementsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        getdbdata();
         updatedistance();
 
     }
@@ -145,6 +152,7 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
+
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
 
         float dpWidth = displayMetrics.widthPixels;
@@ -155,7 +163,6 @@ public class AchievementsFragment extends Fragment {
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = distancem * percentagedistance;
-        // steps = steps +(percentagedistance*50);
         character.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/16);
