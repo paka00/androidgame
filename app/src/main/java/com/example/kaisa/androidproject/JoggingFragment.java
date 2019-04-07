@@ -77,12 +77,15 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     String currentDate;
     NonSwipeableViewPager testPager;
     MainActivity context;
-    User user = null;
     DbModel model = null;
+    User user = null;
+    int startsteps = 0;
+    int stopsteps = 0;
 
     double dbdistance = 0;
     double dbwalktime = 0;
     String dbwalkdate = null;
+    double jogtimeseconds = 0;
 
 
 
@@ -102,6 +105,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         testPager = context.viewPager;
+        initializedb();
+
 
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -162,23 +167,30 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         startSensor();
                         getTime();
                         jogStarted = true;
+                        startsteps=user.getSteps();
+
 
 
                     } else {
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
+                        stopsteps = user.getSteps();
 
                         startbuttontxt = "Start";
                         startButton.setText(startbuttontxt);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                        resetValues();
                         compareTime();
                         jogStarted = false;
+                        savedatatodb();
+                        resetValues();
+
                     }
                 }
             }
         });
+
+
     }
 
 
@@ -308,6 +320,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
+
     }
 
     @Override
@@ -369,11 +382,15 @@ public void getTime(){
         int mins = (int)(mills/(1000*60))%60;
         int sec = (int)(mills/1000);
         String elapsedTime=hours+":"+ mins+":"+sec;
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
+        jogtimeseconds = sec +(mins*60)+(hours/60/60);
+
+
     }
-    public void intitializedb(){
-        final DbModel model = new DbModel(getContext());
+    public void initializedb(){
+             model = new DbModel(getContext());
+
         if(!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();
@@ -391,8 +408,33 @@ public void getTime(){
         }
     }
     public void savedatatodb(){
+        /*dbdistance = user2.getTotalDistance();
+        dbwalktime = Double.valueOf(user2.getWalkTime());
+            dbdistance = dbdistance + distance2;
+            user2.setDailyDistance(distance2);
+            user2.setTotalDistance(dbdistance);
+            user2.setWalkDate(currentDate);
+            dbwalktime=Double.valueOf(user2.getWalkTime());
+            dbwalktime= dbwalktime+jogtimeseconds;
+
+            user2.setWalkTime(Double.toString(dbwalktime));
+
+            model.updateUser(user2);*/
+        dbdistance = user.getTotalDistance();
+        dbdistance = dbdistance + distance2;
+        dbdistance = dbdistance - ((stopsteps-startsteps)*0.5);
+        user.setTotalDistance(dbdistance);
+       if(user.getWalkTime()==null)
+       {
+
+       }
+        dbwalktime=Double.valueOf(user.getWalkTime());
+
+       
+
+        model.updateUser(user);
+        tv1.setText(Double.toString(user.getTotalDistance())+"  "+Double.toString(distance2));
 
     }
 
-    //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
 }
