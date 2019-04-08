@@ -40,7 +40,7 @@ public class StepCounterService extends Service implements SensorEventListener {
 
     @Override
     public void onCreate() {
-        final DbModel model = new DbModel(this);
+        model = new DbModel(this);
         if(!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();

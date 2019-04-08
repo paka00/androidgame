@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
@@ -43,12 +45,13 @@ public class HomeFragment extends Fragment {
     DbModel model = null;
     Button btnClaimReward = null;
     MainActivity context;
-    int max = 1;
+    int max = 10;
+    ArrayList<Integer> clothesArrayList;
+    List<Integer> checkedValues;
 
 
 
 
-    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +63,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
@@ -192,51 +196,101 @@ public class HomeFragment extends Fragment {
 
 
     public void selectRandomClothes() {
-        DbModel model = new DbModel(getContext());
-        ArrayList<Integer> clothesArrayList;
+        model = new DbModel(getContext());
         User user = model.readUserFromDb();
         Random clothesRandom = new Random();
         int clothes = clothesRandom.nextInt(4);
-        switch (clothes) {
-            case 0:
-                int hat = randomInt(max);
-                clothesArrayList = model.readHats();
-                while(!clothesArrayList.contains(hat)){
-                    hat = randomInt(max);
-                }
-                user.setHat(hat);
-                return;
-            case 1:
-                int shirt = randomInt(max);
-                clothesArrayList = model.readShirts();
-                while(!clothesArrayList.contains(shirt)){
-                    shirt = randomInt(max);
-                }
-                user.setShirt(shirt);
-                return;
-            case 2:
-                int pants = randomInt(max);
-                clothesArrayList = model.readPants();
-                while(!clothesArrayList.contains(pants)){
-                    pants = randomInt(max);
-                }
-                user.setPants(pants);
-                return;
-            case 3:
-                int shoes = randomInt(max);
-                clothesArrayList = model.readShoes();
-                while(!clothesArrayList.contains(shoes)){
-                    shoes = randomInt(max);
-                }
-                user.setShoes(shoes);
-                return;
+        Log.v("clothes", "clothes type = " + clothes);
+        if(!checkedValues.contains(clothes) && checkIfAllUnlocked(clothes)) {
+            Log.v("clothes", "clothes type full");
+            checkedValues.add(clothes);
+            selectRandomClothes();
         }
-        model.updateUser(user);
+        else if (checkedValues.contains(clothes)){
+            if(checkedValues.size() == 4){
+                Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
+            }
+            else {
+                selectRandomClothes();
+            }
+        }
+        else {
+            switch (clothes) {
+                case 0:
+                    int hat = randomInt(max);
+                    Log.v("clothes", "random hat = " + hat);
+                    clothesArrayList = model.readHats();
+                    while (clothesArrayList.contains(hat)) {
+                        hat = randomInt(max);
+                        Log.v("clothes", "random hat was in db, new random hat = " + hat);
+                    }
+                    model.addHat(hat);
+                    Log.v("clothes", "added hat to db");
+                    break;
+                case 1:
+                    int shirt = randomInt(max);
+                    Log.v("clothes", "random shirt = " + shirt);
+                    clothesArrayList = model.readShirts();
+                    while (clothesArrayList.contains(shirt)) {
+                        shirt = randomInt(max);
+                        Log.v("clothes", "random shirt was in db, new random hat = " + shirt);
+                    }
+                    model.addShirt(shirt);
+                    Log.v("clothes", "added shirt to db");
+                    break;
+                case 2:
+                    int pants = randomInt(max);
+                    Log.v("clothes", "random pants = " + pants);
+                    clothesArrayList = model.readPants();
+                    while (clothesArrayList.contains(pants)) {
+                        pants = randomInt(max);
+                        Log.v("clothes", "random pants was in db, new random hat = " + pants);
+                    }
+                    model.addPants(pants);
+                    Log.v("clothes", "added pants to db");
+                    break;
+                case 3:
+                    int shoes = randomInt(max);
+                    Log.v("clothes", "random shoes = " + shoes);
+                    clothesArrayList = model.readShoes();
+                    while (clothesArrayList.contains(shoes)) {
+                        shoes = randomInt(max);
+                        Log.v("clothes", "random shoes was in db, new random hat = " + shoes);
+                    }
+                    model.addShoes(shoes);
+                    Log.v("clothes", "added shoes to db");
+                    break;
+            }
+            model.updateUser(user);
+
+        }
     }
 
     public int randomInt(int max) {
         Random random = new Random();
-        int rand = random.nextInt(2) + 1;
+        int rand = random.nextInt(max) + 1;
         return rand;
+    }
+
+    public boolean checkIfAllUnlocked(int i) {
+        boolean bool = false;
+        switch (i){
+            case 0:
+                clothesArrayList = model.readHats();
+                break;
+            case 1:
+                clothesArrayList = model.readShirts();
+                break;
+            case 2:
+                clothesArrayList = model.readPants();
+                break;
+            case 3:
+                clothesArrayList = model.readShoes();
+                break;
+        }
+        if (clothesArrayList.size() >= max){
+            bool = true;
+        }
+        return bool;
     }
 }
