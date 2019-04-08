@@ -50,6 +50,7 @@ import static android.os.Looper.getMainLooper;
 
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+   //yeet
     String startbuttontxt = "Start";
     Button startButton;
     public static final int RequestPermissionCode = 1;
