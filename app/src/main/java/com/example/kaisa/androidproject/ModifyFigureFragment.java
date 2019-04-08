@@ -82,6 +82,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 position = maleHeadList.size()-1;
             }else {
                 position--;
+                Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show();
             }
             setImage();
         }
@@ -90,6 +91,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 position = ListMinValue;
             }else{
                 position++;
+                Toast.makeText(context, "asdasd", Toast.LENGTH_SHORT).show();
             }
             setImage();
         }
