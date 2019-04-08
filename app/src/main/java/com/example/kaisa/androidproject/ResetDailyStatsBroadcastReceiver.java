@@ -13,8 +13,8 @@ public class ResetDailyStatsBroadcastReceiver extends BroadcastReceiver {
         DbModel model = new DbModel(context);
         model.resetDailyStats();
         Log.v("stepsreset", "reset");
-        Intent intent1 = new Intent(context, StepCounterService.class);
+        /*Intent intent1 = new Intent(context, StepCounterService.class);
         intent1.putExtra("reset", true);
-        context.startService(intent1);
+        context.startService(intent1);*/
     }
 }
