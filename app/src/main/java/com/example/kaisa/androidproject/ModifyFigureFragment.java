@@ -1,11 +1,9 @@
 package com.example.kaisa.androidproject;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,15 +37,15 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imageview_maleHead = getView().findViewById(R.id.imageview_male_head);
-        maleHeadList.add(R.drawable.ukko_paa_rajattu);
-        maleHeadList.add(R.drawable.mies_paa_1);
+        maleHeadList.add(R.drawable.ukko_paa_0);
+        maleHeadList.add(R.drawable.ukko_paa_1);
 
         imageview_maleHead.setImageResource(maleHeadList.get(position));
 
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
 
-        ImageButton button_head_to_right = getView().findViewById(R.id.button_head_to_right);
+        ImageButton button_head_to_right = getView().findViewById(R.id.button_headt_to_right);
         button_head_to_right.setOnClickListener(this);
 
         Button doneButton = getView().findViewById(R.id.done_button);
@@ -86,7 +84,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
             setImage();
         }
-        if (buttonID == R.id.button_head_to_right) {
+        if (buttonID == R.id.button_headt_to_right) {
             if(position >= maleHeadList.size()-1){
                 position = ListMinValue;
             }else{
