@@ -22,9 +22,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
     ArrayList<Integer> maleTorsoList = new ArrayList<Integer>();
     int position = 0;
+    int position2 = 0;
     int listMinValue = 0;
-    ImageView imageview_maleHead,imageview_maleTorso;
+    ImageView imageview_maleHead, imageview_maleTorso;
     MainActivity context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,13 +65,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         ImageButton button_shoes_to_right = getView().findViewById(R.id.button_shoes_to_right);
         button_shoes_to_right.setOnClickListener(this);
 
-
-
         Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
-
-
-
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -93,25 +90,25 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int buttonID = v.getId();
         if (buttonID == R.id.button_head_to_left) {
-            if (position <= listMinValue){
-                position = maleHeadList.size()-1;
-            }else {
+            if (position <= listMinValue) {
+                position = maleHeadList.size() - 1;
+            } else {
                 position--;
                 Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show();
             }
             setMaleHeadImage();
         }
         if (buttonID == R.id.button_head_to_right) {
-            if(position >= maleHeadList.size()-1){
+            if (position >= maleHeadList.size() - 1) {
                 position = listMinValue;
-            }else{
+            } else {
                 position++;
                 Toast.makeText(context, "asdasd", Toast.LENGTH_SHORT).show();
             }
             setMaleHeadImage();
         }
 
-        if(buttonID == R.id.done_button){
+        if (buttonID == R.id.done_button) {
 
             if (context.databaseEmpty) {
                 //If database is empty
@@ -141,8 +138,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
 
-    public void setMaleHeadImage(){imageview_maleHead.setImageResource(maleHeadList.get(position));}
-    public void setMaleTorsoImage(){imageview_maleTorso.setImageResource(maleTorsoList.get(position));}
+    public void setMaleHeadImage() {
+        imageview_maleHead.setImageResource(maleHeadList.get(position));
+    }
+     public void setMaleTorsoImage(){imageview_maleTorso.setImageResource(maleTorsoList.get(position));}
 
 
     public void createNewFigure() {
@@ -154,16 +153,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
 
-    public void addToMaleHeadList(){
-        imageview_maleHead.setImageResource(maleHeadList.get(position));
+    public void addToMaleHeadList() {
         maleHeadList.add(R.drawable.ukko_paa_0);
         maleHeadList.add(R.drawable.ukko_paa_1);
+        imageview_maleHead.setImageResource(maleHeadList.get(position));
     }
 
-    public void addToMaleTorsoList(){
-        imageview_maleTorso.setImageResource(maleHeadList.get(position));
+    public void addToMaleTorsoList() {
         maleTorsoList.add(R.drawable.ukko_torso_0);
         maleTorsoList.add(R.drawable.ukko_torso_1);
-    }
+        imageview_maleTorso.setImageResource(maleTorsoList.get(position));
 
+
+    }
 }
