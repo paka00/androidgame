@@ -17,8 +17,10 @@ import java.util.ArrayList;
 public class DbModel {
     private DbHelper mDbHelper;
 
+
     public DbModel(Context context) {
         this.mDbHelper = new DbHelper(context);
+
     }
 
     public void addUserToDb(User addable){
