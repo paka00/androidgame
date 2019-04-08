@@ -22,7 +22,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
     ArrayList<Integer> maleTorsoList = new ArrayList<Integer>();
     int position = 0;
-    int position2 = 0;
     int listMinValue = 0;
     ImageView imageview_maleHead, imageview_maleTorso;
     MainActivity context;
