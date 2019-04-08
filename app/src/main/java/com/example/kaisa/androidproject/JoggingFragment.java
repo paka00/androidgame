@@ -424,17 +424,19 @@ public void getTime(){
         dbdistance = dbdistance + distance2;
         dbdistance = dbdistance - ((stopsteps-startsteps)*0.5);
         user.setTotalDistance(dbdistance);
-       if(user.getWalkTime()==null)
+
+       if(user.getWalkTime().length()<1)
        {
            double totalwalktime = jogtimeseconds;
            user.setWalkTime(Double.toString(totalwalktime));
 
        }else {
            dbwalktime = Double.valueOf(user.getWalkTime());
-           double totalwalktime = jogtimeseconds + dbwalktime;
-           user.setWalkTime(Double.toString(totalwalktime));
-
+          double totalwalktime = jogtimeseconds + dbwalktime;
+          user.setWalkTime(Double.toString(totalwalktime));
        }
+       user.setWalkDate(currentDate);
+       
 
 
         model.updateUser(user);
