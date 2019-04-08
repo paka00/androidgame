@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
     int position = 0;
-    int ListMinValue = 0;
     ImageView imageview_maleHead;
 
     @Override
@@ -49,7 +50,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
-
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -70,15 +70,20 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int buttonID = v.getId();
         int headListMaxValue = Collections.max(maleHeadList);
+        int ListMinValue = Collections.min(maleHeadList);
+
         if (buttonID == R.id.button_head_to_left) {
-            if (position >= ListMinValue || position <= headListMaxValue) {
-                position--;
-                imageview_maleHead.setImageResource(maleHeadList.get(position));
-            }
+           // if (position >= ListMinValue || position <= headListMaxValue) {
+            //    position--;
+           //     imageview_maleHead.setImageResource(maleHeadList.get(position));
+           // }
         }
         if (buttonID == R.id.button_head_to_right) {
             if (position >= ListMinValue || position <= headListMaxValue) {
                 position++;
+                imageview_maleHead.setImageResource(maleHeadList.get(position));
+            }else if(position > maleHeadList.size()){
+                position = ListMinValue;
                 imageview_maleHead.setImageResource(maleHeadList.get(position));
             }
         }
@@ -94,4 +99,5 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
         }
     }
+
 }
