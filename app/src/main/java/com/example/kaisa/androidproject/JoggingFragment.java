@@ -426,14 +426,20 @@ public void getTime(){
         user.setTotalDistance(dbdistance);
        if(user.getWalkTime()==null)
        {
+           double totalwalktime = jogtimeseconds;
+           user.setWalkTime(Double.toString(totalwalktime));
+
+       }else {
+           dbwalktime = Double.valueOf(user.getWalkTime());
+           double totalwalktime = jogtimeseconds + dbwalktime;
+           user.setWalkTime(Double.toString(totalwalktime));
 
        }
-      //  dbwalktime=Double.valueOf(user.getWalkTime());
 
-       
 
         model.updateUser(user);
-        tv1.setText(Double.toString(user.getTotalDistance())+"  "+Double.toString(distance2));
+        tv1.setText(Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
+
 
     }
 
