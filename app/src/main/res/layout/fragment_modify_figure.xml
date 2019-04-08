@@ -57,41 +57,41 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:paddingLeft="5dp">
-            <ImageButton
-                android:id="@+id/button_head_to_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon"/>
+        <ImageButton
+            android:id="@+id/button_head_to_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon"/>
 
-            <ImageButton
-                android:id="@+id/button_torso_to_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_torso_to_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
 
-            <ImageButton
-                android:id="@+id/button_legs_to_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_legs_to_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
 
-            <ImageButton
-                android:id="@+id/button_shoes_to_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_shoes_to_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
         </LinearLayout>
 
         <RelativeLayout
@@ -102,33 +102,33 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/verGuideline1"
             app:layout_constraintRight_toLeftOf="@+id/verGuideline2">
-            <ImageView
-                android:id="@+id/imageview_male_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ukko_paa_0" />
+        <ImageView
+            android:id="@+id/imageview_male_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ukko_paa_0" />
 
-            <ImageView
-                android:id="@+id/imageview_male_torso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ukko_torso_0" />
+        <ImageView
+            android:id="@+id/imageview_male_torso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ukko_torso_0" />
 
-            <ImageView
-                android:id="@+id/imageview_male_legs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ukko_alaosa_0" />
+        <ImageView
+            android:id="@+id/imageview_male_legs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ukko_alaosa_0" />
 
-            <ImageView
-                android:id="@+id/imageview_male_feet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ukko_jalat_0" />
+        <ImageView
+            android:id="@+id/imageview_male_feet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ukko_jalat_0" />
         </RelativeLayout>
 
         <LinearLayout
@@ -140,49 +140,49 @@
             app:layout_constraintRight_toRightOf="parent"
             android:paddingRight="5dp">
 
-            <ImageButton
-                android:id="@+id/button_head_to_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:rotation="180"
-                android:scaleY="-1"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon"/>
+        <ImageButton
+            android:id="@+id/button_head_to_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:rotation="180"
+            android:scaleY="-1"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon"/>
 
-            <ImageButton
-                android:id="@+id/button_torso_to_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:rotation="180"
-                android:scaleY="-1"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_torso_to_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:rotation="180"
+            android:scaleY="-1"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
 
-            <ImageButton
-                android:id="@+id/button_legs_to_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:rotation="180"
-                android:scaleY="-1"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_legs_to_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:rotation="180"
+            android:scaleY="-1"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
 
-            <ImageButton
-                android:id="@+id/button_shoes_to_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:rotation="180"
-                android:scaleY="-1"
-                android:scaleType="centerInside"
-                android:layout_weight="1"
-                android:src="@drawable/nuoli_icon" />
+        <ImageButton
+            android:id="@+id/button_shoes_to_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:rotation="180"
+            android:scaleY="-1"
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:src="@drawable/nuoli_icon" />
 
         </LinearLayout>
 
