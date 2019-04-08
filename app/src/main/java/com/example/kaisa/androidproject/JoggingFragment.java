@@ -436,7 +436,7 @@ public void getTime(){
           user.setWalkTime(Double.toString(totalwalktime));
        }
        user.setWalkDate(currentDate);
-       
+
 
 
         model.updateUser(user);
