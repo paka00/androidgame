@@ -68,7 +68,7 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         User user = null;
 
-        String[] projection = {
+        /*String[] projection = {
                 DbContract.User.COLUMN_USERNAME,
                 DbContract.User.COLUMN_GENDER,
                 DbContract.User.COLUMN_HAT,
@@ -89,16 +89,16 @@ public class DbModel {
                 DbContract.User.COLUMN_DAILY_REWARD,
         };
 
-        String sortOrder = DbContract.User._ID + " DESC";
+        String sortOrder = DbContract.User._ID + " DESC";*/
 
         Cursor cursor = db.query(
                 DbContract.User.TABLE_NAME_USER,
-                projection,
                 null,
                 null,
                 null,
                 null,
-                sortOrder
+                null,
+                null
         );
 
         while(cursor.moveToNext()){

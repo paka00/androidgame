@@ -26,7 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +
                     DbContract.User.COLUMN_WALK_DATE + " STRING," +
                     DbContract.User.COLUMN_WALK_TIME + " STRING," +
-                    DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE)";
+                    DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE);";
 
     private static final String SQL_CREATE_CLOTHES_TABLE =
             "CREATE TABLE " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES + " (" +
