@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,7 +42,12 @@ public class AchievementsFragment extends Fragment {
     int dailySteps = 0;
     int totalSteps = 0;
     int memorysteps = 0;
-
+    double dbdistance = 0;
+    String dbwalktime ;
+    String dbjogdate;
+    TextView jogdata = null;
+    double dbdailydistance = 0;
+    AnimationDrawable wifianimation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,14 +62,18 @@ public class AchievementsFragment extends Fragment {
         boxButton = getView().findViewById(R.id.moveButton);
         character = getView().findViewById(R.id.box);
         giftimg = getView().findViewById(R.id.gift);
+        giftimg.setBackgroundResource(R.drawable.animationtest);
+        wifianimation = (AnimationDrawable) giftimg.getBackground();
+
         characterdistancetxt = getView().findViewById(R.id.distancecharacter);
         boxButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               getdbdata();
                 updatedistance();
             }
         });
-
+        jogdata = getView().findViewById(R.id.userdata);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -82,16 +92,29 @@ public class AchievementsFragment extends Fragment {
         });
 
         final DbModel model = new DbModel(getContext());
+        getdbdata();
+
+        updatedistance();
+    }
+    private void getdbdata(){
+        final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
+            dbdistance = user.getTotalDistance();
+            dbjogdate = user.getWalkDate();
+            dbwalktime = user.getWalkTime();
+            dbdailydistance = user.getDailyDistance();
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-        }
+            dbdistance = dbdistance + totalSteps*1;
+            String formattedValue = String.format("%.2f", dbdistance);
 
+            jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
+        }
 
     }
 
@@ -107,6 +130,7 @@ public class AchievementsFragment extends Fragment {
         }
     };
 
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -115,6 +139,7 @@ public class AchievementsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        getdbdata();
         updatedistance();
 
     }
@@ -127,20 +152,22 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
+
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
 
         float dpWidth = displayMetrics.widthPixels;
         percentagedistance = dpWidth / distancerange;
         travelleddistance = totalSteps;
 
+
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = distancem * percentagedistance;
-        // steps = steps +(percentagedistance*50);
-
         character.setX(distancem);
-        characterdistancetxt.setText(Float.toString(travelleddistance));
-        giftimg.setX(distancem-dpWidth/18);
+        characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
+        giftimg.setX(distancem-dpWidth/16);
+        wifianimation.start();
+
 
         if (distancem >= (dpWidth / 2)) {
             distancem = -dpWidth/1000;

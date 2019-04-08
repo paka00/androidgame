@@ -1,8 +1,10 @@
 package com.example.kaisa.androidproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,12 +43,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.os.Looper.getMainLooper;
 
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+   //yeet
     String startbuttontxt = "Start";
     Button startButton;
     public static final int RequestPermissionCode = 1;
@@ -67,13 +74,27 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     Date startTime = null;
     Date stopTime = null;
     boolean jogStarted = false;
+    String elapsedTime;
+    String currentDate;
+    NonSwipeableViewPager testPager;
+    MainActivity context;
+    DbModel model = null;
+    User user = null;
+    int startsteps = 0;
+    int stopsteps = 0;
+
+    double dbdistance = 0;
+    double dbwalktime = 0;
+    String dbwalkdate = null;
+    double jogtimeseconds = 0;
 
 
-        @Override
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_jogging, container, false);
 
 
@@ -84,6 +105,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         super.onViewCreated(view, savedInstanceState);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
+        testPager = context.viewPager;
+        initializedb();
+
 
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -126,30 +150,48 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(startbuttontxt.equals("Start"))
-                {
-                    MainActivity.navigation.setVisibility(View.INVISIBLE);
-                    MainActivity.imageButton.setEnabled(false);
-                    startbuttontxt = "Stop";
-                    startButton.setText(startbuttontxt);
-                    requestLocationUpdates();
-                    startSensor();
-                    getTime();
-                    jogStarted = true;
 
-                }
-                else{
-                    MainActivity.navigation.setVisibility(View.VISIBLE);
-                    MainActivity.imageButton.setEnabled(true);
-                    startbuttontxt ="Start";
-                    startButton.setText(startbuttontxt);
-                    fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-                    resetValues();
-                    compareTime();
-                    jogStarted = false;
+                if (ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission();
+                    Toast.makeText(getActivity(), "You need to permit location to use jog functionality", Toast.LENGTH_SHORT).show();
+
+
+
+                } else {
+                    if (startbuttontxt.equals("Start")) {
+                        context.navigation.setVisibility(View.INVISIBLE);
+                        context.imageButton.setEnabled(false);
+                        testPager.disableScroll(true);
+                        startbuttontxt = "Stop";
+                        startButton.setText(startbuttontxt);
+                        requestLocationUpdates();
+                        startSensor();
+                        getTime();
+                        jogStarted = true;
+                        startsteps=user.getSteps();
+
+
+
+                    } else {
+                        context.navigation.setVisibility(View.VISIBLE);
+                        context.imageButton.setEnabled(true);
+                        stopsteps = user.getSteps();
+
+                        startbuttontxt = "Start";
+                        startButton.setText(startbuttontxt);
+                        testPager.disableScroll(false);
+                        fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+                        compareTime();
+                        jogStarted = false;
+                        savedatatodb();
+                        resetValues();
+
+                    }
                 }
             }
         });
+
+
     }
 
 
@@ -232,11 +274,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     }
 
     public void resetValues(){
-            locationNew = null;
-            locationOld = null;
-            distance = 0;
-            distance2 = 0;
-            sensorManager.unregisterListener(sensorlistener, sensor);
+        locationNew = null;
+        locationOld = null;
+        distance = 0;
+        distance2 = 0;
+        sensorManager.unregisterListener(sensorlistener, sensor);
 
 
     }
@@ -279,6 +321,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
+
     }
 
     @Override
@@ -314,13 +357,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                                         distance = locationNew.distanceTo(locationOld);
                                         distance2 = distance + distance2;
                                         locationOld = locationNew;
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
-                                       tv1.setText("Distance:" + distance2);
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2);
                                     }
                                     else{
 
-                                       tv1.setText("Distance:" + distance2 );
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2 );
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
                                     }
                                 }
                             }
@@ -329,20 +372,67 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         }
 
     }
-public void getTime(){
+    public void getTime(){
         startTime = Calendar.getInstance().getTime();
     }
     public void compareTime(){
-            stopTime = Calendar.getInstance().getTime();
+        stopTime = Calendar.getInstance().getTime();
 
         long mills = stopTime.getTime() - startTime.getTime();
         int hours = (int)(mills/(1000*60*60));
         int mins = (int)(mills/(1000*60))%60;
         int sec = (int)(mills/1000);
         String elapsedTime=hours+":"+ mins+":"+sec;
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: "+ elapsedTime+ " "+ currentDate);
+        jogtimeseconds = sec +(mins*60)+(hours/60/60);
+
+
+    }
+    public void initializedb(){
+        model = new DbModel(getContext());
+
+        if(!model.checkIfTableEmpty()) {
+            try {
+                user = model.readUserFromDb();
+
+
+
+            } catch (SQLiteException e) {
+                if (e.getMessage().contains("no such table")) {
+                    Log.v("stepsdb", "table doesn't exist");
+                }
+            }
+        }
+        else {
+
+        }
+    }
+    public void savedatatodb(){
+
+        dbdistance = user.getTotalDistance();
+        dbdistance = dbdistance + distance2;
+        dbdistance = dbdistance - ((stopsteps-startsteps)*0.5);
+        user.setTotalDistance(dbdistance);
+
+        if(user.getWalkTime().length()<1)
+        {
+            double totalwalktime = jogtimeseconds;
+            user.setWalkTime(Double.toString(totalwalktime));
+
+        }else {
+            dbwalktime = Double.valueOf(user.getWalkTime());
+            double totalwalktime = jogtimeseconds + dbwalktime;
+            user.setWalkTime(Double.toString(totalwalktime));
+        }
+        user.setWalkDate(currentDate);
+
+
+
+        model.updateUser(user);
+        tv1.setText(Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
+
+
     }
 
-    //back nappi kysyy lenkin aikan oletko varma että halua sulkea ohjelman jos kyllä niin tallenna lenkin tiedot jos ei niin jatka lenkkiä
 }

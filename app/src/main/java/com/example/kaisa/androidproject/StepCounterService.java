@@ -30,7 +30,8 @@ public class StepCounterService extends Service implements SensorEventListener {
     int dailyStepCounter;
     int dailyStepHelper;
     int countSteps;
-    public boolean checkDailySteps = false;
+    double totalDistance;
+    double dailyDistance;
     boolean isUserCreated = true;
     boolean serviceStopped;
     private final Handler handler = new Handler();
@@ -39,7 +40,7 @@ public class StepCounterService extends Service implements SensorEventListener {
 
     @Override
     public void onCreate() {
-        final DbModel model = new DbModel(this);
+        model = new DbModel(this);
         if(!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();
@@ -62,7 +63,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             dailyStepHelper = 0;
             dailyStepCounter = 0;
             isUserCreated = false;
-            checkDailySteps = true;
+            resetDailySteps();
             Log.v("stepscounter", "total stepcounter reset");
         }
         super.onCreate();
@@ -80,18 +81,14 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepservice", "onstart");
         handler.removeCallbacks(updateBroadcastData);
         handler.post(updateBroadcastData);
-        try {
+        /*try {
             if (intent.hasExtra("reset")) {
-                if (intent.getBooleanExtra("reset", true)) {
-                    checkDailySteps = intent.getBooleanExtra("reset", true);
-                    dailyStepCounter = 0;
-                    resetDailySteps();
-                    Log.v("stepsdailycheck", "" + dailyStepCounter);
-                }
+                resetDailySteps();
+                Log.v("stepsdailyreset", "reset intent");
             }
         } catch (Exception e) {
             Log.v("stepservice", "intent null");
-        }
+        }*/
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -112,14 +109,18 @@ public class StepCounterService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
-            /*if (checkDailySteps) {
-                resetDailySteps();
-                Log.v("stepsdailycheck", "in if checkDailySteps");
-            }*/
+            User user = model.readUserFromDb();
             if (stepHelper == 0) {
                 Log.v("stepscounter", "stepcounter = 0");
                 stepHelper = (int) event.values[0];
                 dailyStepHelper = (int) event.values[0];
+            }
+            else if (user.getDailyReset() == 1){
+                resetDailySteps();
+                user.setDailyReset(0);
+                user.setDailyStepHelper(dailyStepHelper);
+                user.setDailySteps(dailyStepCounter);
+                model.updateUser(user);
             }
             totalStepCounter = countSteps - stepHelper;
             dailyStepCounter = countSteps - dailyStepHelper;
@@ -137,7 +138,6 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepscounter", "resetDailySteps");
         dailyStepHelper = countSteps;
         dailyStepCounter = 0;
-        checkDailySteps = false;
     }
 
     private Runnable updateBroadcastData = new Runnable() {
@@ -155,21 +155,29 @@ public class StepCounterService extends Service implements SensorEventListener {
         Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
+        totalDistance = totalStepCounter * 0.000762;
+        dailyDistance = dailyStepCounter * 0.000762;
+        User user = model.readUserFromDb();
         if(!isUserCreated) {
-            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0);
+            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
             model.addUserToDb(newUser);
             isUserCreated = true;
+            stepHelper = countSteps;
+        }
+        else if (user.getDailyReset() == 1){
+            resetDailySteps();
+            user.setDailyReset(0);
+            user.setDailyStepHelper(dailyStepHelper);
+            user.setDailySteps(dailyStepCounter);
+            model.updateUser(user);
         }
         else {
-            User user = model.readUserFromDb();
-            if (user.getDailySteps() == 0 && checkDailySteps){
-                resetDailySteps();
-                Log.v("stepscounter", "broadcastSteps resetDailySteps");
-            }
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
             user.setStepHelper(stepHelper);
+            //user.setTotalDistance(totalDistance);
+            user.setDailyDistance(dailyDistance);
             model.updateUser(user);
         }
         intent.putExtra("steps_int", totalStepCounter);
@@ -184,12 +192,12 @@ public class StepCounterService extends Service implements SensorEventListener {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.SECOND, 0);
         Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarmMgr = (AlarmManager)StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmMgr.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmPendingIntent);
         Log.v("stepsalarm", "alarm set");
     }
