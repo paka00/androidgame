@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/tw"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_torso" />
+            android:src="@drawable/ukko_torso_0" />
 
         <ImageView
             android:id="@+id/imageview_male_legs"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/tw"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_alaosa" />
+            android:src="@drawable/ukko_alaosa_0" />
 
         <ImageView
             android:id="@+id/imageview_male_feet"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/tw"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_jalat" />
+            android:src="@drawable/ukko_jalat_0" />
 
 
         <ImageButton
@@ -170,7 +170,7 @@
             android:id="@+id/button_male"
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:background="@drawable/sukupuoli_man"
+            android:background="@drawable/sukupuoli_ukko"
             android:button="@null" />
 
 
