@@ -45,7 +45,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
 
-        ImageButton button_head_to_right = getView().findViewById(R.id.button_headt_to_right);
+        ImageButton button_head_to_right = getView().findViewById(R.id.button_head_to_right);
         button_head_to_right.setOnClickListener(this);
 
         Button doneButton = getView().findViewById(R.id.done_button);
@@ -84,7 +84,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
             setImage();
         }
-        if (buttonID == R.id.button_headt_to_right) {
+        if (buttonID == R.id.button_head_to_right) {
             if(position >= maleHeadList.size()-1){
                 position = ListMinValue;
             }else{
