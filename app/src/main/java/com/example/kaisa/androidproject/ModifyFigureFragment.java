@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,11 @@ import java.util.ArrayList;
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
 
     ArrayList<Integer> maleHeadList = new ArrayList<Integer>();
+    ArrayList<Integer> maleTorsoList = new ArrayList<Integer>();
     int position = 0;
-    int ListMinValue = 0;
-    ImageView imageview_maleHead;
-
-    ImageView imageView, imageView1;
+    int listMinValue = 0;
+    ImageView imageview_maleHead, imageview_maleTorso;
     MainActivity context;
-    public Button buttonHat, buttonMale, buttonFemale, buttonCancel, doneButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,17 +35,34 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         imageview_maleHead = getView().findViewById(R.id.imageview_male_head);
-        maleHeadList.add(R.drawable.ukko_paa_rajattu);
-        maleHeadList.add(R.drawable.mies_paa_1);
-
-        imageview_maleHead.setImageResource(maleHeadList.get(position));
-
+        //addToMaleHeadList();
+        imageview_maleTorso = getView().findViewById(R.id.imageview_male_torso);
+        //addToMaleTorsoList();
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
 
         ImageButton button_head_to_right = getView().findViewById(R.id.button_head_to_right);
         button_head_to_right.setOnClickListener(this);
+
+        ImageButton button_torso_to_left = getView().findViewById(R.id.button_torso_to_left);
+        button_torso_to_left.setOnClickListener(this);
+
+        ImageButton button_torso_to_right = getView().findViewById(R.id.button_torso_to_right);
+        button_torso_to_right.setOnClickListener(this);
+
+        ImageButton button_legs_to_left = getView().findViewById(R.id.button_legs_to_left);
+        button_legs_to_left.setOnClickListener(this);
+
+        ImageButton button_legs_to_right = getView().findViewById(R.id.button_legs_to_right);
+        button_legs_to_right.setOnClickListener(this);
+
+        ImageButton button_shoes_to_left = getView().findViewById(R.id.button_shoes_to_left);
+        button_shoes_to_left.setOnClickListener(this);
+
+        ImageButton button_shoes_to_right = getView().findViewById(R.id.button_shoes_to_right);
+        button_shoes_to_right.setOnClickListener(this);
 
         Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
@@ -78,20 +92,22 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int buttonID = v.getId();
         if (buttonID == R.id.button_head_to_left) {
-            if (position <= ListMinValue){
+            if (position <= listMinValue){
                 position = maleHeadList.size()-1;
             }else {
                 position--;
+                Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show();
             }
-            setImage();
+            setMaleHeadImage();
         }
         if (buttonID == R.id.button_head_to_right) {
             if(position >= maleHeadList.size()-1){
-                position = ListMinValue;
+                position = listMinValue;
             }else{
                 position++;
+                Toast.makeText(context, "asdasd", Toast.LENGTH_SHORT).show();
             }
-            setImage();
+            setMaleHeadImage();
         }
 
         if(buttonID == R.id.done_button){
@@ -105,12 +121,27 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
 
         }
+        if(buttonID == R.id.button_torso_to_left){
+            if(position <= maleTorsoList.size()-1){
+                position = listMinValue;
+            }else{
+                position--;
+            }
+            setMaleTorsoImage();
+        }
+        if(buttonID == R.id.button_torso_to_right){
+            if(position >= maleTorsoList.size()-1){
+                position = listMinValue;
+            }else{
+                position++;
+            }
+            setMaleTorsoImage();
+        }
     }
 
 
-    public void setImage(){
-        imageview_maleHead.setImageResource(maleHeadList.get(position));
-    }
+    public void setMaleHeadImage(){imageview_maleHead.setImageResource(maleHeadList.get(position));}
+    public void setMaleTorsoImage(){imageview_maleTorso.setImageResource(maleTorsoList.get(position));}
 
 
     public void createNewFigure() {
@@ -121,4 +152,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         context.databaseEmpty = false;
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
+
+    public void addToMaleHeadList(){
+        imageview_maleHead.setImageResource(maleHeadList.get(position));
+        maleHeadList.add(R.drawable.ukko_paa_0);
+        maleHeadList.add(R.drawable.ukko_paa_1);
+    }
+
+    public void addToMaleTorsoList(){
+        imageview_maleTorso.setImageResource(maleHeadList.get(position));
+        maleTorsoList.add(R.drawable.ukko_torso_0);
+        //maleTorsoList.add(R.drawable.ukko_torso_1);
+    }
+
 }
