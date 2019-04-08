@@ -156,7 +156,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void addToMaleHeadList(){
         imageview_maleHead.setImageResource(maleHeadList.get(position));
         maleHeadList.add(R.drawable.ukko_paa_0);
-        maleHeadList.add(R.drawable.ukko_paa_1);
+        //maleHeadList.add(R.drawable.ukko_paa_1);
     }
 
     public void addToMaleTorsoList(){
