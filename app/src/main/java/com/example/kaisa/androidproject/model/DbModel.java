@@ -42,10 +42,10 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_DAILY_DISTANCE, addable.dailyDistance);
         userValues.put(DbContract.User.COLUMN_AVERAGE_SPEED, addable.averageSpeed);
         userValues.put(DbContract.User.COLUMN_WALK_DATE, addable.walkDate);
-        userValues.put(DbContract.User.COLUMN_WALK_TIME, addable.walkDate);
+        userValues.put(DbContract.User.COLUMN_WALK_TIME, addable.walkTime);
         userValues.put(DbContract.User.COLUMN_WALK_DISTANCE, addable.walkDistance);
         userValues.put(DbContract.User.COLUMN_DAILY_REWARD, addable.dailyReward);
-        userValues.put(DbContract.User.COLUMN_DAILY_RESET, addable.dailyReward);
+        userValues.put(DbContract.User.COLUMN_DAILY_RESET, addable.dailyReset);
 
         ContentValues clothesValues = new ContentValues();
         clothesValues.put(DbContract.ClothesUnlocks._ID, 1);
