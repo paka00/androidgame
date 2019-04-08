@@ -50,6 +50,7 @@ import static android.os.Looper.getMainLooper;
 
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+   //yeet
     String startbuttontxt = "Start";
     Button startButton;
     public static final int RequestPermissionCode = 1;
@@ -89,7 +90,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
 
 
-        @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -273,11 +274,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     }
 
     public void resetValues(){
-            locationNew = null;
-            locationOld = null;
-            distance = 0;
-            distance2 = 0;
-            sensorManager.unregisterListener(sensorlistener, sensor);
+        locationNew = null;
+        locationOld = null;
+        distance = 0;
+        distance2 = 0;
+        sensorManager.unregisterListener(sensorlistener, sensor);
 
 
     }
@@ -356,13 +357,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                                         distance = locationNew.distanceTo(locationOld);
                                         distance2 = distance + distance2;
                                         locationOld = locationNew;
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
-                                       tv1.setText("Distance:" + distance2);
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2);
                                     }
                                     else{
 
-                                       tv1.setText("Distance:" + distance2 );
-                                       tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
+                                        tv1.setText("Distance:" + distance2 );
+                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude()+" nopeus " +totalacceleration);
                                     }
                                 }
                             }
@@ -371,11 +372,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         }
 
     }
-public void getTime(){
+    public void getTime(){
         startTime = Calendar.getInstance().getTime();
     }
     public void compareTime(){
-            stopTime = Calendar.getInstance().getTime();
+        stopTime = Calendar.getInstance().getTime();
 
         long mills = stopTime.getTime() - startTime.getTime();
         int hours = (int)(mills/(1000*60*60));
@@ -389,7 +390,7 @@ public void getTime(){
 
     }
     public void initializedb(){
-             model = new DbModel(getContext());
+        model = new DbModel(getContext());
 
         if(!model.checkIfTableEmpty()) {
             try {
@@ -408,34 +409,23 @@ public void getTime(){
         }
     }
     public void savedatatodb(){
-        /*dbdistance = user2.getTotalDistance();
-        dbwalktime = Double.valueOf(user2.getWalkTime());
-            dbdistance = dbdistance + distance2;
-            user2.setDailyDistance(distance2);
-            user2.setTotalDistance(dbdistance);
-            user2.setWalkDate(currentDate);
-            dbwalktime=Double.valueOf(user2.getWalkTime());
-            dbwalktime= dbwalktime+jogtimeseconds;
 
-            user2.setWalkTime(Double.toString(dbwalktime));
-
-            model.updateUser(user2);*/
         dbdistance = user.getTotalDistance();
         dbdistance = dbdistance + distance2;
         dbdistance = dbdistance - ((stopsteps-startsteps)*0.5);
         user.setTotalDistance(dbdistance);
 
-       if(user.getWalkTime().length()<1)
-       {
-           double totalwalktime = jogtimeseconds;
-           user.setWalkTime(Double.toString(totalwalktime));
+        if(user.getWalkTime().length()<1)
+        {
+            double totalwalktime = jogtimeseconds;
+            user.setWalkTime(Double.toString(totalwalktime));
 
-       }else {
-           dbwalktime = Double.valueOf(user.getWalkTime());
-          double totalwalktime = jogtimeseconds + dbwalktime;
-          user.setWalkTime(Double.toString(totalwalktime));
-       }
-       user.setWalkDate(currentDate);
+        }else {
+            dbwalktime = Double.valueOf(user.getWalkTime());
+            double totalwalktime = jogtimeseconds + dbwalktime;
+            user.setWalkTime(Double.toString(totalwalktime));
+        }
+        user.setWalkDate(currentDate);
 
 
 
