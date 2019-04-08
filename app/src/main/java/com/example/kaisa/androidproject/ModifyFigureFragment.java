@@ -1,5 +1,6 @@
 package com.example.kaisa.androidproject;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +49,20 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
         ImageButton button_torso_to_right = getView().findViewById(R.id.button_torso_to_right);
         button_torso_to_right.setOnClickListener(this);
+
+        ImageButton button_legs_to_left = getView().findViewById(R.id.button_legs_to_left);
+        button_legs_to_left.setOnClickListener(this);
+
+        ImageButton button_legs_to_right = getView().findViewById(R.id.button_legs_to_right);
+        button_legs_to_right.setOnClickListener(this);
+
+        ImageButton button_shoes_to_left = getView().findViewById(R.id.button_shoes_to_left);
+        button_shoes_to_left.setOnClickListener(this);
+
+        ImageButton button_shoes_to_right = getView().findViewById(R.id.button_shoes_to_right);
+        button_shoes_to_right.setOnClickListener(this);
+
+
 
         Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
