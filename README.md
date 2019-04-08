@@ -1,3 +1,3 @@
 # androidgame
 
-This is going to be great game! 
+This is great mobile game!
