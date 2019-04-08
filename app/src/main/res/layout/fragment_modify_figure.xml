@@ -7,12 +7,14 @@
     android:background="@drawable/hahmonluonti"
     android:gravity="center"
     android:orientation="vertical"
+    android:id="@+id/test"
     tools:context=".ModifyFigureFragment">
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textSize="25dp"
         android:gravity="center"
         android:text="Nimi"
         android:textColor="#f9dea2" />
@@ -54,8 +56,8 @@
             android:src="@drawable/nuoli_icon" />
 
         <ImageButton
-            android:layout_width="35dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginTop="280dp"
             android:layout_toLeftOf="@id/imageview_male_head"
             android:background="@null"
