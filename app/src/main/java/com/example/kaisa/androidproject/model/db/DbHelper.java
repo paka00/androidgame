@@ -16,7 +16,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_PANTS + " INTEGER," +
                     DbContract.User.COLUMN_SHOES + " INTEGER," +
                     DbContract.User.COLUMN_LEVEL + " INTEGER," +
-                    DbContract.User.COLUMN_DAILY_REWARD + " BOOLEAN," +
+                    DbContract.User.COLUMN_DAILY_REWARD + " INTEGER," +
+                    DbContract.User.COLUMN_DAILY_RESET + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_STEP_COUNTER_HELPER + " INTEGER," +
