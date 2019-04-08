@@ -110,7 +110,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
             User user = model.readUserFromDb();
-            if (user.getTotalSteps() == 0) {
+            if (stepHelper == 0) {
                 Log.v("stepscounter", "stepcounter = 0");
                 stepHelper = (int) event.values[0];
                 dailyStepHelper = (int) event.values[0];
@@ -162,6 +162,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
             model.addUserToDb(newUser);
             isUserCreated = true;
+            stepHelper = countSteps;
         }
         else if (user.getDailyReset() == 1){
             resetDailySteps();
