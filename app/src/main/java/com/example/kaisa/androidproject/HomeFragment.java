@@ -79,7 +79,9 @@ public class HomeFragment extends Fragment {
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SplashScreenReward.class);
+                Intent intent = new Intent(getActivity(), SplashScreenReward.class);
+                intent.putExtra("ID",1);
+                intent.putExtra("TYPE", "torso");
                 startActivity(intent);
             }
         });
