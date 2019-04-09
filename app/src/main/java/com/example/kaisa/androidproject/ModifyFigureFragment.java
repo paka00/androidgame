@@ -315,7 +315,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleTorsoList(){
-        maleTorsoList.add(R.drawable.ukko_torso_0);
+        maleTorsoList.add(R.drawable.ukko_torso_1);
         maleTorsoList.add(R.drawable.ukko_torso_1);
     }
 
