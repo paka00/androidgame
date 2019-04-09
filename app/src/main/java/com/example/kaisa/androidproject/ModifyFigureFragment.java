@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
+
 import java.util.ArrayList;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
@@ -25,8 +28,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     ArrayList<Integer> femaleTorsoList = new ArrayList<Integer>();
     ArrayList<Integer> femaleLegList = new ArrayList<Integer>();
     ArrayList<Integer> femaleFeetList = new ArrayList<Integer>();
-    int position = 0;
-    String gender;
+    int headPosition = 0;
+    int torsoPosition = 0;
+    int legPosition = 0;
+    int feetPosition = 0;
+    int gender = 0;
     int listMinValue = 0;
     ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet;
     MainActivity context;
@@ -133,151 +139,151 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
         }
 
-        if (gender == "male") {                                              //IF CHARACTER IS MALE
+        if (gender == 0) {                                              //IF CHARACTER IS MALE
             switch (v.getId()){
                 case R.id.button_head_to_left:                              //head left
-                    if (position <= listMinValue) {
-                        position = maleHeadList.size() - 1;
+                    if (headPosition <= listMinValue) {
+                        headPosition = maleHeadList.size() - 1;
                     } else {
-                        position--;
+                        headPosition--;
                     }
                     setMaleHeadImage();
                     break;
 
                 case R.id.button_head_to_right:                            //head right
-                    if (position >= maleHeadList.size() - 1) {
-                        position = listMinValue;
+                    if (headPosition >= maleHeadList.size() - 1) {
+                        headPosition = listMinValue;
                     } else {
-                        position++;
+                        headPosition++;
                     }
                     setMaleHeadImage();
                     break;
 
                 case R.id.button_torso_to_left:                         //torso left
-                    if (position <= listMinValue) {
-                        position = maleHeadList.size() -1;
+                    if (torsoPosition <= listMinValue) {
+                        torsoPosition = maleHeadList.size() -1;
                     } else {
-                        position--;
+                        torsoPosition--;
                     }
                     setMaleTorsoImage();
                     break;
 
                 case R.id.button_torso_to_right:                        //torso right
-                    if (position >= maleTorsoList.size() - 1) {
-                        position = listMinValue;
+                    if (torsoPosition >= maleTorsoList.size() - 1) {
+                        torsoPosition = listMinValue;
                     } else {
-                        position++;
+                        torsoPosition++;
                     }
                     setMaleTorsoImage();
                     break;
 
                 case R.id.button_legs_to_left:                          //legs left
-                    if (position <= listMinValue) {
-                        position = maleLegList.size()-1;
+                    if (legPosition <= listMinValue) {
+                        legPosition = maleLegList.size()-1;
                     } else {
-                        position--;
+                        legPosition--;
                     }
                     setMaleLegImage();
                     break;
 
                 case R.id.button_legs_to_right:                         //legs right
-                    if (position >= maleLegList.size() - 1) {
-                        position = listMinValue;
+                    if (legPosition >= maleLegList.size() - 1) {
+                        legPosition = listMinValue;
                     } else {
-                        position++;
+                        legPosition++;
                     }
                     setMaleLegImage();
                     break;
 
                 case R.id.button_feet_to_left:                          //feet left
-                    if (position <= listMinValue) {
-                        position = maleFeetList.size()-1;
+                    if (feetPosition <= listMinValue) {
+                        feetPosition = maleFeetList.size()-1;
                     } else {
-                        position--;
+                        feetPosition--;
                     }
                     setMaleFeetImage();
                     break;
 
                 case R.id.button_feet_to_right:                         //feet right
-                    if (position >= maleFeetList.size() - 1) {
-                        position = listMinValue;
+                    if (feetPosition >= maleFeetList.size() - 1) {
+                        feetPosition = listMinValue;
                     } else {
-                        position++;
+                        feetPosition++;
                     }
                     setMaleFeetImage();
                     break;
             }
         }
-        if(gender == "female"){                                       //IF CHARACTER IS FEMALE
+        if(gender == 1){                                       //IF CHARACTER IS FEMALE
             switch (v.getId()){
                 case R.id.button_head_to_left:                              //head left
-                    if (position <= listMinValue) {
-                        position = femaleHeadList.size() - 1;
+                    if (headPosition <= listMinValue) {
+                        headPosition = femaleHeadList.size() - 1;
                     } else {
-                        position--;
+                        headPosition--;
                     }
                     setFemaleHeadImage();
                     break;
 
                 case R.id.button_head_to_right:                            //head right
-                    if (position >= femaleHeadList.size() - 1) {
-                        position = listMinValue;
+                    if (headPosition >= femaleHeadList.size() - 1) {
+                        headPosition = listMinValue;
                     } else {
-                        position++;
+                        headPosition++;
                     }
                     setFemaleHeadImage();
                     break;
 
                 case R.id.button_torso_to_left:                         //torso left
-                    if (position <= listMinValue) {
-                        position = femaleHeadList.size() -1;
+                    if (torsoPosition <= listMinValue) {
+                        torsoPosition = femaleHeadList.size() -1;
                     } else {
-                        position--;
+                        torsoPosition--;
                     }
                     setFemaleTorsoImage();
                     break;
 
                 case R.id.button_torso_to_right:                        //torso right
-                    if (position >= femaleTorsoList.size() - 1) {
-                        position = listMinValue;
+                    if (torsoPosition >= femaleTorsoList.size() - 1) {
+                        torsoPosition = listMinValue;
                     } else {
-                        position++;
+                        torsoPosition++;
                     }
                     setFemaleTorsoImage();
                     break;
 
                 case R.id.button_legs_to_left:                          //legs left
-                    if (position <= listMinValue) {
-                        position = femaleLegList.size()-1;
+                    if (legPosition <= listMinValue) {
+                        legPosition = femaleLegList.size()-1;
                     } else {
-                        position--;
+                        legPosition--;
                     }
                     setFemaleLegImage();
                     break;
 
                 case R.id.button_legs_to_right:                         //legs right
-                    if (position >= femaleLegList.size() - 1) {
-                        position = listMinValue;
+                    if (legPosition >= femaleLegList.size() - 1) {
+                        legPosition = listMinValue;
                     } else {
-                        position++;
+                        legPosition++;
                     }
                     setFemaleLegImage();
                     break;
 
                 case R.id.button_feet_to_left:                          //feet left
-                    if (position <= listMinValue) {
-                        position = femaleFeetList.size()-1;
+                    if (feetPosition <= listMinValue) {
+                        feetPosition = femaleFeetList.size()-1;
                     } else {
-                        position--;
+                        feetPosition--;
                     }
                     setFemaleFeetImage();
                     break;
 
                 case R.id.button_feet_to_right:                         //feet right
-                    if (position >= femaleFeetList.size() - 1) {
-                        position = listMinValue;
+                    if (feetPosition >= femaleFeetList.size() - 1) {
+                        feetPosition = listMinValue;
                     } else {
-                        position++;
+                        feetPosition++;
                     }
                     setFemaleFeetImage();
                     break;
@@ -285,14 +291,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    public void setMaleHeadImage(){imageview_head.setImageResource(maleHeadList.get(position));}
-    public void setMaleTorsoImage(){ imageview_torso.setImageResource(maleTorsoList.get(position));}
-    public void setMaleLegImage(){ imageview_legs.setImageResource(maleLegList.get(position));}
-    public void setMaleFeetImage(){imageview_feet.setImageResource(maleFeetList.get(position));}
-    public void setFemaleHeadImage(){imageview_head.setImageResource(femaleHeadList.get(position));}
-    public void setFemaleTorsoImage(){ imageview_torso.setImageResource(femaleTorsoList.get(position));}
-    public void setFemaleLegImage(){ imageview_legs.setImageResource(femaleLegList.get(position));}
-    public void setFemaleFeetImage(){imageview_feet.setImageResource(femaleFeetList.get(position));}
+    public void setMaleHeadImage(){imageview_head.setImageResource(maleHeadList.get(headPosition));}
+    public void setMaleTorsoImage(){ imageview_torso.setImageResource(maleTorsoList.get(torsoPosition));}
+    public void setMaleLegImage(){ imageview_legs.setImageResource(maleLegList.get(legPosition));}
+    public void setMaleFeetImage(){imageview_feet.setImageResource(maleFeetList.get(feetPosition));}
+    public void setFemaleHeadImage(){imageview_head.setImageResource(femaleHeadList.get(headPosition));}
+    public void setFemaleTorsoImage(){ imageview_torso.setImageResource(femaleTorsoList.get(torsoPosition));}
+    public void setFemaleLegImage(){ imageview_legs.setImageResource(femaleLegList.get(legPosition));}
+    public void setFemaleFeetImage(){imageview_feet.setImageResource(femaleFeetList.get(feetPosition));}
 
     public void createNewFigure() {
         context.viewPager.disableScroll(false);
@@ -323,14 +329,22 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         maleFeetList.add(R.drawable.ukko_shoes_1);
     }
     public void setFemaleCharacter(){
-        gender = "female";
+        gender = 1;
+        headPosition = 0;
+        torsoPosition = 0;
+        legPosition = 0;
+        feetPosition = 0;
         imageview_head.setImageResource(R.drawable.akka_paa_0);
         imageview_torso.setImageResource(R.drawable.akka_torso_0);
         imageview_legs.setImageResource(R.drawable.akka_pants_0);
         imageview_feet.setImageResource(R.drawable.akka_shoes_0);
     }
     public void setMaleCharacter(){
-        gender = "male";
+        gender = 0;
+        headPosition = 0;
+        torsoPosition = 0;
+        legPosition = 0;
+        feetPosition = 0;
         imageview_head.setImageResource(R.drawable.ukko_paa_0);
         imageview_torso.setImageResource(R.drawable.ukko_torso_0);
         imageview_legs.setImageResource(R.drawable.ukko_pants_0);
@@ -354,4 +368,18 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         femaleFeetList.add(R.drawable.akka_shoes_0);
         femaleFeetList.add(R.drawable.akka_shoes_1);
     }
+
+    /*public void saveClothesToDababase () {
+        DbModel model = new DbModel(getContext());
+        if(model.checkIfTableEmpty()) {
+            User user = new User()
+        }
+        else {
+            User user = model.readUserFromDb();
+            user.setGender(gender);
+            if(gender == 0){
+                user.setHat(headPosition);
+            }
+        }
+    }*/
 }
