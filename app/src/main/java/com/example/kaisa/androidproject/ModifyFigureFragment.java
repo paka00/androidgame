@@ -113,6 +113,13 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             setFemaleFeetImage();
         }
 
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+            int clothes = bundle.getInt("clothes");
+            int rand = bundle.getInt("randClothes");
+        }
+
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -178,7 +185,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = maleHeadList.size() -1;
+                        torsoPosition = maleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }
@@ -253,7 +260,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = femaleHeadList.size() -1;
+                        torsoPosition = femaleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }

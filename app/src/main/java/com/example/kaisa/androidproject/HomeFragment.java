@@ -48,9 +48,11 @@ public class HomeFragment extends Fragment {
     int max = 10;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
-
-
-
+    int clothes;
+    int hat;
+    int shirt;
+    int pants;
+    int shoes;
 
 
     @Override
@@ -199,7 +201,7 @@ public class HomeFragment extends Fragment {
         model = new DbModel(getContext());
         User user = model.readUserFromDb();
         Random clothesRandom = new Random();
-        int clothes = clothesRandom.nextInt(4);
+        clothes = clothesRandom.nextInt(4);
         Log.v("clothes", "clothes type = " + clothes);
         if(!checkedValues.contains(clothes) && checkIfAllUnlocked(clothes)) {
             Log.v("clothes", "clothes type full");
@@ -217,7 +219,7 @@ public class HomeFragment extends Fragment {
         else {
             switch (clothes) {
                 case 0:
-                    int hat = randomInt(max);
+                    hat = randomInt(max);
                     Log.v("clothes", "random hat = " + hat);
                     clothesArrayList = model.readHats();
                     while (clothesArrayList.contains(hat)) {
@@ -225,10 +227,11 @@ public class HomeFragment extends Fragment {
                         Log.v("clothes", "random hat was in db, new random hat = " + hat);
                     }
                     model.addHat(hat);
+                    sendRandomClothes(hat);
                     Log.v("clothes", "added hat to db");
                     break;
                 case 1:
-                    int shirt = randomInt(max);
+                    shirt = randomInt(max);
                     Log.v("clothes", "random shirt = " + shirt);
                     clothesArrayList = model.readShirts();
                     while (clothesArrayList.contains(shirt)) {
@@ -236,10 +239,11 @@ public class HomeFragment extends Fragment {
                         Log.v("clothes", "random shirt was in db, new random hat = " + shirt);
                     }
                     model.addShirt(shirt);
+                    sendRandomClothes(shirt);
                     Log.v("clothes", "added shirt to db");
                     break;
                 case 2:
-                    int pants = randomInt(max);
+                    pants = randomInt(max);
                     Log.v("clothes", "random pants = " + pants);
                     clothesArrayList = model.readPants();
                     while (clothesArrayList.contains(pants)) {
@@ -247,10 +251,11 @@ public class HomeFragment extends Fragment {
                         Log.v("clothes", "random pants was in db, new random hat = " + pants);
                     }
                     model.addPants(pants);
+                    sendRandomClothes(pants);
                     Log.v("clothes", "added pants to db");
                     break;
                 case 3:
-                    int shoes = randomInt(max);
+                    shoes = randomInt(max);
                     Log.v("clothes", "random shoes = " + shoes);
                     clothesArrayList = model.readShoes();
                     while (clothesArrayList.contains(shoes)) {
@@ -258,6 +263,7 @@ public class HomeFragment extends Fragment {
                         Log.v("clothes", "random shoes was in db, new random hat = " + shoes);
                     }
                     model.addShoes(shoes);
+                    sendRandomClothes(shoes);
                     Log.v("clothes", "added shoes to db");
                     break;
             }
@@ -292,5 +298,19 @@ public class HomeFragment extends Fragment {
             bool = true;
         }
         return bool;
+    }
+
+    public void sendRandomClothes(int rand) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("clothes", clothes);
+        bundle.putInt("randClothes", rand);
+
+        ModifyFigureFragment fragment = new ModifyFigureFragment();
+        fragment.setArguments(bundle);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
     }
 }
