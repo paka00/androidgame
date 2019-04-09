@@ -88,9 +88,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        checkIfUserExist();
-        Log.d("onCreate","oncreatessa");
         setupViewpager(viewPager);
+        checkIfUserExist();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -169,5 +168,4 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setCurrentItem(0);
         }
     }
-
 }
