@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
+
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
@@ -87,8 +88,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        setupViewpager(viewPager);
         checkIfUserExist();
+        Log.d("onCreate","oncreatessa");
+        setupViewpager(viewPager);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
