@@ -11,6 +11,7 @@
 
 
     <EditText
+        android:id="@+id/name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
@@ -19,6 +20,7 @@
         android:textSize="20dp"
         android:hint="Name your character"
         android:textColorHint="@android:color/darker_gray"
+        android:background="@null"
         android:textColor="#f9dea2" />
 
     <android.support.constraint.Guideline
@@ -49,14 +51,28 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
 
+        <android.support.constraint.Guideline
+            android:id="@+id/verGuideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.10" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/verGuideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.90" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintRight_toLeftOf="@+id/verGuideline1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/verGuideline3"
             android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp">
+            android:gravity="center_vertical">
+
         <ImageButton
             android:id="@+id/button_head_to_left"
             android:layout_width="wrap_content"
@@ -85,7 +101,7 @@
             android:src="@drawable/nuoli_icon" />
 
         <ImageButton
-            android:id="@+id/button_shoes_to_left"
+            android:id="@+id/button_feet_to_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -103,32 +119,32 @@
             app:layout_constraintLeft_toRightOf="@id/verGuideline1"
             app:layout_constraintRight_toLeftOf="@+id/verGuideline2">
         <ImageView
-            android:id="@+id/imageview_male_head"
+            android:id="@+id/imageview_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ukko_paa_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_torso"
+            android:id="@+id/imageview_torso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ukko_torso_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_legs"
+            android:id="@+id/imageview_legs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_alaosa_0" />
+            android:src="@drawable/ukko_pants_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_feet"
+            android:id="@+id/imageview_feet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_jalat_0" />
+            android:src="@drawable/ukko_shoes_0" />
         </RelativeLayout>
 
         <LinearLayout
@@ -137,8 +153,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
             app:layout_constraintLeft_toRightOf="@+id/verGuideline2"
-            app:layout_constraintRight_toRightOf="parent"
-            android:paddingRight="5dp">
+            app:layout_constraintRight_toRightOf="@id/verGuideline4">
 
         <ImageButton
             android:id="@+id/button_head_to_right"
@@ -174,7 +189,7 @@
             android:src="@drawable/nuoli_icon" />
 
         <ImageButton
-            android:id="@+id/button_shoes_to_right"
+            android:id="@+id/button_feet_to_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -242,16 +257,5 @@
             app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/test_navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
-
 
 </android.support.constraint.ConstraintLayout>
