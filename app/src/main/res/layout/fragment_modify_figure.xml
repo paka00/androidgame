@@ -50,14 +50,28 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
 
+        <android.support.constraint.Guideline
+            android:id="@+id/verGuideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.10" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/verGuideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.90" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintRight_toLeftOf="@+id/verGuideline1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/verGuideline3"
             android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp">
+            android:gravity="center_vertical">
+
         <ImageButton
             android:id="@+id/button_head_to_left"
             android:layout_width="wrap_content"
@@ -138,8 +152,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
             app:layout_constraintLeft_toRightOf="@+id/verGuideline2"
-            app:layout_constraintRight_toRightOf="parent"
-            android:paddingRight="5dp">
+            app:layout_constraintRight_toRightOf="@id/verGuideline4">
 
         <ImageButton
             android:id="@+id/button_head_to_right"
