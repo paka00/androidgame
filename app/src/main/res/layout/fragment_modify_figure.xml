@@ -11,7 +11,7 @@
 
 
     <EditText
-        android:inputType="textNoSuggestions"
+        android:id="@+id/name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"

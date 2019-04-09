@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -34,8 +35,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     int feetPosition = 0;
     int gender = 0;
     int listMinValue = 0;
+    String name;
     ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet;
     MainActivity context;
+    EditText nameEditText = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +51,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        nameEditText = getView().findViewById(R.id.name_edit_text);
         imageview_head = getView().findViewById(R.id.imageview_head);
         addToMaleHeadList();
         imageview_torso = getView().findViewById(R.id.imageview_torso);
@@ -94,8 +98,20 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
-
-
+        readClothesFromDatabase();
+        nameEditText.setText(name);
+        if(gender == 0){
+            setMaleHeadImage();
+            setMaleTorsoImage();
+            setMaleLegImage();
+            setMaleFeetImage();
+        }
+        else {
+            setFemaleHeadImage();
+            setFemaleTorsoImage();
+            setFemaleLegImage();
+            setFemaleFeetImage();
+        }
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -133,6 +149,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 //If database is empty
                 createNewFigure();
             } else {
+                saveClothesToDatabase();
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 //Tietojentallennus tietokantaan
             }
@@ -305,6 +322,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         context.navigation.setVisibility(View.VISIBLE);
         context.imageButton.setVisibility(View.VISIBLE);
         context.viewPager.setCurrentItem(0);
+        saveClothesToDatabase();
         context.databaseEmpty = false;
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
@@ -369,17 +387,43 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         femaleFeetList.add(R.drawable.akka_shoes_1);
     }
 
-    /*public void saveClothesToDababase () {
+    public void saveClothesToDatabase() {
         DbModel model = new DbModel(getContext());
+        name = nameEditText.getText().toString();
         if(model.checkIfTableEmpty()) {
-            User user = new User()
+            User user = new User(name, gender, headPosition + 1, torsoPosition + 1, legPosition + 1, feetPosition + 1, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0, 0);
+            model.addUserToDb(user);
         }
         else {
             User user = model.readUserFromDb();
+            user.setName(name);
             user.setGender(gender);
-            if(gender == 0){
-                user.setHat(headPosition);
-            }
+            user.setHat(headPosition + 1);
+            user.setShirt(torsoPosition + 1);
+            user.setPants(legPosition + 1);
+            user.setShoes(feetPosition + 1);
+            model.updateUser(user);
         }
-    }*/
+    }
+
+    public void readClothesFromDatabase() {
+        DbModel model = new DbModel(getContext());
+        if (!model.checkIfTableEmpty()){
+            User user = model.readUserFromDb();
+            name = user.getName();
+            gender = user.getGender();
+            headPosition = (user.getHat() - 1);
+            torsoPosition = (user.getShirt() - 1);
+            legPosition = (user.getPants() - 1);
+            feetPosition = (user.getShoes() - 1);
+        }
+        else {
+            name = "";
+            gender = 0;
+            headPosition = 0;
+            torsoPosition = 0;
+            legPosition = 0;
+            feetPosition = 0;
+        }
+    }
 }
