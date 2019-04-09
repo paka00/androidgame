@@ -20,6 +20,7 @@
         android:textSize="20dp"
         android:hint="Name your character"
         android:textColorHint="@android:color/darker_gray"
+        android:background="@null"
         android:textColor="#f9dea2" />
 
     <android.support.constraint.Guideline
@@ -243,6 +244,5 @@
             app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
 
 </android.support.constraint.ConstraintLayout>
