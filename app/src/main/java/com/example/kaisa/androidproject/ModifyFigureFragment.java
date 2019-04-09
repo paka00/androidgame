@@ -178,7 +178,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = maleHeadList.size() -1;
+                        torsoPosition = maleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }
@@ -253,7 +253,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = femaleHeadList.size() -1;
+                        torsoPosition = femaleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }
@@ -333,7 +333,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleTorsoList(){
-        maleTorsoList.add(R.drawable.ukko_torso_1);
+        maleTorsoList.add(R.drawable.ukko_torso_0);
         maleTorsoList.add(R.drawable.ukko_torso_1);
     }
 
