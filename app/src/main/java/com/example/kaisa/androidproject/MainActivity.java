@@ -31,6 +31,7 @@ import com.example.kaisa.androidproject.model.DbModel;
 
 public class MainActivity extends AppCompatActivity {
 
+
     public ImageButton imageButton = null;
     public NonSwipeableViewPager viewPager = null;
     public BottomNavigationView navigation;
@@ -43,12 +44,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
+
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-        Intent stepCounterIntent = new Intent(this, StepCounterService.class);
-        startService(stepCounterIntent);
+        model = new DbModel(this);
+        if (!model.checkIfTableEmpty()) {
+            Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+            startService(stepCounterIntent);
+        }
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -124,9 +129,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Intent stepCounterIntent = new Intent(this, StepCounterService.class);
-        startService(stepCounterIntent);
-        Log.v("stepsmain", "onresume");
+        if (!model.checkIfTableEmpty()) {
+            Intent stepCounterIntent = new Intent(this, StepCounterService.class);
+            startService(stepCounterIntent);
+            Log.v("stepsmain", "onresume");
+        }
     }
 
     @Override
@@ -167,5 +174,4 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setCurrentItem(0);
         }
     }
-
 }

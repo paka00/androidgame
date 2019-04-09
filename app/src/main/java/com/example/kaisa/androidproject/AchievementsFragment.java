@@ -69,6 +69,7 @@ public class AchievementsFragment extends Fragment {
         boxButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               getdbdata();
                 updatedistance();
             }
         });
@@ -91,6 +92,12 @@ public class AchievementsFragment extends Fragment {
         });
 
         final DbModel model = new DbModel(getContext());
+        getdbdata();
+
+        updatedistance();
+    }
+    private void getdbdata(){
+        final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             totalSteps = user.getTotalSteps();
@@ -103,9 +110,11 @@ public class AchievementsFragment extends Fragment {
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-            jogdata.setText("Distance: " + dbdistance +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
-        }
+            dbdistance = dbdistance + totalSteps*1;
+            String formattedValue = String.format("%.2f", dbdistance);
 
+            jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
+        }
 
     }
 
@@ -121,6 +130,7 @@ public class AchievementsFragment extends Fragment {
         }
     };
 
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -129,6 +139,7 @@ public class AchievementsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        getdbdata();
         updatedistance();
 
     }
@@ -141,20 +152,22 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
+
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
 
         float dpWidth = displayMetrics.widthPixels;
         percentagedistance = dpWidth / distancerange;
         travelleddistance = totalSteps;
 
+
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = distancem * percentagedistance;
-        // steps = steps +(percentagedistance*50);
         character.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
-        giftimg.setX(distancem-dpWidth/18);
+        giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
+
 
         if (distancem >= (dpWidth / 2)) {
             distancem = -dpWidth/1000;

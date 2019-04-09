@@ -26,13 +26,18 @@ public class DbContract {
         public static final String COLUMN_WALK_TIME = "walkTime";
         public static final String COLUMN_WALK_DISTANCE = "walkDistance";
         public static final String COLUMN_DAILY_REWARD = "dailyReward";
+        public static final String COLUMN_DAILY_RESET = "dailyReset";
     }
 
     public static class ClothesUnlocks implements BaseColumns {
         public static final String TABLE_NAME_CLOTHES = "clothesUnlocks";
-        public static final String COLUMN_HATS = "hats";
-        public static final String COLUMN_SHIRTS = "shirts";
-        public static final String COLUMN_PANTS = "pants";
-        public static final String COLUMN_SHOES = "shoes";
+        public static final String COLUMN_HATS_M = "hats";
+        public static final String COLUMN_SHIRTS_M = "shirts";
+        public static final String COLUMN_PANTS_M = "pants";
+        public static final String COLUMN_SHOES_M = "shoes";
+        public static final String COLUMN_HATS_F = "hatsf";
+        public static final String COLUMN_SHIRTS_F = "shirtsf";
+        public static final String COLUMN_PANTS_F = "pantsf";
+        public static final String COLUMN_SHOES_F = "shoesf";
     }
 }

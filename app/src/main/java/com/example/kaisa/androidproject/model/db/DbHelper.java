@@ -3,7 +3,6 @@ package com.example.kaisa.androidproject.model.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
@@ -16,7 +15,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_PANTS + " INTEGER," +
                     DbContract.User.COLUMN_SHOES + " INTEGER," +
                     DbContract.User.COLUMN_LEVEL + " INTEGER," +
-                    DbContract.User.COLUMN_DAILY_REWARD + " BOOLEAN," +
+                    DbContract.User.COLUMN_DAILY_REWARD + " INTEGER," +
+                    DbContract.User.COLUMN_DAILY_RESET + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_STEP_COUNTER_HELPER + " INTEGER," +
@@ -26,15 +26,19 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +
                     DbContract.User.COLUMN_WALK_DATE + " STRING," +
                     DbContract.User.COLUMN_WALK_TIME + " STRING," +
-                    DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE)";
+                    DbContract.User.COLUMN_WALK_DISTANCE + " DOUBLE);";
 
     private static final String SQL_CREATE_CLOTHES_TABLE =
             "CREATE TABLE " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES + " (" +
                     DbContract.ClothesUnlocks._ID + " INTEGER PRIMARY KEY NOT NULL," +
-                    DbContract.ClothesUnlocks.COLUMN_HATS + " INTEGER," +
-                    DbContract.ClothesUnlocks.COLUMN_SHIRTS + " INTEGER," +
-                    DbContract.ClothesUnlocks.COLUMN_PANTS + " INTEGER," +
-                    DbContract.ClothesUnlocks.COLUMN_SHOES + " INTEGER);";
+                    DbContract.ClothesUnlocks.COLUMN_HATS_F + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHIRTS_F + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_PANTS_F + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHOES_F + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_HATS_M + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHIRTS_M + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_PANTS_M + " INTEGER," +
+                    DbContract.ClothesUnlocks.COLUMN_SHOES_M + " INTEGER);";
 
 
     private static final String SQL_DELETE_ENTRIES =
