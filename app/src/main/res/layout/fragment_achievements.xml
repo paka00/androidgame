@@ -1,123 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AchievementsFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AchievementsFragment">
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_gravity="bottom"
+        android:layout_height="250dp">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/distanceline"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/box"
+            android:layout_width="7dp"
+            android:layout_height="20dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/distanceline"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/gift"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@+id/box"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/character"
+            android:layout_width="7dp"
+            android:layout_height="20dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/distanceline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/moveButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/distancecharacter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distanceline" />
+
+    </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="top">
 
             <TextView
-
                 android:id="@+id/steps"
                 android:layout_width="270dp"
                 android:layout_height="85dp"
                 android:layout_gravity="left"
-                android:textSize="25dp"
                 android:background="@color/colorPrimary"
                 android:text="test"
                 android:textColor="#FFFFFF"
-                android:visibility="visible"
+                android:textSize="25dp"
+                android:visibility="visible" />
 
-                />
             <TextView
                 android:id="@+id/userdata"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="25dp"
                 android:background="@color/colorPrimaryDark"
                 android:text="test"
                 android:textColor="#FFFFFF"
+                android:textSize="25dp"
                 android:visibility="visible" />
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center"
-                android:id="@+id/layout"
-                >
-
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000"
-                    tools:ignore="MissingConstraints" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="MissingConstraints" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="7dp"
-                    android:background="#000000"
-                    android:id="@+id/distanceline"
-                    app:layout_constraintRight_toLeftOf="parent"
-                    app:layout_constraintLeft_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    app:layout_constraintBottom_toTopOf="parent"
-                    />
-
-                <View
-                    android:id="@+id/box"
-                    android:layout_width="7dp"
-                    android:layout_height="20dp"
-                    android:background="#000000"
-                    app:layout_constraintBottom_toTopOf="@+id/distanceline"
-
-                    tools:ignore="MissingConstraints" />
-                <ImageView
-                    android:id="@+id/gift"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:layout_constraintBottom_toTopOf="@+id/box"
-                    tools:ignore="MissingConstraints" />
-                <View
-                    android:id="@+id/character"
-                    android:layout_width="7dp"
-                    android:layout_height="20dp"
-                    android:background="#000000"
-                    app:layout_constraintBottom_toTopOf="@+id/distanceline"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    />
-                <Button
-                    android:id="@+id/moveButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/distancecharacter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/distanceline"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:text="0"
-                    android:textSize="30dp"
-                    />
-
-
-            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
-    </ScrollView>
-
 </FrameLayout>

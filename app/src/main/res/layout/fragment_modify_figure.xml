@@ -86,7 +86,7 @@
             android:src="@drawable/nuoli_icon" />
 
         <ImageButton
-            android:id="@+id/button_shoes_to_left"
+            android:id="@+id/button_feet_to_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -104,32 +104,32 @@
             app:layout_constraintLeft_toRightOf="@id/verGuideline1"
             app:layout_constraintRight_toLeftOf="@+id/verGuideline2">
         <ImageView
-            android:id="@+id/imageview_male_head"
+            android:id="@+id/imageview_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ukko_paa_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_torso"
+            android:id="@+id/imageview_torso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ukko_torso_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_legs"
+            android:id="@+id/imageview_legs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_alaosa_0" />
+            android:src="@drawable/ukko_pants_0" />
 
         <ImageView
-            android:id="@+id/imageview_male_feet"
+            android:id="@+id/imageview_feet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_jalat_0" />
+            android:src="@drawable/ukko_shoes_0" />
         </RelativeLayout>
 
         <LinearLayout
@@ -175,7 +175,7 @@
             android:src="@drawable/nuoli_icon" />
 
         <ImageButton
-            android:id="@+id/button_shoes_to_right"
+            android:id="@+id/button_feet_to_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
