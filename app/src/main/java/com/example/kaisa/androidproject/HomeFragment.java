@@ -15,21 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -45,7 +40,7 @@ public class HomeFragment extends Fragment {
     DbModel model = null;
     Button btnClaimReward = null;
     MainActivity context;
-    int max = 10;
+    int maxClothes = 10;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothes;
@@ -219,11 +214,11 @@ public class HomeFragment extends Fragment {
         else {
             switch (clothes) {
                 case 0:
-                    hat = randomInt(max);
+                    hat = randomInt(maxClothes);
                     Log.v("clothes", "random hat = " + hat);
                     clothesArrayList = model.readHats();
                     while (clothesArrayList.contains(hat)) {
-                        hat = randomInt(max);
+                        hat = randomInt(maxClothes);
                         Log.v("clothes", "random hat was in db, new random hat = " + hat);
                     }
                     model.addHat(hat);
@@ -231,11 +226,11 @@ public class HomeFragment extends Fragment {
                     Log.v("clothes", "added hat to db");
                     break;
                 case 1:
-                    shirt = randomInt(max);
+                    shirt = randomInt(maxClothes);
                     Log.v("clothes", "random shirt = " + shirt);
                     clothesArrayList = model.readShirts();
                     while (clothesArrayList.contains(shirt)) {
-                        shirt = randomInt(max);
+                        shirt = randomInt(maxClothes);
                         Log.v("clothes", "random shirt was in db, new random hat = " + shirt);
                     }
                     model.addShirt(shirt);
@@ -243,11 +238,11 @@ public class HomeFragment extends Fragment {
                     Log.v("clothes", "added shirt to db");
                     break;
                 case 2:
-                    pants = randomInt(max);
+                    pants = randomInt(maxClothes);
                     Log.v("clothes", "random pants = " + pants);
                     clothesArrayList = model.readPants();
                     while (clothesArrayList.contains(pants)) {
-                        pants = randomInt(max);
+                        pants = randomInt(maxClothes);
                         Log.v("clothes", "random pants was in db, new random hat = " + pants);
                     }
                     model.addPants(pants);
@@ -255,11 +250,11 @@ public class HomeFragment extends Fragment {
                     Log.v("clothes", "added pants to db");
                     break;
                 case 3:
-                    shoes = randomInt(max);
+                    shoes = randomInt(maxClothes);
                     Log.v("clothes", "random shoes = " + shoes);
                     clothesArrayList = model.readShoes();
                     while (clothesArrayList.contains(shoes)) {
-                        shoes = randomInt(max);
+                        shoes = randomInt(maxClothes);
                         Log.v("clothes", "random shoes was in db, new random hat = " + shoes);
                     }
                     model.addShoes(shoes);
@@ -294,7 +289,7 @@ public class HomeFragment extends Fragment {
                 clothesArrayList = model.readShoes();
                 break;
         }
-        if (clothesArrayList.size() >= max){
+        if (clothesArrayList.size() >= maxClothes){
             bool = true;
         }
         return bool;
