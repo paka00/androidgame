@@ -439,4 +439,12 @@ public class DbModel {
         return count;
     }
 
+    public void clearDatabase() {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        String clearDBQuery = "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME_USER;
+        String clearDBQuery2 = "DROP TABLE IF EXISTS " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES;
+        db.execSQL(clearDBQuery);
+        db.execSQL(clearDBQuery2);
+    }
+
 }

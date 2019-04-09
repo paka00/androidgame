@@ -110,17 +110,18 @@ public class StepCounterService extends Service implements SensorEventListener {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
             User user = model.readUserFromDb();
-            if (stepHelper == 0) {
-                Log.v("stepscounter", "stepcounter = 0");
-                stepHelper = (int) event.values[0];
-                dailyStepHelper = (int) event.values[0];
-            }
-            else if (user.getDailyReset() == 1){
-                resetDailySteps();
-                user.setDailyReset(0);
-                user.setDailyStepHelper(dailyStepHelper);
-                user.setDailySteps(dailyStepCounter);
-                model.updateUser(user);
+            if (!model.checkIfTableEmpty()) {
+                if (stepHelper == 0) {
+                    Log.v("stepscounter", "stepcounter = 0");
+                    stepHelper = (int) event.values[0];
+                    dailyStepHelper = (int) event.values[0];
+                } else if (user.getDailyReset() == 1) {
+                    resetDailySteps();
+                    user.setDailyReset(0);
+                    user.setDailyStepHelper(dailyStepHelper);
+                    user.setDailySteps(dailyStepCounter);
+                    model.updateUser(user);
+                }
             }
             totalStepCounter = countSteps - stepHelper;
             dailyStepCounter = countSteps - dailyStepHelper;
@@ -158,27 +159,27 @@ public class StepCounterService extends Service implements SensorEventListener {
         totalDistance = totalStepCounter * 0.000762;
         dailyDistance = dailyStepCounter * 0.000762;
         User user = model.readUserFromDb();
-        if(!isUserCreated) {
-            User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
-            model.addUserToDb(newUser);
+        if(!model.checkIfTableEmpty()) {
+            //User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
+            //model.addUserToDb(newUser);
             isUserCreated = true;
             stepHelper = countSteps;
-        }
-        else if (user.getDailyReset() == 1){
-            resetDailySteps();
-            user.setDailyReset(0);
-            user.setDailyStepHelper(dailyStepHelper);
-            user.setDailySteps(dailyStepCounter);
-            model.updateUser(user);
-        }
-        else {
-            user.setTotalSteps(totalStepCounter);
-            user.setDailySteps(dailyStepCounter);
-            user.setDailyStepHelper(dailyStepHelper);
-            user.setStepHelper(stepHelper);
-            //user.setTotalDistance(totalDistance);
-            user.setDailyDistance(dailyDistance);
-            model.updateUser(user);
+            if (user.getDailyReset() == 1){
+                resetDailySteps();
+                user.setDailyReset(0);
+                user.setDailyStepHelper(dailyStepHelper);
+                user.setDailySteps(dailyStepCounter);
+                model.updateUser(user);
+            }
+            else {
+                user.setTotalSteps(totalStepCounter);
+                user.setDailySteps(dailyStepCounter);
+                user.setDailyStepHelper(dailyStepHelper);
+                user.setStepHelper(stepHelper);
+                //user.setTotalDistance(totalDistance);
+                user.setDailyDistance(dailyDistance);
+                model.updateUser(user);
+            }
         }
         intent.putExtra("steps_int", totalStepCounter);
         intent.putExtra("daily_steps_int", dailyStepCounter);
