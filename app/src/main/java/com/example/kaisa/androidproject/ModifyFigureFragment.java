@@ -285,8 +285,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
-
-
     public void setMaleHeadImage(){imageview_head.setImageResource(maleHeadList.get(position));}
     public void setMaleTorsoImage(){ imageview_torso.setImageResource(maleTorsoList.get(position));}
     public void setMaleLegImage(){ imageview_legs.setImageResource(maleLegList.get(position));}
@@ -356,5 +354,4 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         femaleFeetList.add(R.drawable.akka_shoes_0);
         femaleFeetList.add(R.drawable.akka_shoes_1);
     }
-
 }
