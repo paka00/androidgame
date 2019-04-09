@@ -53,17 +53,25 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         nameEditText = getView().findViewById(R.id.name_edit_text);
         imageview_head = getView().findViewById(R.id.imageview_head);
-        addToMaleHeadList();
         imageview_torso = getView().findViewById(R.id.imageview_torso);
-        addToMaleTorsoList();
         imageview_legs = getView().findViewById(R.id.imageview_legs);
-        addToMaleLegList();
         imageview_feet = getView().findViewById(R.id.imageview_feet);
-        addToMaleFeetList();
-        addToFemaleHeadList();
-        addToFemaleTorsoList();
-        addToFemaleLegList();
-        addToFemaleFeetList();
+        addToMaleHeadList(0);
+        addToMaleTorsoList(0);
+        addToMaleLegList(0);
+        addToMaleFeetList(0);
+        addToFemaleHeadList(0);
+        addToFemaleTorsoList(0);
+        addToFemaleLegList(0);
+        addToFemaleFeetList(0);
+        addToMaleHeadList(1);
+        addToMaleTorsoList(1);
+        addToMaleLegList(1);
+        addToMaleFeetList(1);
+        addToFemaleHeadList(1);
+        addToFemaleTorsoList(1);
+        addToFemaleLegList(1);
+        addToFemaleFeetList(1);
         setMaleCharacter();
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
@@ -111,6 +119,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             setFemaleTorsoImage();
             setFemaleLegImage();
             setFemaleFeetImage();
+        }
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+            int clothes = bundle.getInt("clothes");
+            int rand = bundle.getInt("randClothes");
+            switch (clothes) {
+                case 0:
+
+            }
         }
 
         getView().setFocusableInTouchMode(true);
@@ -178,7 +197,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = maleHeadList.size() -1;
+                        torsoPosition = maleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }
@@ -253,7 +272,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = femaleHeadList.size() -1;
+                        torsoPosition = femaleTorsoList.size() -1;
                     } else {
                         torsoPosition--;
                     }
@@ -327,24 +346,28 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
 
-    public void addToMaleHeadList(){
-        maleHeadList.add(R.drawable.ukko_paa_0);
-        maleHeadList.add(R.drawable.ukko_paa_1);
+    public void addToMaleHeadList(int index){
+        String uri = "drawable/ukko_paa_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        maleHeadList.add(imageResource);
     }
 
-    public void addToMaleTorsoList(){
-        maleTorsoList.add(R.drawable.ukko_torso_0);
-        maleTorsoList.add(R.drawable.ukko_torso_1);
+    public void addToMaleTorsoList(int index){
+        String uri = "drawable/ukko_torso_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        maleTorsoList.add(imageResource);
     }
 
-    public void addToMaleLegList(){
-        maleLegList.add(R.drawable.ukko_pants_0);
-        maleLegList.add(R.drawable.ukko_pants_1);
+    public void addToMaleLegList(int index){
+        String uri = "drawable/ukko_pants_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        maleLegList.add(imageResource);
     }
 
-    public void addToMaleFeetList(){
-        maleFeetList.add(R.drawable.ukko_shoes_0);
-        maleFeetList.add(R.drawable.ukko_shoes_1);
+    public void addToMaleFeetList(int index){
+        String uri = "drawable/ukko_shoes_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        maleFeetList.add(imageResource);
     }
     public void setFemaleCharacter(){
         gender = 1;
@@ -368,23 +391,27 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_legs.setImageResource(R.drawable.ukko_pants_0);
         imageview_feet.setImageResource(R.drawable.ukko_shoes_0);
     }
-    public void addToFemaleHeadList(){
-        femaleHeadList.add(R.drawable.akka_paa_0);
-        femaleHeadList.add(R.drawable.akka_paa_1);
+    public void addToFemaleHeadList(int index){
+        String uri = "drawable/akka_paa_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        femaleHeadList.add(imageResource);
     }
-    public void addToFemaleTorsoList(){
-        femaleTorsoList.add(R.drawable.akka_torso_0);
-        femaleTorsoList.add(R.drawable.akka_torso_1);
-    }
-
-    public void addToFemaleLegList(){
-        femaleLegList.add(R.drawable.akka_pants_0);
-        femaleLegList.add(R.drawable.akka_pants_1);
+    public void addToFemaleTorsoList(int index){
+        String uri = "drawable/akka_torso_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        femaleTorsoList.add(imageResource);
     }
 
-    public void addToFemaleFeetList(){
-        femaleFeetList.add(R.drawable.akka_shoes_0);
-        femaleFeetList.add(R.drawable.akka_shoes_1);
+    public void addToFemaleLegList(int index){
+        String uri = "drawable/akka_pants_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        femaleLegList.add(imageResource);
+    }
+
+    public void addToFemaleFeetList(int index){
+        String uri = "drawable/akka_shoes_" + index;
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        femaleFeetList.add(imageResource);
     }
 
     public void saveClothesToDatabase() {
