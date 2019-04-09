@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,8 +37,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imageview_maleHead = getView().findViewById(R.id.imageview_male_head);
-        maleHeadList.add(R.drawable.ukko_paa_rajattu);
-        maleHeadList.add(R.drawable.mies_paa_1);
+        maleHeadList.add(R.drawable.ukko_paa_0);
+        maleHeadList.add(R.drawable.ukko_paa_1);
 
         imageview_maleHead.setImageResource(maleHeadList.get(position));
 
@@ -80,6 +78,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 position = maleHeadList.size()-1;
             }else {
                 position--;
+                Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show();
             }
             setImage();
         }
@@ -88,6 +87,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 position = ListMinValue;
             }else{
                 position++;
+                Toast.makeText(context, "asdasd", Toast.LENGTH_SHORT).show();
             }
             setImage();
         }
