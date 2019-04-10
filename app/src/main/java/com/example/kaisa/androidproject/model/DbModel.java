@@ -46,20 +46,9 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_DAILY_REWARD, addable.dailyReward);
         userValues.put(DbContract.User.COLUMN_DAILY_RESET, addable.dailyReset);
 
-        ContentValues clothesValues = new ContentValues();
-        clothesValues.put(DbContract.ClothesUnlocks._ID, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_HATS_F, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_PANTS_F, 1);
-        clothesValues.put(DbContract.ClothesUnlocks.COLUMN_SHOES_F, 1);
-
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME_USER, null, userValues);
-            long newRowId2 = db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, clothesValues);
+            //long newRowId2 = db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, clothesValues);
         }
         catch (SQLiteException e) {
             if (e.getMessage().contains("no such table")) {
@@ -71,30 +60,6 @@ public class DbModel {
     public User readUserFromDb() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         User user = null;
-
-        /*String[] projection = {
-                DbContract.User.COLUMN_USERNAME,
-                DbContract.User.COLUMN_GENDER,
-                DbContract.User.COLUMN_HAT,
-                DbContract.User.COLUMN_SHIRT,
-                DbContract.User.COLUMN_PANTS_M,
-                DbContract.User.COLUMN_SHOES_M,
-                DbContract.User.COLUMN_LEVEL,
-                DbContract.User.COLUMN_TOTAL_STEPS,
-                DbContract.User.COLUMN_DAILY_STEPS,
-                DbContract.User.COLUMN_STEP_COUNTER_HELPER,
-                DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER,
-                DbContract.User.COLUMN_TOTAL_DISTANCE,
-                DbContract.User.COLUMN_DAILY_DISTANCE,
-                DbContract.User.COLUMN_AVERAGE_SPEED,
-                DbContract.User.COLUMN_WALK_DATE,
-                DbContract.User.COLUMN_WALK_TIME,
-                DbContract.User.COLUMN_WALK_DISTANCE,
-                DbContract.User.COLUMN_DAILY_REWARD,
-                DbContract.User.COLUMN_DAILY_RESET
-        };
-
-        String sortOrder = DbContract.User._ID + " DESC";*/
 
         Cursor cursor = db.query(
                 DbContract.User.TABLE_NAME_USER,
@@ -362,7 +327,7 @@ public class DbModel {
     public ArrayList<Integer> readHats(int gender) {
         ArrayList<Integer> hats = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        String sortOrder = DbContract.User._ID + " DESC";
+        String sortOrder = DbContract.User._ID + " ASC";
         Cursor cursor = null;
 
         if (gender == 0) {
@@ -384,7 +349,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                hats.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_M))) - 1);
+                hats.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_M)));
             }
         }
         else {
@@ -406,7 +371,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                hats.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_F))) - 1);
+                hats.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_F)));
             }
         }
         cursor.close();
@@ -417,7 +382,7 @@ public class DbModel {
     public ArrayList<Integer> readShirts(int gender) {
         ArrayList<Integer> shirts = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        String sortOrder = DbContract.User._ID + " DESC";
+        String sortOrder = DbContract.User._ID + " ASC";
         Cursor cursor = null;
 
         if (gender == 0) {
@@ -438,7 +403,7 @@ public class DbModel {
                     sortOrder
             );
             while (cursor.moveToNext()) {
-                shirts.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M))) - 1);
+                shirts.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M)));
             }
         } else {
             String[] projection = {
@@ -458,7 +423,7 @@ public class DbModel {
                     sortOrder
             );
             while (cursor.moveToNext()) {
-                shirts.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F))) - 1);
+                shirts.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F)));
             }
         }
         cursor.close();
@@ -469,7 +434,7 @@ public class DbModel {
     public ArrayList<Integer> readPants(int gender) {
         ArrayList<Integer> pants = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        String sortOrder = DbContract.User._ID + " DESC";
+        String sortOrder = DbContract.User._ID + " ASC";
         Cursor cursor = null;
 
         if (gender == 0) {
@@ -491,7 +456,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                pants.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_M))) - 1);
+                pants.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_M)));
             }
         } else {
             String[] projection = {
@@ -512,7 +477,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                pants.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_F))) - 1);
+                pants.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_F)));
             }
         }
         cursor.close();
@@ -523,7 +488,7 @@ public class DbModel {
     public ArrayList<Integer> readShoes(int gender) {
         ArrayList<Integer> shoes = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        String sortOrder = DbContract.User._ID + " DESC";
+        String sortOrder = DbContract.User._ID + " ASC";
         Cursor cursor = null;
 
         if (gender == 0) {
@@ -545,7 +510,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                shoes.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_M))) - 1);
+                shoes.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_M)));
             }
         } else {
             String[] projection = {
@@ -566,7 +531,7 @@ public class DbModel {
             );
 
             while(cursor.moveToNext()){
-                shoes.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_F))) - 1);
+                shoes.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_F)));
             }
         }
         cursor.close();
