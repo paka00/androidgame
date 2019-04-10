@@ -43,12 +43,8 @@ public class HomeFragment extends Fragment {
     int maxClothes = 10;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
-    int clothes;
-    // clothes =  vaatetyyppi
-    int hat;
-    int shirt;
-    int pants;
-    int shoes;
+    int clothesType;
+    int clothesID;
 
 
     @Override
@@ -70,7 +66,7 @@ public class HomeFragment extends Fragment {
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if (!model.checkIfTableEmpty()) {
+        if(!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepsCheck();
@@ -94,7 +90,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if (!model.checkIfTableEmpty()) {
+            if(!model.checkIfTableEmpty()) {
                 dailyStepsCheck();
             }
         }
@@ -107,11 +103,11 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
+            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! You can now claim the reward");
@@ -127,7 +123,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -169,20 +165,25 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                } else {
+                }
+                else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
                 }
             }
 
             @Override
             public void onFinish() {
+                DbModel model = new DbModel(getContext());
+                User user = model.readUserFromDb();
+                user.setDailyReset(1);
+                model.updateUser(user);
                 startCountdownTimer();
             }
         };
         countDownTimer.start();
     }
 
-    protected String formatTime(long hours, long minutes, long seconds) {
+    protected String formatTime (long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -207,70 +208,68 @@ public class HomeFragment extends Fragment {
     public void selectRandomClothes() {
         model = new DbModel(getContext());
         User user = model.readUserFromDb();
+        int gender = user.getGender();
         Random clothesRandom = new Random();
-        clothes = clothesRandom.nextInt(4);
-        Log.v("clothes", "clothes type = " + clothes);
-        if (!checkedValues.contains(clothes) && checkIfAllUnlocked(clothes)) {
-            Log.v("clothes", "clothes type full");
-            checkedValues.add(clothes);
+        clothesType = clothesRandom.nextInt(4);
+        Log.v("clothesType", "clothesType type = " + clothesType);
+        if(!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
+            Log.v("clothesType", "clothesType type full");
+            checkedValues.add(clothesType);
             selectRandomClothes();
-        } else if (checkedValues.contains(clothes)) {
-            if (checkedValues.size() == 4) {
+        }
+        else if (checkedValues.contains(clothesType)){
+            if(checkedValues.size() == 4){
                 Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else {
                 selectRandomClothes();
             }
-        } else {
-            switch (clothes) {
+        }
+        else {
+            clothesID = randomInt(maxClothes);
+            switch (clothesType) {
                 case 0:
-                    hat = randomInt(maxClothes);
-                    Log.v("clothes", "random hat = " + hat);
-                    clothesArrayList = model.readHats();
-                    while (clothesArrayList.contains(hat)) {
-                        hat = randomInt(maxClothes);
-                        Log.v("clothes", "random hat was in db, new random hat = " + hat);
+                    Log.v("clothesType", "random clothesID = " + clothesID);
+                    clothesArrayList = model.readHats(gender);
+                    while (clothesArrayList.contains(clothesID)) {
+                        clothesID = randomInt(maxClothes);
+                        Log.v("clothesType", "random clothesID was in db, new random clothesID = " + clothesID);
                     }
-                    model.addHat(hat);
-                    sendRandomClothes(hat);
-                    Log.v("clothes", "added hat to db");
+                    model.addHat(clothesID, gender);
+                    Log.v("clothesType", "added clothesID to db");
                     break;
                 case 1:
-                    shirt = randomInt(maxClothes);
-                    Log.v("clothes", "random shirt = " + shirt);
-                    clothesArrayList = model.readShirts();
-                    while (clothesArrayList.contains(shirt)) {
-                        shirt = randomInt(maxClothes);
-                        Log.v("clothes", "random shirt was in db, new random hat = " + shirt);
+                    Log.v("clothesType", "random clothesID = " + clothesID);
+                    clothesArrayList = model.readShirts(gender);
+                    while (clothesArrayList.contains(clothesID)) {
+                        clothesID = randomInt(maxClothes);
+                        Log.v("clothesType", "random clothesID was in db, new random clothesID = " + clothesID);
                     }
-                    model.addShirt(shirt);
-                    sendRandomClothes(shirt);
-                    Log.v("clothes", "added shirt to db");
+                    model.addShirt(clothesID, gender);
+                    Log.v("clothesType", "added clothesID to db");
                     break;
                 case 2:
-                    pants = randomInt(maxClothes);
-                    Log.v("clothes", "random pants = " + pants);
-                    clothesArrayList = model.readPants();
-                    while (clothesArrayList.contains(pants)) {
-                        pants = randomInt(maxClothes);
-                        Log.v("clothes", "random pants was in db, new random hat = " + pants);
+                    Log.v("clothesType", "random clothesID = " + clothesID);
+                    clothesArrayList = model.readPants(gender);
+                    while (clothesArrayList.contains(clothesID)) {
+                        clothesID = randomInt(maxClothes);
+                        Log.v("clothesType", "random clothesID was in db, new random clothesID = " + clothesID);
                     }
-                    model.addPants(pants);
-                    sendRandomClothes(pants);
-                    Log.v("clothes", "added pants to db");
+                    model.addPants(clothesID, gender);
+                    Log.v("clothesType", "added clothesID to db");
                     break;
                 case 3:
-                    shoes = randomInt(maxClothes);
-                    Log.v("clothes", "random shoes = " + shoes);
-                    clothesArrayList = model.readShoes();
-                    while (clothesArrayList.contains(shoes)) {
-                        shoes = randomInt(maxClothes);
-                        Log.v("clothes", "random shoes was in db, new random hat = " + shoes);
+                    Log.v("clothesType", "random clothesID = " + clothesID);
+                    clothesArrayList = model.readShoes(gender);
+                    while (clothesArrayList.contains(clothesID)) {
+                        clothesID = randomInt(maxClothes);
+                        Log.v("clothesType", "random clothesID was in db, new random clothesID = " + clothesID);
                     }
-                    model.addShoes(shoes);
-                    sendRandomClothes(shoes);
-                    Log.v("clothes", "added shoes to db");
+                    model.addShoes(clothesID, gender);
+                    Log.v("clothesType", "added clothesID to db");
                     break;
             }
+            //sendRandomClothes(clothesID);
             model.updateUser(user);
 
         }
@@ -282,20 +281,20 @@ public class HomeFragment extends Fragment {
         return rand;
     }
 
-    public boolean checkIfAllUnlocked(int i) {
+    public boolean checkIfAllUnlocked(int i, int g) {
         boolean bool = false;
         switch (i) {
             case 0:
-                clothesArrayList = model.readHats();
+                clothesArrayList = model.readHats(g);
                 break;
             case 1:
-                clothesArrayList = model.readShirts();
+                clothesArrayList = model.readShirts(g);
                 break;
             case 2:
-                clothesArrayList = model.readPants();
+                clothesArrayList = model.readPants(g);
                 break;
             case 3:
-                clothesArrayList = model.readShoes();
+                clothesArrayList = model.readShoes(g);
                 break;
         }
         if (clothesArrayList.size() >= maxClothes) {
@@ -306,7 +305,7 @@ public class HomeFragment extends Fragment {
 
     public void sendRandomClothes(int rand) {
         Bundle bundle = new Bundle();
-        bundle.putInt("clothes", clothes);
+        bundle.putInt("clothesType", clothesType);
         bundle.putInt("randClothes", rand);
 
         ModifyFigureFragment fragment = new ModifyFigureFragment();
