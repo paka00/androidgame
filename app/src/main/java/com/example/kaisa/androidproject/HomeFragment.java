@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskProgress = null;
     int dailySteps;
     int dailyStepGoal = 5000;
-    CountDownTimer countDownTimer= null;
+    CountDownTimer countDownTimer = null;
     DbModel model = null;
     Button btnClaimReward, btnTest = null;
     MainActivity context;
@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothes;
+    // clothes =  vaatetyyppi
     int hat;
     int shirt;
     int pants;
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment {
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty()) {
+        if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepsCheck();
@@ -79,9 +80,10 @@ public class HomeFragment extends Fragment {
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SplashScreenReward.class);
-                intent.putExtra("ID",1);
-                intent.putExtra("TYPE", "torso");
+                selectRandomClothes();
+                Intent intent = new Intent(getActivity(), RewardActivity.class);
+                intent.putExtra("TYPE", clothes);
+                intent.putExtra("ID", hat);
                 startActivity(intent);
             }
         });
@@ -92,7 +94,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty()) {
+            if (!model.checkIfTableEmpty()) {
                 dailyStepsCheck();
             }
         }
@@ -105,11 +107,11 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
+            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! You can now claim the reward");
@@ -125,7 +127,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -167,8 +169,7 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                }
-                else {
+                } else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
                 }
             }
@@ -181,7 +182,7 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected String formatTime (long hours, long minutes, long seconds) {
+    protected String formatTime(long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -209,20 +210,17 @@ public class HomeFragment extends Fragment {
         Random clothesRandom = new Random();
         clothes = clothesRandom.nextInt(4);
         Log.v("clothes", "clothes type = " + clothes);
-        if(!checkedValues.contains(clothes) && checkIfAllUnlocked(clothes)) {
+        if (!checkedValues.contains(clothes) && checkIfAllUnlocked(clothes)) {
             Log.v("clothes", "clothes type full");
             checkedValues.add(clothes);
             selectRandomClothes();
-        }
-        else if (checkedValues.contains(clothes)){
-            if(checkedValues.size() == 4){
+        } else if (checkedValues.contains(clothes)) {
+            if (checkedValues.size() == 4) {
                 Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 selectRandomClothes();
             }
-        }
-        else {
+        } else {
             switch (clothes) {
                 case 0:
                     hat = randomInt(maxClothes);
@@ -286,7 +284,7 @@ public class HomeFragment extends Fragment {
 
     public boolean checkIfAllUnlocked(int i) {
         boolean bool = false;
-        switch (i){
+        switch (i) {
             case 0:
                 clothesArrayList = model.readHats();
                 break;
@@ -300,7 +298,7 @@ public class HomeFragment extends Fragment {
                 clothesArrayList = model.readShoes();
                 break;
         }
-        if (clothesArrayList.size() >= maxClothes){
+        if (clothesArrayList.size() >= maxClothes) {
             bool = true;
         }
         return bool;

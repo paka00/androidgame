@@ -39,7 +39,7 @@
         <receiver android:name=".ResetDailyStatsBroadcastReceiver" />
 
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".SplashScreenReward"></activity>
+        <activity android:name=".RewardActivity"></activity>
     </application>
 
 </manifest>
