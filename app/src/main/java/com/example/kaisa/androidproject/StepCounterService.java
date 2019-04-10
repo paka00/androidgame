@@ -156,7 +156,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
-        totalDistance = totalStepCounter * 0.000762;
+        //totalDistance = totalStepCounter * 0.00076;
         dailyDistance = dailyStepCounter * 0.000762;
         User user = model.readUserFromDb();
         if(!model.checkIfTableEmpty()) {
@@ -176,7 +176,8 @@ public class StepCounterService extends Service implements SensorEventListener {
                 user.setDailySteps(dailyStepCounter);
                 user.setDailyStepHelper(dailyStepHelper);
                 user.setStepHelper(stepHelper);
-                //user.setTotalDistance(totalDistance);
+                totalDistance = totalDistance + 0.5;
+                user.setTotalDistance(totalDistance);
                 user.setDailyDistance(dailyDistance);
                 model.updateUser(user);
             }
@@ -191,7 +192,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     protected void setDailyResetAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 55);
         calendar.set(Calendar.SECOND, 0);
         Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
