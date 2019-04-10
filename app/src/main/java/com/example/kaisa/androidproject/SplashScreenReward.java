@@ -24,7 +24,7 @@ public class SplashScreenReward extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 imageButtonTreasure.setImageResource(R.drawable.aarrearkku_auki);
-                imageViewVaate.setImageResource(R.drawable.akka_paa_1);
+                imageViewVaate.setImageResource(R.drawable.akka_paa_2);
             }
         });
     }
