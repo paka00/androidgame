@@ -1,9 +1,11 @@
 package com.example.kaisa.androidproject;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         nameEditText = getView().findViewById(R.id.name_edit_text);
+        Typeface custom_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        nameEditText.setTypeface(custom_font);
+        nameEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
         imageview_head = getView().findViewById(R.id.imageview_head);
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
