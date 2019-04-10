@@ -57,7 +57,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             }
         }
         else {
-            setDailyResetAlarm();
+            //setDailyResetAlarm();
             stepHelper = 0;
             totalStepCounter = 0;
             dailyStepHelper = 0;
@@ -117,9 +117,9 @@ public class StepCounterService extends Service implements SensorEventListener {
                     dailyStepHelper = (int) event.values[0];
                 } else if (user.getDailyReset() == 1) {
                     resetDailySteps();
-                    user.setDailyReset(0);
                     user.setDailyStepHelper(dailyStepHelper);
                     user.setDailySteps(dailyStepCounter);
+                    user.setDailyReset(0);
                     model.updateUser(user);
                 }
             }
@@ -163,12 +163,11 @@ public class StepCounterService extends Service implements SensorEventListener {
             //User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
             //model.addUserToDb(newUser);
             isUserCreated = true;
-            stepHelper = countSteps;
             if (user.getDailyReset() == 1){
                 resetDailySteps();
-                user.setDailyReset(0);
                 user.setDailyStepHelper(dailyStepHelper);
                 user.setDailySteps(dailyStepCounter);
+                user.setDailyReset(0);
                 model.updateUser(user);
             }
             else {
@@ -189,7 +188,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         sendBroadcast(intent);
     }
 
-    protected void setDailyResetAlarm() {
+    /*protected void setDailyResetAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -202,5 +201,5 @@ public class StepCounterService extends Service implements SensorEventListener {
         alarmMgr.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmPendingIntent);
         Log.v("stepsalarm", "alarm set");
-    }
+    }*/
 }

@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
