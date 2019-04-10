@@ -219,19 +219,30 @@ public class DbModel {
         return empty;
     }
 
-    public void addHat (int hatNumber) {
+    public void addHat (int hatNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, hatNumber);
-        ArrayList<Integer> hats = readHats();
+        if (gender == 0) {
+            values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, hatNumber);
+        }
+        else {
+            values.put(DbContract.ClothesUnlocks.COLUMN_HATS_F, hatNumber);
+        }
+        ArrayList<Integer> hats = readHats(gender);
         int size = hats.size() + 1;
         Log.v("clothesdb", "hat array size" + size);
         long rows = getRowsCount();
         if (size > rows) {
+            if (gender == 0) {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
+            } else {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_F, 0);
+            }
             values.put(DbContract.ClothesUnlocks._ID, size);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
             db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
         }
         else {
@@ -244,19 +255,30 @@ public class DbModel {
         }
     }
 
-    public void addShirt (int shirtNumber) {
+    public void addShirt (int shirtNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Integer> shirts = readShirts();
+        ArrayList<Integer> shirts = readShirts(gender);
         int size = shirts.size() + 1;
         Log.v("clothesdb", "shirt array size" + size);
         long rows = getRowsCount();
         ContentValues values = new ContentValues();
-        values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, shirtNumber);
+        if (gender == 0) {
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, shirtNumber);
+        }
+        else {
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F, shirtNumber);
+        }
         if (size > rows) {
+            if (gender == 0) {
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
+            } else {
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_F, 0);
+            }
             values.put(DbContract.ClothesUnlocks._ID, size);
-            values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
             db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
         }
         else {
@@ -269,18 +291,28 @@ public class DbModel {
         }
     }
 
-    public void addPants (int pantsNumber) {
+    public void addPants (int pantsNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Integer> pants = readPants();
+        ArrayList<Integer> pants = readPants(gender);
         int size = pants.size() + 1;
         long rows = getRowsCount();
         ContentValues values = new ContentValues();
-        values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, pantsNumber);
+        if (gender == 0) {
+            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, pantsNumber);
+        } else {
+            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_F, pantsNumber);
+        }
         if (size > rows) {
             values.put(DbContract.ClothesUnlocks._ID, size);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
+            if (gender == 0) {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, 0);
+            } else {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_F, 0);
+            }
             db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
         }
         else {
@@ -293,18 +325,28 @@ public class DbModel {
         }
     }
 
-    public void addShoes (int shoesNumber) {
+    public void addShoes (int shoesNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Integer> shoes = readShoes();
+        ArrayList<Integer> shoes = readShoes(gender);
         int size = shoes.size() + 1;
         long rows = getRowsCount();
         ContentValues values = new ContentValues();
-        values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, shoesNumber);
+        if (gender == 0) {
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_M, shoesNumber);
+        } else {
+            values.put(DbContract.ClothesUnlocks.COLUMN_SHOES_F, shoesNumber);
+        }
         if (size > rows) {
             values.put(DbContract.ClothesUnlocks._ID, size);
-            values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
-            values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
+            if (gender == 0) {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_M, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_M, 0);
+            } else {
+                values.put(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_PANTS_F, 0);
+                values.put(DbContract.ClothesUnlocks.COLUMN_HATS_F, 0);
+            }
             db.insert(DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES, null, values);
         }
         else {
@@ -317,120 +359,215 @@ public class DbModel {
         }
     }
 
-    public ArrayList<Integer> readHats() {
+    public ArrayList<Integer> readHats(int gender) {
         ArrayList<Integer> hats = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String sortOrder = DbContract.User._ID + " DESC";
+        Cursor cursor = null;
 
-        String[] projection = {
-                DbContract.ClothesUnlocks.COLUMN_HATS_M
-        };
+        if (gender == 0) {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_HATS_M
+            };
 
-        String selection = DbContract.ClothesUnlocks.COLUMN_HATS_M + " != ?";
-        String[] selectionArgs = { "0" };
+            String selection = DbContract.ClothesUnlocks.COLUMN_HATS_M + " != ?";
+            String[] selectionArgs = {"0"};
 
-        Cursor cursor = db.query(
-                DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
 
-        while(cursor.moveToNext()){
-            hats.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_M)));
+            while(cursor.moveToNext()){
+                hats.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_M))) - 1);
+            }
+        }
+        else {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_HATS_F
+            };
+
+            String selection = DbContract.ClothesUnlocks.COLUMN_HATS_F + " != ?";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+
+            while(cursor.moveToNext()){
+                hats.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_HATS_F))) - 1);
+            }
         }
         cursor.close();
 
         return hats;
     }
 
-    public ArrayList<Integer> readShirts() {
+    public ArrayList<Integer> readShirts(int gender) {
         ArrayList<Integer> shirts = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String sortOrder = DbContract.User._ID + " DESC";
+        Cursor cursor = null;
 
-        String[] projection = {
-                DbContract.ClothesUnlocks.COLUMN_SHIRTS_M
-        };
+        if (gender == 0) {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_SHIRTS_M
+            };
 
-        String selection = DbContract.ClothesUnlocks.COLUMN_SHIRTS_M + " != ?";
-        String[] selectionArgs = { "0" };
+            String selection = DbContract.ClothesUnlocks.COLUMN_SHIRTS_M + " != ?";
+            String[] selectionArgs = {"0"};
 
-        Cursor cursor = db.query(
-                DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+            while (cursor.moveToNext()) {
+                shirts.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M))) - 1);
+            }
+        } else {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_SHIRTS_F
+            };
 
-        while(cursor.moveToNext()){
-            shirts.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_M)));
+            String selection = DbContract.ClothesUnlocks.COLUMN_SHIRTS_F + " != ?";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+            while (cursor.moveToNext()) {
+                shirts.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHIRTS_F))) - 1);
+            }
         }
         cursor.close();
 
         return shirts;
     }
 
-    public ArrayList<Integer> readPants() {
+    public ArrayList<Integer> readPants(int gender) {
         ArrayList<Integer> pants = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String sortOrder = DbContract.User._ID + " DESC";
+        Cursor cursor = null;
 
-        String[] projection = {
-                DbContract.ClothesUnlocks.COLUMN_PANTS_M
-        };
+        if (gender == 0) {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_PANTS_M
+            };
 
-        String selection = DbContract.ClothesUnlocks.COLUMN_PANTS_M + " != ?";
-        String[] selectionArgs = { "0" };
+            String selection = DbContract.ClothesUnlocks.COLUMN_PANTS_M + " != ?";
+            String[] selectionArgs = {"0"};
 
-        Cursor cursor = db.query(
-                DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
 
-        while(cursor.moveToNext()){
-            pants.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_M)));
+            while(cursor.moveToNext()){
+                pants.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_M))) - 1);
+            }
+        } else {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_PANTS_F
+            };
+
+            String selection = DbContract.ClothesUnlocks.COLUMN_PANTS_F + " != ?";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+
+            while(cursor.moveToNext()){
+                pants.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_PANTS_F))) - 1);
+            }
         }
         cursor.close();
 
         return pants;
     }
 
-    public ArrayList<Integer> readShoes() {
+    public ArrayList<Integer> readShoes(int gender) {
         ArrayList<Integer> shoes = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String sortOrder = DbContract.User._ID + " DESC";
+        Cursor cursor = null;
 
-        String[] projection = {
-                DbContract.ClothesUnlocks.COLUMN_SHOES_M
-        };
+        if (gender == 0) {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_SHOES_M
+            };
 
-        String selection = DbContract.ClothesUnlocks.COLUMN_SHOES_M + " != ?";
-        String[] selectionArgs = { "0" };
+            String selection = DbContract.ClothesUnlocks.COLUMN_SHOES_M + " != ?";
+            String[] selectionArgs = {"0"};
 
-        Cursor cursor = db.query(
-                DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
 
-        while(cursor.moveToNext()){
-            shoes.add(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_M)));
+            while(cursor.moveToNext()){
+                shoes.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_M))) - 1);
+            }
+        } else {
+            String[] projection = {
+                    DbContract.ClothesUnlocks.COLUMN_SHOES_F
+            };
+
+            String selection = DbContract.ClothesUnlocks.COLUMN_SHOES_F + " != ?";
+            String[] selectionArgs = {"0"};
+
+            cursor = db.query(
+                    DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+
+            while(cursor.moveToNext()){
+                shoes.add((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.ClothesUnlocks.COLUMN_SHOES_F))) - 1);
+            }
         }
         cursor.close();
         return shoes;

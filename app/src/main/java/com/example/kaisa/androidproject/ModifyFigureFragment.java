@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -61,22 +62,27 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
         imageview_feet = getView().findViewById(R.id.imageview_feet);
-        addToMaleHeadList(0);
-        addToMaleTorsoList(0);
-        addToMaleLegList(0);
-        addToMaleFeetList(0);
-        addToFemaleHeadList(0);
-        addToFemaleTorsoList(0);
-        addToFemaleLegList(0);
-        addToFemaleFeetList(0);
-        addToMaleHeadList(1);
-        addToMaleTorsoList(1);
-        addToMaleLegList(1);
-        addToMaleFeetList(1);
-        addToFemaleHeadList(1);
-        addToFemaleTorsoList(1);
-        addToFemaleLegList(1);
-        addToFemaleFeetList(1);
+        DbModel model = new DbModel(getContext());
+        if (model.checkIfTableEmpty()){
+            model.addHat(2, 0);
+            model.addShirt(2, 0);
+            model.addPants(2, 0);
+            model.addShoes(2, 0);
+            model.addHat(2, 1);
+            model.addShirt(2, 1);
+            model.addPants(2, 1);
+            model.addShoes(2, 1);
+        }
+        maleHeadList = model.readHats(0);
+        maleTorsoList = model.readShirts(0);
+        maleLegList = model.readPants(0);
+        maleFeetList = model.readShoes(0);
+        femaleHeadList = model.readHats(1);
+        femaleTorsoList = model.readShirts(1);
+        femaleLegList = model.readPants(1);
+        femaleFeetList = model.readShoes(1);
+        Log.d("modifyfigure", "male head array size: " + maleHeadList.size());
+        Log.d("modifyfigure", "male head array: " + maleHeadList);
         setMaleCharacter();
         ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
@@ -129,7 +135,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Bundle bundle = this.getArguments();
 
         if(bundle != null){
-            int clothes = bundle.getInt("clothes");
+            int clothes = bundle.getInt("clothesType");
             int rand = bundle.getInt("randClothes");
             switch (clothes) {
                 case 0:
