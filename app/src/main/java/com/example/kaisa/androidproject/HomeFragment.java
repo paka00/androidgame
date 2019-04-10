@@ -36,11 +36,11 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskProgress = null;
     int dailySteps;
     int dailyStepGoal = 5000;
-    CountDownTimer countDownTimer= null;
+    CountDownTimer countDownTimer = null;
     DbModel model = null;
     Button btnClaimReward, btnTest = null;
     MainActivity context;
-    int maxClothes = 10;
+    int maxClothes = 3;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothesType;
@@ -76,7 +76,10 @@ public class HomeFragment extends Fragment {
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SplashScreenReward.class);
+                selectRandomClothes();
+                Intent intent = new Intent(getActivity(), RewardActivity.class);
+                intent.putExtra("TYPE", clothesType);
+                intent.putExtra("ID", clothesID);
                 startActivity(intent);
             }
         });
@@ -280,7 +283,7 @@ public class HomeFragment extends Fragment {
 
     public boolean checkIfAllUnlocked(int i, int g) {
         boolean bool = false;
-        switch (i){
+        switch (i) {
             case 0:
                 clothesArrayList = model.readHats(g);
                 break;
@@ -294,7 +297,7 @@ public class HomeFragment extends Fragment {
                 clothesArrayList = model.readShoes(g);
                 break;
         }
-        if (clothesArrayList.size() >= maxClothes){
+        if (clothesArrayList.size() >= maxClothes) {
             bool = true;
         }
         return bool;
