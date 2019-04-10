@@ -173,6 +173,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFinish() {
+                DbModel model = new DbModel(getContext());
+                User user = model.readUserFromDb();
+                user.setDailyReset(1);
+                model.updateUser(user);
                 startCountdownTimer();
             }
         };
