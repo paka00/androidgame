@@ -1,5 +1,6 @@
 package com.example.kaisa.androidproject;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -147,6 +150,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
         }
 
+
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -161,6 +165,25 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
+
+        nameEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        nameEditText.clearFocus();
+                        nameEditText.setFocusable(false);
+                        nameEditText.setFocusableInTouchMode(false);
+                        getView().setFocusableInTouchMode(true);
+                        getView().setFocusable(true);
+                        getView().requestFocus();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
     }
