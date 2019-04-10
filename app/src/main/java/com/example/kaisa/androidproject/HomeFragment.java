@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     DbModel model = null;
     Button btnClaimReward, btnTest = null;
     MainActivity context;
-    int maxClothes = 10;
+    int maxClothes = 3;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothesType;
@@ -78,8 +78,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 selectRandomClothes();
                 Intent intent = new Intent(getActivity(), RewardActivity.class);
-                intent.putExtra("TYPE", clothes);
-                intent.putExtra("ID", hat);
+                intent.putExtra("TYPE", clothesType);
+                intent.putExtra("ID", clothesID);
                 startActivity(intent);
             }
         });

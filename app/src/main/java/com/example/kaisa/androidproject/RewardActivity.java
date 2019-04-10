@@ -16,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.User;
+
 public class RewardActivity extends AppCompatActivity {
 
     ImageButton imageButtonTreasure = null;
@@ -33,12 +36,16 @@ public class RewardActivity extends AppCompatActivity {
         imageButtonTreasure.setImageResource(R.drawable.aarrearkku_kiinni);
         imageViewReward = findViewById(R.id.imageview_vaate);
         guideline = findViewById(R.id.horGuideline1);
+        String[] genders = {"akka", "ukko"};
+        DbModel model = new DbModel(this);
+        User user = model.readUserFromDb();
+        int gender = user.getGender();
 
         Intent intent = getIntent();
-        int id = intent.getIntExtra("ID", 0);
+        int id = intent.getIntExtra("ID", 1);
         randomType = intent.getIntExtra("TYPE", 0);
 
-        resourceString = "akka_"+types[randomType]+"_"+id;
+        resourceString = gender+"_"+types[randomType]+"_"+id;
 
         imageButtonTreasure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +69,6 @@ public class RewardActivity extends AppCompatActivity {
         //jaloille 55
         //torsolle 80
         //päälle 100
-
         guideline.setGuidelinePercent(25);
     }
 }
