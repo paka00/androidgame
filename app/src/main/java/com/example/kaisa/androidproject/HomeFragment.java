@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     int dailyStepGoal = 5000;
     CountDownTimer countDownTimer= null;
     DbModel model = null;
-    Button btnClaimReward, btnTest, btnClothesTest = null;
+    Button btnClaimReward, btnTest = null;
     MainActivity context;
     int maxClothes = 10;
     ArrayList<Integer> clothesArrayList;
@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
-        btnClothesTest = getView().findViewById(R.id.test_clothes_button);
         btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
@@ -79,13 +78,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SplashScreenReward.class);
                 startActivity(intent);
-            }
-        });
-
-        btnClothesTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectRandomClothes();
             }
         });
     }
