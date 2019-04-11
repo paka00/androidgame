@@ -87,13 +87,22 @@
             app:layout_constraintBottom_toTopOf="@+id/distanceline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+        <View
+            android:id="@+id/characterLine2"
+            android:layout_width="7dp"
+            android:layout_height="28dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/distanceline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"/>
         <ImageView
             android:id="@+id/characterImage"
             android:layout_width="40dp"
             android:layout_height="50dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/characterLine"
+            app:layout_constraintBottom_toTopOf="@+id/characterLine2"
             />
 
         <Button
