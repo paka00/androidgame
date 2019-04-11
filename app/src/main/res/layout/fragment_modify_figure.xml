@@ -19,7 +19,7 @@
         android:background="@null"
         android:gravity="bottom|center"
         android:hint="Name"
-        android:textColor="#dd9e6f"
+        android:textColor="#a0724e"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/horGuideline9"
