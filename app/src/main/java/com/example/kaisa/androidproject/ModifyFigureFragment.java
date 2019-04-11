@@ -83,14 +83,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             model.addShirt(1, 1);
             model.addPants(1, 1);
             model.addShoes(1, 1);
-            model.addHat(2, 0);
-            model.addShirt(2, 0);
-            model.addPants(2, 0);
-            model.addShoes(2, 0);
-            model.addHat(2, 1);
-            model.addShirt(2, 1);
-            model.addPants(2, 1);
-            model.addShoes(2, 1);
+
         } else {
             isUserCreated = true;
         }
