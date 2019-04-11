@@ -430,7 +430,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
 
         model.updateUser(user);
-        tv1.setText(Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
+        tv1.setText(distance2+" "+Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
 
 
     }
