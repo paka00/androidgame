@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
     int dailySteps;
-    int dailyStepGoal = 5000;
+    int dailyStepGoal;
     CountDownTimer countDownTimer = null;
     DbModel model = null;
     Button btnClaimReward, btnTest = null;
@@ -63,14 +63,19 @@ public class HomeFragment extends Fragment {
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
-        dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
         if(!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
+            dailyStepGoal = user.getDailyStepGoal();
             dailyStepsCheck();
         }
+        else {
+            dailyStepGoal = getRandomSteps();
+        }
+        Log.d("homefragment", "onviewcreated");
+        dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         startCountdownTimer();
 
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +88,21 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            try {
+                User user = model.readUserFromDb();
+                user.setDailyStepGoal(dailyStepGoal);
+                model.updateUser(user);
+            } catch (NullPointerException e) {
+                Log.d("homefragment", e.toString());
+            }
+            Log.d("homefragment", "setuservisiblehint");
+        }
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -176,8 +196,10 @@ public class HomeFragment extends Fragment {
                 DbModel model = new DbModel(getContext());
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
+                dailyStepGoal = getRandomSteps();
                 user.setDailyStepHelper(totalSteps);
                 user.setDailyReward(0);
+                user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
                 startCountdownTimer();
             }
@@ -303,5 +325,11 @@ public class HomeFragment extends Fragment {
             bool = true;
         }
         return bool;
+    }
+
+    public int getRandomSteps() {
+        Random r = new Random();
+        int i = r.nextInt((10 - 5) + 1) + 5;
+        return i * 1000;
     }
 }

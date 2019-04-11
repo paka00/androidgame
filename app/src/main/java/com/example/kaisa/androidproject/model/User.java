@@ -22,8 +22,9 @@ public class User implements Serializable {
     String walkTime;
     float walkDistance;
     int dailyReward;
+    int dailyStepGoal;
 
-    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward, int dailyStepGoal) {
         this.name = name;
         this.gender = gender;
         this.hat = hat;
@@ -42,6 +43,7 @@ public class User implements Serializable {
         this.walkTime = walkTime;
         this.walkDistance = walkDistance;
         this.dailyReward = dailyReward;
+        this.dailyStepGoal = dailyStepGoal;
     }
 
     public int getSteps() {
@@ -196,4 +198,11 @@ public class User implements Serializable {
         this.dailyReward = dailyReward;
     }
 
+    public int getDailyStepGoal() {
+        return dailyStepGoal;
+    }
+
+    public void setDailyStepGoal(int dailyStepGoal) {
+        this.dailyStepGoal = dailyStepGoal;
+    }
 }
