@@ -178,8 +178,13 @@ public class AchievementsFragment extends Fragment {
         giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
         monsterAnimation.start();
-        monster.setX(200);
-        monsterimg.setX(200-dpWidth/16);
+
+        float monsterTravelledDistance = 2500;
+        float monsterDistance = monsterTravelledDistance;
+        monsterDistance =   monsterTravelledDistance * percentagedistance;
+       characterdistancetxt.setText(Float.toString(monsterDistance));
+        monster.setX(monsterDistance);
+        monsterimg.setX(monsterDistance-dpWidth/10);
 
 
         if (distancem <= (dpWidth / 2)) {

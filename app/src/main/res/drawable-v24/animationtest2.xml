@@ -10,10 +10,10 @@
         android:duration="200"/>
     <item
         android:drawable="@drawable/monster_idle_3"
-        android:duration="200"/>
+        android:duration="150"/>
     <item
         android:drawable="@drawable/monster_idle_4"
-        android:duration="200"/>
+        android:duration="150"/>
 
 
 

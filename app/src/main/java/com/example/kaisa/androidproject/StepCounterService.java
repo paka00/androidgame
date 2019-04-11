@@ -124,8 +124,10 @@ public class StepCounterService extends Service implements SensorEventListener {
         User user = model.readUserFromDb();
         dailyStepHelper = user.getDailyStepHelper();
         dailyStepCounter = totalStepCounter - dailyStepHelper;
-        totalDistance = totalStepCounter * 0.000762;
         dailyDistance = dailyStepCounter * 0.000762;
+       totalDistance = user.getTotalDistance();
+        totalDistance = totalDistance + 0.5;
+        user.setTotalDistance(totalDistance);
         if (!model.checkIfTableEmpty()) {
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);

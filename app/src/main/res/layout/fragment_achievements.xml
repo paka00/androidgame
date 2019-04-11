@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,27 +7,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/tausta_achievements"
-    tools:context=".AchievementsFragment">
+    tools:context=".AchievementsFragment"
+    >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:paddingBottom="50dp">
+
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/layout"
+        android:id="@+id/clayout"
         android:layout_width="match_parent"
-        android:layout_gravity="bottom"
         android:layout_height="380dp"
-
+        android:paddingTop="70dp"
         >
 
         <View
             android:id="@+id/view"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#000000"
+            android:background="#07000000"
             tools:ignore="MissingConstraints" />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#000000"
+            android:background="#07000000"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints" />
 
@@ -95,21 +106,18 @@
 
     </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="top">
+
+
 
             <TextView
                 android:id="@+id/steps"
                 android:layout_width="270dp"
                 android:layout_height="85dp"
                 android:layout_gravity="left"
-                android:background="@color/colorPrimary"
                 android:text="test"
-                android:textColor="#FFFFFF"
+                android:textColor="#000"
                 android:textSize="25dp"
+                android:background="#07000000"
                 android:visibility="visible" />
 
             <TextView
@@ -117,10 +125,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:background="@color/colorPrimaryDark"
+                android:background="#07000000"
                 android:text="test"
-                android:textColor="#FFFFFF"
+                android:textColor="#000"
                 android:textSize="25dp"
                 android:visibility="visible" />
+
         </LinearLayout>
+</ScrollView>
 </FrameLayout>
