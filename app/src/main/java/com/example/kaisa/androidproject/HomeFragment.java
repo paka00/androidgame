@@ -304,18 +304,4 @@ public class HomeFragment extends Fragment {
         }
         return bool;
     }
-
-    public void sendRandomClothes(int rand) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("clothesType", clothesType);
-        bundle.putInt("randClothes", rand);
-
-        ModifyFigureFragment fragment = new ModifyFigureFragment();
-        fragment.setArguments(bundle);
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content, fragment)
-                .commit();
-    }
 }

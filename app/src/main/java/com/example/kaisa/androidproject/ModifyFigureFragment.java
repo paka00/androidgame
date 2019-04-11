@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -68,6 +69,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
         imageview_feet = getView().findViewById(R.id.imageview_feet);
+        isUserCreated = false;
         DbModel model = new DbModel(getContext());
         if (model.checkIfTableEmpty()){
             model.addHat(1, 0);
@@ -194,7 +196,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && isUserCreated) {
-            readUnlockedClothes();
+            try {
+                readUnlockedClothes();
+            } catch (NullPointerException e) {
+                Log.d("modifyfigure", e.toString());
+            }
             Log.d("modifyfigure", "setuservisiblehint");
         }
     }
