@@ -172,7 +172,9 @@ public class HomeFragment extends Fragment {
             public void onFinish() {
                 DbModel model = new DbModel(getContext());
                 User user = model.readUserFromDb();
-                user.setDailyReset(1);
+                int totalSteps = user.getTotalSteps();
+                user.setDailyStepHelper(totalSteps);
+                user.setDailyReward(0);
                 model.updateUser(user);
                 startCountdownTimer();
             }
