@@ -44,7 +44,6 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_WALK_TIME, addable.walkTime);
         userValues.put(DbContract.User.COLUMN_WALK_DISTANCE, addable.walkDistance);
         userValues.put(DbContract.User.COLUMN_DAILY_REWARD, addable.dailyReward);
-        userValues.put(DbContract.User.COLUMN_DAILY_RESET, addable.dailyReset);
 
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME_USER, null, userValues);
@@ -90,8 +89,7 @@ public class DbModel {
             String walkTime = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_TIME));
             float walkDistance = cursor.getFloat(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DISTANCE));
             int dailyReward = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_REWARD));
-            int dailyReset = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_RESET));
-            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward, dailyReset);
+            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward);
         }
         cursor.close();
 
@@ -119,7 +117,6 @@ public class DbModel {
         String walkTime = user.getWalkTime();
         float walkDistance = user.getWalkDistance();
         int dailyReward = user.getDailyReward();
-        int dailyReset = user.getDailyReset();
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_USERNAME, name);
@@ -140,7 +137,6 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_WALK_TIME, walkTime);
         values.put(DbContract.User.COLUMN_WALK_DISTANCE, walkDistance);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, dailyReward);
-        values.put(DbContract.User.COLUMN_DAILY_RESET, dailyReset);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";
@@ -160,7 +156,6 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, 0);
-        values.put(DbContract.User.COLUMN_DAILY_RESET, 1);
         String selection = DbContract.User._ID + " LIKE ?";
         String[] selectionArgs = { "1" };
 
