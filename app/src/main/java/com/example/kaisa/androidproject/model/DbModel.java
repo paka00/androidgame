@@ -60,9 +60,30 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         User user = null;
 
+        String[] projection = {
+                DbContract.User.COLUMN_USERNAME,
+                DbContract.User.COLUMN_GENDER,
+                DbContract.User.COLUMN_HAT,
+                DbContract.User.COLUMN_SHIRT,
+                DbContract.User.COLUMN_PANTS,
+                DbContract.User.COLUMN_SHOES,
+                DbContract.User.COLUMN_LEVEL,
+                DbContract.User.COLUMN_TOTAL_STEPS,
+                DbContract.User.COLUMN_DAILY_STEPS,
+                DbContract.User.COLUMN_STEP_COUNTER_HELPER,
+                DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER,
+                DbContract.User.COLUMN_TOTAL_DISTANCE,
+                DbContract.User.COLUMN_DAILY_DISTANCE,
+                DbContract.User.COLUMN_AVERAGE_SPEED,
+                DbContract.User.COLUMN_WALK_DATE,
+                DbContract.User.COLUMN_WALK_TIME,
+                DbContract.User.COLUMN_WALK_DISTANCE,
+                DbContract.User.COLUMN_DAILY_REWARD
+        };
+
         Cursor cursor = db.query(
                 DbContract.User.TABLE_NAME_USER,
-                null,
+                projection,
                 null,
                 null,
                 null,
