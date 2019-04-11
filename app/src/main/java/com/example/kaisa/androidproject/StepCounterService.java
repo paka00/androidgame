@@ -122,10 +122,15 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
         User user = model.readUserFromDb();
+        Intent intent = new Intent("StepCounter");
+        String sSteps = String.valueOf(totalStepCounter);
+        String dSteps = String.valueOf(dailyStepCounter);
         dailyStepHelper = user.getDailyStepHelper();
         dailyStepCounter = totalStepCounter - dailyStepHelper;
-        totalDistance = totalStepCounter * 0.000762;
         dailyDistance = dailyStepCounter * 0.000762;
+       totalDistance = user.getTotalDistance();
+        totalDistance = totalDistance + 0.5;
+        user.setTotalDistance(totalDistance);
         if (!model.checkIfTableEmpty()) {
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);
@@ -134,5 +139,10 @@ public class StepCounterService extends Service implements SensorEventListener {
             user.setDailyDistance(dailyDistance);
             model.updateUser(user);
         }
+        intent.putExtra("steps_int", totalStepCounter);
+        intent.putExtra("daily_steps_int", dailyStepCounter);
+        intent.putExtra("steps_string", sSteps);
+        intent.putExtra("dsteps_string", dSteps);
+        sendBroadcast(intent);
     }
 }

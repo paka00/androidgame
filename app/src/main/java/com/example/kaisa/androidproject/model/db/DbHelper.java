@@ -20,6 +20,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_DAILY_STEPS + " INTEGER," +
                     DbContract.User.COLUMN_STEP_COUNTER_HELPER + " INTEGER," +
                     DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER + " INTEGER," +
+                    DbContract.User.COLUMN_DAILY_STEP_GOAL + " INTEGER," +
                     DbContract.User.COLUMN_TOTAL_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_DAILY_DISTANCE + " DOUBLE," +
                     DbContract.User.COLUMN_AVERAGE_SPEED + " DOUBLE," +
