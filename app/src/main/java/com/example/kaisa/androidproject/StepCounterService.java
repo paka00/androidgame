@@ -175,7 +175,8 @@ public class StepCounterService extends Service implements SensorEventListener {
                 user.setDailySteps(dailyStepCounter);
                 user.setDailyStepHelper(dailyStepHelper);
                 user.setStepHelper(stepHelper);
-                totalDistance = totalDistance + 0.5;
+
+                totalDistance = totalDistance + 0.5;//monster distance tänne
                 user.setTotalDistance(totalDistance);
                 user.setDailyDistance(dailyDistance);
                 model.updateUser(user);

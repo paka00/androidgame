@@ -32,7 +32,7 @@ public class AchievementsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     TextView textView = null;
     Button boxButton = null;
-    View character = null;
+    View gift = null;
     float distancem = 0;
     static final float distancerange = 10000;
     float percentagedistance = 0;
@@ -48,6 +48,11 @@ public class AchievementsFragment extends Fragment {
     TextView jogdata = null;
     double dbdailydistance = 0;
     AnimationDrawable wifianimation;
+    AnimationDrawable monsterAnimation;
+
+    ImageView monsterimg = null;
+   View monster = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,10 +65,15 @@ public class AchievementsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         boxButton = getView().findViewById(R.id.moveButton);
-        character = getView().findViewById(R.id.box);
+        gift = getView().findViewById(R.id.box);
         giftimg = getView().findViewById(R.id.gift);
         giftimg.setBackgroundResource(R.drawable.animationtest);
         wifianimation = (AnimationDrawable) giftimg.getBackground();
+                monster = getView().findViewById(R.id.monsterline);
+        monsterimg = getView().findViewById(R.id.monsterImage);
+
+        monsterimg.setBackgroundResource(R.drawable.animationtest2);
+        monsterAnimation = (AnimationDrawable) monsterimg.getBackground();
 
         characterdistancetxt = getView().findViewById(R.id.distancecharacter);
         boxButton.setOnClickListener(new View.OnClickListener() {
@@ -162,16 +172,19 @@ public class AchievementsFragment extends Fragment {
 
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
-        distancem = distancem * percentagedistance;
-        character.setX(distancem);
+        distancem = dpWidth-(distancem * percentagedistance);
+        gift.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
+        monsterAnimation.start();
+        monster.setX(200);
+        monsterimg.setX(200-dpWidth/16);
 
 
-        if (distancem >= (dpWidth / 2)) {
-            distancem = -dpWidth/1000;
-            character.setX(distancem);
+        if (distancem <= (dpWidth / 2)) {
+            distancem = dpWidth;
+            gift.setX(distancem);
         }
 
 

@@ -58,6 +58,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Typeface custom_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         nameEditText.setTypeface(custom_font);
         nameEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+        nameEditText.setCursorVisible(false);
         imageview_head = getView().findViewById(R.id.imageview_head);
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
