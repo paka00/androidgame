@@ -47,6 +47,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     MainActivity context;
     EditText nameEditText = null;
     boolean isUserCreated = false;
+    ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,29 +95,29 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Log.d("modifyfigure", "male head array size: " + maleHeadList.size());
         Log.d("modifyfigure", "male head array: " + maleHeadList);
         setMaleCharacter();
-        ImageButton button_head_to_left = getView().findViewById(R.id.button_head_to_left);
+        button_head_to_left = getView().findViewById(R.id.button_head_to_left);
         button_head_to_left.setOnClickListener(this);
 
-        ImageButton button_head_to_right = getView().findViewById(R.id.button_head_to_right);
+        button_head_to_right = getView().findViewById(R.id.button_head_to_right);
         button_head_to_right.setOnClickListener(this);
 
-        ImageButton button_torso_to_left = getView().findViewById(R.id.button_torso_to_left);
+        button_torso_to_left = getView().findViewById(R.id.button_torso_to_left);
         button_torso_to_left.setOnClickListener(this);
 
-        ImageButton button_torso_to_right = getView().findViewById(R.id.button_torso_to_right);
+        button_torso_to_right = getView().findViewById(R.id.button_torso_to_right);
         button_torso_to_right.setOnClickListener(this);
 
-        ImageButton button_legs_to_left = getView().findViewById(R.id.button_legs_to_left);
+        button_legs_to_left = getView().findViewById(R.id.button_legs_to_left);
         button_legs_to_left.setOnClickListener(this);
 
-        ImageButton button_legs_to_right = getView().findViewById(R.id.button_legs_to_right);
+        button_legs_to_right = getView().findViewById(R.id.button_legs_to_right);
         button_legs_to_right.setOnClickListener(this);
 
-        ImageButton button_feets_to_left = getView().findViewById(R.id.button_feet_to_left);
-        button_feets_to_left.setOnClickListener(this);
+        button_feet_to_left = getView().findViewById(R.id.button_feet_to_left);
+        button_feet_to_left.setOnClickListener(this);
 
-        ImageButton button_feets_to_right = getView().findViewById(R.id.button_feet_to_right);
-        button_feets_to_right.setOnClickListener(this);
+        button_feet_to_right = getView().findViewById(R.id.button_feet_to_right);
+        button_feet_to_right.setOnClickListener(this);
 
         Button femaleButton = getView().findViewById(R.id.button_female);
         femaleButton.setOnClickListener(this);
@@ -188,6 +190,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
+
+        if(model.checkIfTableEmpty()){
+            button_head_to_left.setVisibility(View.INVISIBLE);
+            button_head_to_right.setVisibility(View.INVISIBLE);
+            button_torso_to_left.setVisibility(View.INVISIBLE);
+            button_torso_to_right.setVisibility(View.INVISIBLE);
+            button_legs_to_left.setVisibility(View.INVISIBLE);
+            button_legs_to_right.setVisibility(View.INVISIBLE);
+            button_feet_to_left.setVisibility(View.INVISIBLE);
+            button_feet_to_right.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -389,6 +402,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         context.viewPager.disableScroll(false);
         context.navigation.setVisibility(View.VISIBLE);
         context.imageButton.setVisibility(View.VISIBLE);
+        button_head_to_left.setVisibility(View.VISIBLE);
+        button_head_to_right.setVisibility(View.VISIBLE);
+        button_torso_to_left.setVisibility(View.VISIBLE);
+        button_torso_to_right.setVisibility(View.VISIBLE);
+        button_legs_to_left.setVisibility(View.VISIBLE);
+        button_legs_to_right.setVisibility(View.VISIBLE);
+        button_feet_to_left.setVisibility(View.VISIBLE);
+        button_feet_to_right.setVisibility(View.VISIBLE);
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
         context.databaseEmpty = false;

@@ -114,7 +114,11 @@ public class HomeFragment extends Fragment {
             btnClaimReward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Reward claimed!", Toast.LENGTH_SHORT).show();
+                    selectRandomClothes();
+                    Intent intent = new Intent(getActivity(), RewardActivity.class);
+                    intent.putExtra("TYPE", clothesType);
+                    intent.putExtra("ID", clothesID);
+                    startActivity(intent);
                     dailyTask.setText("Task done! Wait for tomorrow");
                     btnClaimReward.setVisibility(View.GONE);
                     user.setDailyReward(1);
