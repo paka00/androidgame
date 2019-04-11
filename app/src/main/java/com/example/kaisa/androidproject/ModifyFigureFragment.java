@@ -1,16 +1,20 @@
 package com.example.kaisa.androidproject;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -42,6 +46,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet;
     MainActivity context;
     EditText nameEditText = null;
+    boolean isUserCreated = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,15 +86,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             model.addShirt(2, 1);
             model.addPants(2, 1);
             model.addShoes(2, 1);
+        } else {
+            isUserCreated = true;
         }
-        addToMaleHeadList(model.readHats(0));
-        addToMaleTorsoList(model.readShirts(0));
-        addToMaleLegList(model.readPants(0));
-        addToMaleFeetList(model.readShoes(0));
-        addToFemaleHeadList(model.readHats(1));
-        addToFemaleTorsoList(model.readShirts(1));
-        addToFemaleLegList(model.readPants(1));
-        addToFemaleFeetList(model.readShoes(1));
+        readUnlockedClothes();
         Log.d("modifyfigure", "male head array size: " + maleHeadList.size());
         Log.d("modifyfigure", "male head array: " + maleHeadList);
         setMaleCharacter();
@@ -152,6 +152,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
         }
 
+
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -166,10 +167,37 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
+
+        nameEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        nameEditText.clearFocus();
+                        nameEditText.setFocusable(false);
+                        nameEditText.setFocusableInTouchMode(false);
+                        getView().setFocusableInTouchMode(true);
+                        getView().setFocusable(true);
+                        getView().requestFocus();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && isUserCreated) {
+            readUnlockedClothes();
+            Log.d("modifyfigure", "setuservisiblehint");
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -187,6 +215,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             if (context.databaseEmpty) {
                 //If database is empty
                 createNewFigure();
+                isUserCreated = true;
             } else {
                 saveClothesToDatabase();
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
@@ -367,6 +396,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleHeadList(ArrayList<Integer> list){
+        maleHeadList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_paa_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -375,6 +405,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleTorsoList(ArrayList<Integer> list){
+        maleTorsoList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_torso_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -383,6 +414,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleLegList(ArrayList<Integer> list){
+        maleLegList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_pants_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -391,6 +423,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToMaleFeetList(ArrayList<Integer> list){
+        maleFeetList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_shoes_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -420,6 +453,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_feet.setImageResource(R.drawable.ukko_shoes_1);
     }
     public void addToFemaleHeadList(ArrayList<Integer> list){
+        femaleHeadList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_paa_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -427,6 +461,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
     public void addToFemaleTorsoList(ArrayList<Integer> list){
+        femaleTorsoList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_torso_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -435,6 +470,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToFemaleLegList(ArrayList<Integer> list){
+        femaleLegList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_pants_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -443,6 +479,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
     public void addToFemaleFeetList(ArrayList<Integer> list){
+        femaleFeetList.clear();
         for(int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_shoes_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -454,7 +491,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
         if(model.checkIfTableEmpty()) {
-            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0, 0);
+            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0);
             model.addUserToDb(user);
         }
         else {
@@ -488,5 +525,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             legPosition = 0;
             feetPosition = 0;
         }
+    }
+
+    public void readUnlockedClothes() {
+        DbModel model = new DbModel(getContext());
+        addToMaleHeadList(model.readHats(0));
+        addToMaleTorsoList(model.readShirts(0));
+        addToMaleLegList(model.readPants(0));
+        addToMaleFeetList(model.readShoes(0));
+        addToFemaleHeadList(model.readHats(1));
+        addToFemaleTorsoList(model.readShirts(1));
+        addToFemaleLegList(model.readPants(1));
+        addToFemaleFeetList(model.readShoes(1));
     }
 }
