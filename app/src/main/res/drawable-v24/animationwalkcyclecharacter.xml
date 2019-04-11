@@ -3,19 +3,13 @@
 
 
     <item
-        android:drawable="@drawable/monster_idle_1"
+        android:drawable="@drawable/ic_walk_cycle1"
         android:duration="200"/>
     <item
-        android:drawable="@drawable/monster_idle_2"
+        android:drawable="@drawable/ic_walk_cycle2"
         android:duration="200"/>
     <item
-        android:drawable="@drawable/monster_idle_3"
+        android:drawable="@drawable/ic_walk_cycle3"
         android:duration="200"/>
-    <item
-        android:drawable="@drawable/monster_idle_4"
-        android:duration="200"/>
-
-
-
 
 </animation-list>

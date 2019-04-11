@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,25 +7,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/tausta_achievements"
-    tools:context=".AchievementsFragment">
+    tools:context=".AchievementsFragment"
+    >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:paddingBottom="70dp">
+
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/layout"
+        android:id="@+id/clayout"
         android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_height="250dp">
+        android:layout_height="380dp"
+        android:paddingTop="80dp"
+        >
 
         <View
             android:id="@+id/view"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#000000"
+            android:background="#07000000"
             tools:ignore="MissingConstraints" />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#000000"
+            android:background="#07000000"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints" />
 
@@ -45,22 +58,52 @@
             android:background="#000000"
             app:layout_constraintBottom_toTopOf="@+id/distanceline"
             tools:ignore="MissingConstraints" />
+        <View
+            android:id="@+id/monsterline"
+            android:layout_width="7dp"
+            android:layout_height="20dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/distanceline"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/gift"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            app:layout_constraintBottom_toTopOf="@+id/box"
+            tools:ignore="MissingConstraints" />
+        <ImageView
+            android:id="@+id/monsterImage"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
             app:layout_constraintBottom_toTopOf="@+id/box"
             tools:ignore="MissingConstraints" />
 
         <View
-            android:id="@+id/character"
+            android:id="@+id/characterLine"
             android:layout_width="7dp"
             android:layout_height="20dp"
             android:background="#000000"
             app:layout_constraintBottom_toTopOf="@+id/distanceline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+        <View
+            android:id="@+id/characterLine2"
+            android:layout_width="7dp"
+            android:layout_height="28dp"
+            android:background="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/distanceline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/characterImage"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/characterLine2"
+            />
 
         <Button
             android:id="@+id/moveButton"
@@ -80,21 +123,18 @@
 
     </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="top">
+
+
 
             <TextView
                 android:id="@+id/steps"
                 android:layout_width="270dp"
                 android:layout_height="85dp"
                 android:layout_gravity="left"
-                android:background="@color/colorPrimary"
                 android:text="test"
-                android:textColor="#FFFFFF"
+                android:textColor="#000"
                 android:textSize="25dp"
+                android:background="#07000000"
                 android:visibility="visible" />
 
             <TextView
@@ -102,10 +142,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:background="@color/colorPrimaryDark"
+                android:background="#07000000"
                 android:text="test"
-                android:textColor="#FFFFFF"
+                android:textColor="#000"
                 android:textSize="25dp"
                 android:visibility="visible" />
+
         </LinearLayout>
+</ScrollView>
 </FrameLayout>
