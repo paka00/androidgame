@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public BottomNavigationView navigation;
     public boolean databaseEmpty = false;
     DbModel model = new DbModel(MainActivity.this);
+    int i = 0;
+    boolean appOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
+        Log.v("start", "main activity startattu");
+
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -98,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
         });
         setupViewpager(viewPager);
         checkIfUserExist();
+
+        if(appOn == false){
+            appOn = true;
+            //if stop date == null;->do nothing
+            //else{
+            //compare times}
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -143,8 +154,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //save app close date and time to database.
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        //save start date and time
+    }
 
     public boolean selectFragment(Fragment fragment) {
         getSupportFragmentManager()
