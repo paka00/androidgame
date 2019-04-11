@@ -17,14 +17,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="bottom"
-        android:paddingBottom="50dp">
+        android:paddingBottom="70dp">
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clayout"
         android:layout_width="match_parent"
         android:layout_height="380dp"
-        android:paddingTop="70dp"
+        android:paddingTop="80dp"
         >
 
         <View
