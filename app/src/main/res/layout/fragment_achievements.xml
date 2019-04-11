@@ -80,13 +80,21 @@
             tools:ignore="MissingConstraints" />
 
         <View
-            android:id="@+id/character"
+            android:id="@+id/characterLine"
             android:layout_width="7dp"
             android:layout_height="20dp"
             android:background="#000000"
             app:layout_constraintBottom_toTopOf="@+id/distanceline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+        <ImageView
+            android:id="@+id/characterImage"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/characterLine"
+            />
 
         <Button
             android:id="@+id/moveButton"

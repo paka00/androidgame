@@ -49,6 +49,8 @@ public class AchievementsFragment extends Fragment {
     double dbdailydistance = 0;
     AnimationDrawable wifianimation;
     AnimationDrawable monsterAnimation;
+    AnimationDrawable characterWalkAnimation;
+    ImageView characterimg= null;
 
     ImageView monsterimg = null;
    View monster = null;
@@ -69,11 +71,15 @@ public class AchievementsFragment extends Fragment {
         giftimg = getView().findViewById(R.id.gift);
         giftimg.setBackgroundResource(R.drawable.animationtest);
         wifianimation = (AnimationDrawable) giftimg.getBackground();
-                monster = getView().findViewById(R.id.monsterline);
-        monsterimg = getView().findViewById(R.id.monsterImage);
+        monster = getView().findViewById(R.id.monsterline);
 
+        monsterimg = getView().findViewById(R.id.monsterImage);
         monsterimg.setBackgroundResource(R.drawable.animationtest2);
         monsterAnimation = (AnimationDrawable) monsterimg.getBackground();
+
+        characterimg = getView().findViewById(R.id.characterImage);
+        characterimg.setBackgroundResource(R.drawable.animationwalkcyclecharacter);
+        characterWalkAnimation = (AnimationDrawable) characterimg.getBackground();
 
         characterdistancetxt = getView().findViewById(R.id.distancecharacter);
         boxButton.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +184,7 @@ public class AchievementsFragment extends Fragment {
         giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
         monsterAnimation.start();
+        characterWalkAnimation.start();
 
         float monsterTravelledDistance = 2500;
         float monsterDistance = monsterTravelledDistance;
@@ -185,6 +192,7 @@ public class AchievementsFragment extends Fragment {
        characterdistancetxt.setText(Float.toString(monsterDistance));
         monster.setX(monsterDistance);
         monsterimg.setX(monsterDistance-dpWidth/10);
+
 
 
         if (distancem <= (dpWidth / 2)) {
