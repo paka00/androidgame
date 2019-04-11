@@ -7,6 +7,8 @@
     android:background="@drawable/hahmonluonti"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".ModifyFigureFragment">
 
 

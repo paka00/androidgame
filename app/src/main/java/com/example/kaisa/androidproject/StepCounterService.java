@@ -1,9 +1,6 @@
 package com.example.kaisa.androidproject;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
@@ -18,8 +15,6 @@ import android.util.Log;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
-import java.util.Calendar;
-
 public class StepCounterService extends Service implements SensorEventListener {
 
     SensorManager sensorManager = null;
@@ -32,7 +27,6 @@ public class StepCounterService extends Service implements SensorEventListener {
     int countSteps;
     double totalDistance;
     double dailyDistance;
-    boolean isUserCreated = true;
     boolean serviceStopped;
     private final Handler handler = new Handler();
     User user = null;
@@ -41,7 +35,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         model = new DbModel(this);
-        if(!model.checkIfTableEmpty()) {
+        if (!model.checkIfTableEmpty()) {
             try {
                 user = model.readUserFromDb();
                 totalStepCounter = user.getSteps();
@@ -55,15 +49,11 @@ public class StepCounterService extends Service implements SensorEventListener {
                     Log.v("stepsdb", "table doesn't exist");
                 }
             }
-        }
-        else {
-            //setDailyResetAlarm();
+        } else {
             stepHelper = 0;
             totalStepCounter = 0;
             dailyStepHelper = 0;
             dailyStepCounter = 0;
-            isUserCreated = false;
-            resetDailySteps();
             Log.v("stepscounter", "total stepcounter reset");
         }
         super.onCreate();
@@ -81,14 +71,6 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepservice", "onstart");
         handler.removeCallbacks(updateBroadcastData);
         handler.post(updateBroadcastData);
-        /*try {
-            if (intent.hasExtra("reset")) {
-                resetDailySteps();
-                Log.v("stepsdailyreset", "reset intent");
-            }
-        } catch (Exception e) {
-            Log.v("stepservice", "intent null");
-        }*/
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -109,22 +91,14 @@ public class StepCounterService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
-            User user = model.readUserFromDb();
             if (!model.checkIfTableEmpty()) {
                 if (stepHelper == 0) {
                     Log.v("stepscounter", "stepcounter = 0");
                     stepHelper = (int) event.values[0];
-                    dailyStepHelper = (int) event.values[0];
-                } else if (user.getDailyReset() == 1) {
-                    resetDailySteps();
-                    user.setDailyStepHelper(dailyStepHelper);
-                    user.setDailySteps(dailyStepCounter);
-                    user.setDailyReset(0);
-                    model.updateUser(user);
+                    dailyStepHelper = totalStepCounter;
                 }
             }
             totalStepCounter = countSteps - stepHelper;
-            dailyStepCounter = countSteps - dailyStepHelper;
             Log.v("totalsteps", "" + totalStepCounter);
             Log.v("dailysteps", "" + dailyStepCounter);
         }
@@ -133,12 +107,6 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
-
-    public void resetDailySteps() {
-        Log.v("stepscounter", "resetDailySteps");
-        dailyStepHelper = countSteps;
-        dailyStepCounter = 0;
     }
 
     private Runnable updateBroadcastData = new Runnable() {
@@ -153,54 +121,18 @@ public class StepCounterService extends Service implements SensorEventListener {
     private void broadcastSteps() {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
-        Intent intent = new Intent("StepCounter");
-        String sSteps = String.valueOf(totalStepCounter);
-        String dSteps = String.valueOf(dailyStepCounter);
-        //totalDistance = totalStepCounter * 0.00076;
-        dailyDistance = dailyStepCounter * 0.000762;
         User user = model.readUserFromDb();
-        if(!model.checkIfTableEmpty()) {
-            //User newUser = new User("Pentti", 0, 0, 0, 0, 0, 0, 0, 0, stepHelper, dailyStepHelper, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
-            //model.addUserToDb(newUser);
-            isUserCreated = true;
-            if (user.getDailyReset() == 1){
-                resetDailySteps();
-                user.setDailyStepHelper(dailyStepHelper);
-                user.setDailySteps(dailyStepCounter);
-                user.setDailyReset(0);
-                model.updateUser(user);
-            }
-            else {
-                user.setTotalSteps(totalStepCounter);
-                user.setDailySteps(dailyStepCounter);
-                user.setDailyStepHelper(dailyStepHelper);
-                user.setStepHelper(stepHelper);
-
-                totalDistance = totalDistance + 0.5;//monster distance tänne
-                user.setTotalDistance(totalDistance);
-                user.setDailyDistance(dailyDistance);
-                model.updateUser(user);
-            }
+        dailyStepHelper = user.getDailyStepHelper();
+        dailyStepCounter = totalStepCounter - dailyStepHelper;
+        totalDistance = totalStepCounter * 0.000762;
+        dailyDistance = dailyStepCounter * 0.000762;
+        if (!model.checkIfTableEmpty()) {
+            user.setTotalSteps(totalStepCounter);
+            user.setDailySteps(dailyStepCounter);
+            user.setDailyStepHelper(dailyStepHelper);
+            user.setStepHelper(stepHelper);
+            user.setDailyDistance(dailyDistance);
+            model.updateUser(user);
         }
-        intent.putExtra("steps_int", totalStepCounter);
-        intent.putExtra("daily_steps_int", dailyStepCounter);
-        intent.putExtra("steps_string", sSteps);
-        intent.putExtra("dsteps_string", dSteps);
-        sendBroadcast(intent);
     }
-
-    /*protected void setDailyResetAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 55);
-        calendar.set(Calendar.SECOND, 0);
-        Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        AlarmManager alarmMgr = (AlarmManager)StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
-
-        alarmMgr.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmPendingIntent);
-        Log.v("stepsalarm", "alarm set");
-    }*/
 }
