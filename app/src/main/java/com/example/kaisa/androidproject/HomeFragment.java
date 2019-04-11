@@ -165,9 +165,6 @@ public class HomeFragment extends Fragment {
     protected void startCountdownTimer() {
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTimeZone(TimeZone.getDefault());
-        /*int curYear = currentCalendar.get(Calendar.YEAR);
-        int curMonth = currentCalendar.get(Calendar.MONTH);
-        int curDay = currentCalendar.get(Calendar.DAY_OF_MONTH);*/
         Calendar timerEndCalendar = Calendar.getInstance();
         timerEndCalendar.setTimeZone(TimeZone.getDefault());
         timerEndCalendar.add(Calendar.DATE, 1);
