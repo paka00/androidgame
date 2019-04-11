@@ -43,7 +43,7 @@ public class AchievementsFragment extends Fragment {
     int totalSteps = 0;
     int memorysteps = 0;
     double dbdistance = 0;
-    String dbwalktime ;
+    String dbwalktime;
     String dbjogdate;
     TextView jogdata = null;
     double dbdailydistance = 0;
@@ -157,9 +157,7 @@ public class AchievementsFragment extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         getdbdata();
         updatedistance();
-
     }
-
 
     @Override
     public void onPause() {
