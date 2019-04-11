@@ -2,7 +2,6 @@ package com.example.kaisa.androidproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.kaisa.androidproject.model.DbModel;
@@ -20,13 +17,13 @@ import com.example.kaisa.androidproject.model.User;
 
 public class RewardActivity extends AppCompatActivity {
 
-    ImageButton imageButtonTreasure = null;
-    ImageView imageViewReward = null;
-    Button backButton = null;
+    private ImageButton imageButtonTreasure = null;
+    private ImageView imageViewReward = null;
+    private Button backButton = null;
     private String resourceString = "";
     private int randomType = 0;
-    Guideline guideline;
-    String[] types = {"paa", "torso", "pants", "shoes"};
+    private Guideline guideline;
+    private String[] types = {"paa", "torso", "pants", "shoes"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,7 @@ public class RewardActivity extends AppCompatActivity {
         int id = intent.getIntExtra("ID", 1);
         randomType = intent.getIntExtra("TYPE", 0);
 
-        resourceString = genders[gender]+"_"+types[randomType]+"_"+id;
+        resourceString = genders[gender] + "_" + types[randomType] + "_" + id;
 
         imageButtonTreasure.setOnClickListener(new View.OnClickListener() {
             @Override
