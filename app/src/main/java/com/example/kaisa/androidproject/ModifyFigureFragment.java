@@ -3,6 +3,7 @@ package com.example.kaisa.androidproject;
 import android.content.Context;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -125,7 +126,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Button maleButton = getView().findViewById(R.id.button_male);
         maleButton.setOnClickListener(this);
 
-        Button doneButton = getView().findViewById(R.id.done_button);
+        ImageButton doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
         readClothesFromDatabase();
