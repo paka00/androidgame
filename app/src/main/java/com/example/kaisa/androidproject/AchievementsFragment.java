@@ -190,8 +190,11 @@ public class AchievementsFragment extends Fragment {
         float monsterDistance = monsterTravelledDistance;
         monsterDistance =   monsterTravelledDistance * percentagedistance;
        characterdistancetxt.setText(Float.toString(monsterDistance));
-        monster.setX(monsterDistance);
-        monsterimg.setX(monsterDistance-dpWidth/10);
+       if(travelleddistance-monsterTravelledDistance<5000){
+           monster.setX(monsterDistance);
+           monsterimg.setX(monsterDistance-dpWidth/10);
+       }
+
 
 
 
