@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.Achievement;
@@ -30,6 +31,7 @@ import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AchievementsFragment extends Fragment {
 
@@ -55,8 +57,9 @@ public class AchievementsFragment extends Fragment {
     AnimationDrawable monsterAnimation;
     AnimationDrawable characterWalkAnimation;
     ImageView characterimg= null;
-
+    AchievementArrayAdapter adapter = null;
     ImageView monsterimg = null;
+    ListView listView;
    View monster = null;
 
     @Override
@@ -76,7 +79,7 @@ public class AchievementsFragment extends Fragment {
         giftimg.setBackgroundResource(R.drawable.animationtest);
         wifianimation = (AnimationDrawable) giftimg.getBackground();
         monster = getView().findViewById(R.id.monsterline);
-
+        listView = getView().findViewById(R.id.listview_achievements);
         monsterimg = getView().findViewById(R.id.monsterImage);
         monsterimg.setBackgroundResource(R.drawable.animationtest2);
         monsterAnimation = (AnimationDrawable) monsterimg.getBackground();
@@ -113,11 +116,11 @@ public class AchievementsFragment extends Fragment {
 
         final DbModel model = new DbModel(getContext());
         getdbdata();
-
         updatedistance();
+        ArrayList<Achievement> arrayListAchievements = model.readAchievements();
+        adapter = new AchievementArrayAdapter(getContext(), arrayListAchievements);
+        listView.setAdapter(adapter);
 
-        ArrayList arrayList = model.readAchievements();
-        Log.d("Toimiiko", ""+arrayList.size());
     }
 
     private void getdbdata(){
