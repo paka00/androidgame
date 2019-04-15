@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
-        navigation.setItemIconSize(50);
+        navigation.setItemIconSize(130);
         model = new DbModel(this);
         if (!model.checkIfTableEmpty()) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);

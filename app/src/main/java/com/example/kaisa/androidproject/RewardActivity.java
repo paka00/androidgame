@@ -52,6 +52,7 @@ public class RewardActivity extends AppCompatActivity {
                 scaleImage(randomType);
                 getReward(resourceString);
                 backButton.setVisibility(View.VISIBLE);
+                imageButtonTreasure.setEnabled(false);
             }
         });
 
