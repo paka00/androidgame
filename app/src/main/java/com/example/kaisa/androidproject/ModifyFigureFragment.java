@@ -3,11 +3,15 @@ package com.example.kaisa.androidproject;
 import android.content.Context;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,6 +27,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -45,10 +54,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     int gender = 0;
     int listMinValue = 0;
     String name;
-    ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet;
+    ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet, imageView_rock;
     MainActivity context;
     EditText nameEditText = null;
     boolean isUserCreated = false;
+    ConstraintLayout bg = null;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
     
 
@@ -68,6 +78,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         nameEditText.setTypeface(custom_font);
         nameEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
         nameEditText.setCursorVisible(false);
+        bg = getView().findViewById(R.id.modify_figure_fragment);
+        Glide.with(this).load(R.drawable.vesitausta).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    bg.setBackground(resource);
+                }
+            }
+        });
+        imageView_rock = getView().findViewById(R.id.rock_image);
+        Glide.with(this).load(R.drawable.kivi).into(imageView_rock);
         imageview_head = getView().findViewById(R.id.imageview_head);
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
@@ -88,31 +109,47 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             isUserCreated = true;
         }
         readUnlockedClothes();
+        loadImages(maleHeadList);
+        loadImages(maleTorsoList);
+        loadImages(maleLegList);
+        loadImages(maleFeetList);
+        loadImages(femaleHeadList);
+        loadImages(femaleTorsoList);
+        loadImages(femaleLegList);
+        loadImages(femaleFeetList);
         Log.d("modifyfigure", "male head array size: " + maleHeadList.size());
         Log.d("modifyfigure", "male head array: " + maleHeadList);
         setMaleCharacter();
         button_head_to_left = getView().findViewById(R.id.button_head_to_left);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_head_to_left);
         button_head_to_left.setOnClickListener(this);
 
         button_head_to_right = getView().findViewById(R.id.button_head_to_right);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_head_to_right);
         button_head_to_right.setOnClickListener(this);
 
         button_torso_to_left = getView().findViewById(R.id.button_torso_to_left);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_torso_to_left);
         button_torso_to_left.setOnClickListener(this);
 
         button_torso_to_right = getView().findViewById(R.id.button_torso_to_right);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_torso_to_right);
         button_torso_to_right.setOnClickListener(this);
 
         button_legs_to_left = getView().findViewById(R.id.button_legs_to_left);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_legs_to_left);
         button_legs_to_left.setOnClickListener(this);
 
         button_legs_to_right = getView().findViewById(R.id.button_legs_to_right);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_legs_to_right);
         button_legs_to_right.setOnClickListener(this);
 
         button_feet_to_left = getView().findViewById(R.id.button_feet_to_left);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_feet_to_left);
         button_feet_to_left.setOnClickListener(this);
 
         button_feet_to_right = getView().findViewById(R.id.button_feet_to_right);
+        Glide.with(this).load(R.drawable.nuoli_uusi).into(button_feet_to_right);
         button_feet_to_right.setOnClickListener(this);
 
         Button femaleButton = getView().findViewById(R.id.button_female);
@@ -371,6 +408,15 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    /*public void setMaleHeadImage(){ Glide.with(this).load(maleHeadList.get(headPosition)).into(imageview_head);}
+    public void setMaleTorsoImage(){ Glide.with(this).load(maleTorsoList.get(torsoPosition)).into(imageview_torso);}
+    public void setMaleLegImage(){ Glide.with(this).load(maleLegList.get(legPosition)).into(imageview_legs);}
+    public void setMaleFeetImage(){ Glide.with(this).load(maleFeetList.get(feetPosition)).into(imageview_feet);}
+    public void setFemaleHeadImage(){ Glide.with(this).load(femaleHeadList.get(headPosition)).into(imageview_head);}
+    public void setFemaleTorsoImage(){ Glide.with(this).load(femaleTorsoList.get(torsoPosition)).into(imageview_torso);}
+    public void setFemaleLegImage(){ Glide.with(this).load(femaleLegList.get(legPosition)).into(imageview_legs); }
+    public void setFemaleFeetImage(){ Glide.with(this).load(femaleFeetList.get(feetPosition)).into(imageview_feet);}*/
+
     public void setMaleHeadImage(){imageview_head.setImageResource(maleHeadList.get(headPosition));}
     public void setMaleTorsoImage(){ imageview_torso.setImageResource(maleTorsoList.get(torsoPosition));}
     public void setMaleLegImage(){ imageview_legs.setImageResource(maleLegList.get(legPosition));}
@@ -439,10 +485,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         torsoPosition = 0;
         legPosition = 0;
         feetPosition = 0;
-        imageview_head.setImageResource(R.drawable.akka_paa_1);
-        imageview_torso.setImageResource(R.drawable.akka_torso_1);
-        imageview_legs.setImageResource(R.drawable.akka_pants_1);
-        imageview_feet.setImageResource(R.drawable.akka_shoes_1);
+        /*Glide.with(this).load(R.drawable.akka_paa_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_head);
+        Glide.with(this).load(R.drawable.akka_torso_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_torso);
+        Glide.with(this).load(R.drawable.akka_pants_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_legs);
+        Glide.with(this).load(R.drawable.akka_shoes_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_feet);*/
+        setFemaleFeetImage();
+        setFemaleLegImage();
+        setFemaleTorsoImage();
+        setFemaleHeadImage();
     }
     public void setMaleCharacter(){
         gender = 0;
@@ -450,10 +500,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         torsoPosition = 0;
         legPosition = 0;
         feetPosition = 0;
-        imageview_head.setImageResource(R.drawable.ukko_paa_1);
-        imageview_torso.setImageResource(R.drawable.ukko_torso_1);
-        imageview_legs.setImageResource(R.drawable.ukko_pants_1);
-        imageview_feet.setImageResource(R.drawable.ukko_shoes_1);
+        /*Glide.with(this).load(R.drawable.ukko_paa_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_head);
+        Glide.with(this).load(R.drawable.ukko_torso_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_torso);
+        Glide.with(this).load(R.drawable.ukko_pants_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_legs);
+        Glide.with(this).load(R.drawable.ukko_shoes_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_feet);*/
+        setMaleFeetImage();
+        setMaleLegImage();
+        setMaleTorsoImage();
+        setMaleHeadImage();
     }
     public void addToFemaleHeadList(ArrayList<Integer> list){
         femaleHeadList.clear();
@@ -540,5 +594,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         addToFemaleTorsoList(model.readShirts(1));
         addToFemaleLegList(model.readPants(1));
         addToFemaleFeetList(model.readShoes(1));
+    }
+
+    public void loadImages(ArrayList<Integer> imageList) {
+        for (int i = 0; i < imageList.size(); i++) {
+            /*RequestOptions requestOptions = RequestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+
+            Glide.with(this)
+                    .asBitmap()
+                    .load(imageList.get(i))
+                    .apply(requestOptions)
+                    .submit();*/
+        }
     }
 }

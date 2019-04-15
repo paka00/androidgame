@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/vesitausta"
+    android:id="@+id/modify_figure_fragment"
     android:layout_gravity="center"
     android:orientation="vertical"
     android:focusable="true"
@@ -50,7 +50,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/kivi"
+        android:id="@+id/rock_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -103,8 +103,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni"/>
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_left"
@@ -112,8 +111,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_legs_to_left"
@@ -121,8 +119,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_feet_to_left"
@@ -130,8 +127,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
         </LinearLayout>
 
         <RelativeLayout
@@ -146,29 +142,25 @@
             android:id="@+id/imageview_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_paa_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_torso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_torso_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_legs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_pants_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_feet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_shoes_1" />
+            android:layout_centerHorizontal="true" />
         </RelativeLayout>
 
         <LinearLayout
@@ -187,8 +179,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea"/>
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_right"
@@ -198,8 +189,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_legs_to_right"
@@ -209,8 +199,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_feet_to_right"
@@ -220,8 +209,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -234,7 +222,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.71" />
 
     <android.support.constraint.Guideline
         android:id="@+id/horGuideline3"

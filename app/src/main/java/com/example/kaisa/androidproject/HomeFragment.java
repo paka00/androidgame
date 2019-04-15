@@ -4,11 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -45,6 +53,7 @@ public class HomeFragment extends Fragment {
     List<Integer> checkedValues;
     int clothesType;
     int clothesID;
+    ConstraintLayout bg = null;
 
 
     @Override
@@ -63,6 +72,15 @@ public class HomeFragment extends Fragment {
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
+        bg = getView().findViewById(R.id.fragment_home);
+        Glide.with(this).load(R.drawable.paanakyma).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    bg.setBackground(resource);
+                }
+            }
+        });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
         if(!model.checkIfTableEmpty()) {
