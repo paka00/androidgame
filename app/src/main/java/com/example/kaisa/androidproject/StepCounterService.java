@@ -40,7 +40,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         model = new DbModel(this);
-        if (!model.checkIfTableEmpty()) {
+        if (!model.checkIfUserTableEmpty()) {
             try {
                 user = model.readUserFromDb();
                 totalStepCounter = user.getSteps();
@@ -97,7 +97,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
-            if (!model.checkIfTableEmpty()) {
+            if (!model.checkIfUserTableEmpty()) {
                 if (stepHelper == 0) {
                     Log.v("stepscounter", "stepcounter = 0");
                     stepHelper = (int) event.values[0];
@@ -141,7 +141,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         totalDistance = user.getTotalDistance();
         totalDistance = totalDistance + 0.5;
         user.setTotalDistance(totalDistance);
-        if (!model.checkIfTableEmpty()) {
+        if (!model.checkIfUserTableEmpty()) {
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);

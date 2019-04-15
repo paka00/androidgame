@@ -1,26 +1,19 @@
 package com.example.kaisa.androidproject;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,8 +21,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
@@ -95,7 +86,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_feet = getView().findViewById(R.id.imageview_feet);
         isUserCreated = false;
         DbModel model = new DbModel(getContext());
-        if (model.checkIfTableEmpty()){
+        if (model.checkIfUserTableEmpty()){
             model.addHat(1, 0);
             model.addShirt(1, 0);
             model.addPants(1, 0);
@@ -206,7 +197,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
-        if(model.checkIfTableEmpty()){
+        if(model.checkIfUserTableEmpty()){
             button_head_to_left.setVisibility(View.INVISIBLE);
             button_head_to_right.setVisibility(View.INVISIBLE);
             button_torso_to_left.setVisibility(View.INVISIBLE);
@@ -547,7 +538,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void saveClothesToDatabase() {
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
-        if(model.checkIfTableEmpty()) {
+        if(model.checkIfUserTableEmpty()) {
             User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0, 0);
             model.addUserToDb(user);
         }
@@ -565,7 +556,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void readClothesFromDatabase() {
         DbModel model = new DbModel(getContext());
-        if (!model.checkIfTableEmpty()){
+        if (!model.checkIfUserTableEmpty()){
             User user = model.readUserFromDb();
             name = user.getName();
             gender = user.getGender();

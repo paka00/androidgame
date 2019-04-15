@@ -193,7 +193,7 @@ public class DbModel {
                 selectionArgs);
     }
 
-    public boolean checkIfTableEmpty() {
+    public boolean checkIfUserTableEmpty() {
         boolean empty = true;
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         String count = "SELECT count(*) FROM user";
@@ -205,6 +205,20 @@ public class DbModel {
         }
         return empty;
     }
+
+    public boolean checkIfMonsterTableEmpty() {
+        boolean empty = true;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        String count = "SELECT count(*) FROM monsterStats";
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        if(icount>0){
+            empty = false;
+        }
+        return empty;
+    }
+
 
     public void addHat (int hatNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -572,6 +586,25 @@ public class DbModel {
         String clearDBQuery2 = "DROP TABLE IF EXISTS " + DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES;
         db.execSQL(clearDBQuery);
         db.execSQL(clearDBQuery2);
+    }
+
+    public void addMonster() {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues monsterValues = new ContentValues();
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, "");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, "");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE, 0);
+        monsterValues.put(DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE, 0);
+
+        try {
+            long newRowId = db.insert(DbContract.MonsterStats.TABLE_NAME_MONSTER, null, monsterValues);
+        }
+        catch (SQLiteException e) {
+            if (e.getMessage().contains("no such table")) {
+                Log.e("stepdbmodel", "table doesn't exist");
+            }
+        }
     }
 
     public void updateMonster(Monster monster) {

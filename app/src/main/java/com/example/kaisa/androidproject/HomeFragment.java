@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -54,6 +52,7 @@ public class HomeFragment extends Fragment {
     int clothesType;
     int clothesID;
     ConstraintLayout bg = null;
+    boolean randomizeDailyStepGoal = true;
 
 
     @Override
@@ -83,13 +82,14 @@ public class HomeFragment extends Fragment {
         });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty()) {
+        if(!model.checkIfUserTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
             dailyStepsCheck();
+            randomizeDailyStepGoal = false;
         }
-        else {
+        if(randomizeDailyStepGoal) {
             dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty()) {
+            if(!model.checkIfUserTableEmpty()) {
                 dailyStepsCheck();
             }
         }
