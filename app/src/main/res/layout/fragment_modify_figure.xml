@@ -146,29 +146,25 @@
             android:id="@+id/imageview_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_paa_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_torso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_torso_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_legs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_pants_1" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:id="@+id/imageview_feet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ukko_shoes_1" />
+            android:layout_centerHorizontal="true" />
         </RelativeLayout>
 
         <LinearLayout
