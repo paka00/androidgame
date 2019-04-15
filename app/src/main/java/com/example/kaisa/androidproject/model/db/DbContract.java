@@ -40,4 +40,19 @@ public class DbContract {
         public static final String COLUMN_PANTS_F = "pantsf";
         public static final String COLUMN_SHOES_F = "shoesf";
     }
+
+    public static class MonsterStats implements BaseColumns {
+        public static final String TABLE_NAME_MONSTER = "monsterStats";
+        public static final String COLUMN_TURN_OFF_DATE = "turnOffDate";
+        public static final String COLUMN_TURN_ON_DATE = "turnonDate";
+        public static final String COLUMN_MONSTER_DISTANCE = "monsterDistance";
+        public static final String COLUMN_HIGH_SCORE_DISTANCE = "highScoreDistance";
+    }
+
+    public static class Achievement implements BaseColumns {
+        public static final String TABLE_NAME_ACHIEVEMENT = "achievement";
+        public static final String COLUMN_ACHIEVEMENT_NAME = "achievementName";
+        public static final String COLUMN_ACHIEVEMENT_DESCRIPTION = "achievementDescription";
+        public static final String COLUMN_ACHIEVEMENT_PERCENT = "achievementPercent";
+    }
 }

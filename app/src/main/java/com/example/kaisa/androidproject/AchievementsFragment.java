@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Layout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,8 +25,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kaisa.androidproject.model.Achievement;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
+
+import java.util.ArrayList;
 
 public class AchievementsFragment extends Fragment {
 
@@ -111,7 +115,11 @@ public class AchievementsFragment extends Fragment {
         getdbdata();
 
         updatedistance();
+
+        ArrayList arrayList = model.readAchievements();
+        Log.d("Toimiiko", ""+arrayList.size());
     }
+
     private void getdbdata(){
         final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty()) {
@@ -188,19 +196,15 @@ public class AchievementsFragment extends Fragment {
         float monsterDistance = monsterTravelledDistance;
         monsterDistance =   monsterTravelledDistance * percentagedistance;
        characterdistancetxt.setText(Float.toString(monsterDistance));
-        monster.setX(monsterDistance);
-        monsterimg.setX(monsterDistance-dpWidth/10);
-
-
+       if(travelleddistance-monsterTravelledDistance<5000){
+           monster.setX(monsterDistance);
+           monsterimg.setX(monsterDistance-dpWidth/10);
+       }
 
         if (distancem <= (dpWidth / 2)) {
             distancem = dpWidth;
             gift.setX(distancem);
         }
-
-
-
     }
-
 
 }

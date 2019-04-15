@@ -7,10 +7,59 @@
     tools:context=".SettingsActivity">
 
 
+    <android.support.constraint.Guideline
+        android:id="@+id/verGuideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Empty"
-        android:textSize="50dp"
-        android:gravity="center"/>
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="Select your height" />
+
+    <SeekBar
+        android:id="@+id/seekbar_height"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:max="210"
+        android:min="100"
+        app:layout_constraintTop_toBottomOf="@id/text_view" />
+
+    <TextView
+        android:id="@+id/text_view_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_view_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select the difficulty level"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekbar_difficulty"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:max="3"
+        android:min="1"
+        app:layout_constraintTop_toBottomOf="@id/text_view_difficulty" />
+
+    <TextView
+        android:id="@+id/text_view_difficultylevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEST"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

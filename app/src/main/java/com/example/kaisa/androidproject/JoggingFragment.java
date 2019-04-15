@@ -1,7 +1,6 @@
 package com.example.kaisa.androidproject;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteException;
@@ -11,13 +10,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -43,15 +40,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.os.Looper.getMainLooper;
 
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-   //yeet
-    String startbuttontxt = "Start";
     Button startButton;
     public static final int RequestPermissionCode = 1;
     private GoogleApiClient googleApiClient;
@@ -146,7 +140,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
         previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
-        startButton.setText(startbuttontxt);
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -155,43 +148,33 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                     requestPermission();
                     Toast.makeText(getActivity(), "You need to permit location to use jog functionality", Toast.LENGTH_SHORT).show();
 
-
-
                 } else {
-                    if (startbuttontxt.equals("Start")) {
+                    if (!jogStarted) {
                         context.navigation.setVisibility(View.INVISIBLE);
                         context.imageButton.setEnabled(false);
                         testPager.disableScroll(true);
-                        startbuttontxt = "Stop";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.stop_run_button);
                         requestLocationUpdates();
                         startSensor();
                         getTime();
                         jogStarted = true;
                         startsteps=user.getSteps();
 
-
-
                     } else {
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
-
-                        startbuttontxt = "Start";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.start_run_button);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();
                         jogStarted = false;
                         savedatatodb();
                         resetValues();
-
                     }
                 }
             }
         });
-
-
     }
 
 
@@ -430,7 +413,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
 
         model.updateUser(user);
-        tv1.setText(Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
+        tv1.setText(distance2+" "+Double.toString(user.getTotalDistance())+" aika> "+ user.getWalkTime()+"< "+Double.toString(jogtimeseconds));
 
 
     }
