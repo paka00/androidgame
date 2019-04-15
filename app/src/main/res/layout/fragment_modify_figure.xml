@@ -18,6 +18,8 @@
         android:layout_height="0dp"
         android:background="@null"
         android:gravity="bottom|center"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:hint="Name"
         android:textColor="#a0724e"
         android:textColorHint="@android:color/darker_gray"

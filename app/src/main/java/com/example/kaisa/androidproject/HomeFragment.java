@@ -216,6 +216,7 @@ public class HomeFragment extends Fragment {
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
                 dailyStepGoal = getRandomSteps();
+                dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
                 user.setDailyStepHelper(totalSteps);
                 user.setDailyReward(0);
                 user.setDailyStepGoal(dailyStepGoal);

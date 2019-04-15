@@ -180,6 +180,7 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
+        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, 0);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, 0);
         String selection = DbContract.User._ID + " LIKE ?";

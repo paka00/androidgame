@@ -1,6 +1,9 @@
 package com.example.kaisa.androidproject;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
@@ -14,6 +17,8 @@ import android.util.Log;
 
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
+
+import java.util.Calendar;
 
 public class StepCounterService extends Service implements SensorEventListener {
 
@@ -56,6 +61,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             dailyStepCounter = 0;
             Log.v("stepscounter", "total stepcounter reset");
         }
+        setDailyResetAlarm();
         super.onCreate();
         serviceStopped = false;
         Log.v("stepservice", "oncreate");
@@ -126,9 +132,13 @@ public class StepCounterService extends Service implements SensorEventListener {
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
         dailyStepHelper = user.getDailyStepHelper();
+        Log.v("stepservice", "dailyStepHelper: " + dailyStepHelper);
+        if (dailyStepHelper == 0){
+            dailyStepHelper = totalStepCounter;
+        }
         dailyStepCounter = totalStepCounter - dailyStepHelper;
         dailyDistance = dailyStepCounter * 0.000762;
-       totalDistance = user.getTotalDistance();
+        totalDistance = user.getTotalDistance();
         totalDistance = totalDistance + 0.5;
         user.setTotalDistance(totalDistance);
         if (!model.checkIfTableEmpty()) {
@@ -144,5 +154,21 @@ public class StepCounterService extends Service implements SensorEventListener {
         intent.putExtra("steps_string", sSteps);
         intent.putExtra("dsteps_string", dSteps);
         sendBroadcast(intent);
+    }
+
+    protected void setDailyResetAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.DATE, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        AlarmManager alarmMgr = (AlarmManager)StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
+
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmPendingIntent);
+        Log.v("stepsalarm", "alarm set");
     }
 }
