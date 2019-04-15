@@ -166,24 +166,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             }
         });
 
-        nameEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        nameEditText.clearFocus();
-                        nameEditText.setFocusable(false);
-                        nameEditText.setFocusableInTouchMode(false);
-                        getView().setFocusableInTouchMode(true);
-                        getView().setFocusable(true);
-                        getView().requestFocus();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
@@ -209,6 +191,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 Log.d("modifyfigure", e.toString());
             }
             Log.d("modifyfigure", "setuservisiblehint");
+
         }
     }
 
@@ -224,7 +207,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
 
         if (buttonID == R.id.done_button) {
-
             if (context.databaseEmpty) {
                 //If database is empty
                 createNewFigure();

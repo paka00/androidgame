@@ -573,4 +573,133 @@ public class DbModel {
         db.execSQL(clearDBQuery2);
     }
 
+    public void updateMonster(Monster monster) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        String turnOffDate = monster.getTurnOffDate();
+        String turnOnDate = monster.getTurnOnDate();
+        double monsterDistance = monster.getMonsterDistance();
+        double highScoreDistance = monster.getHighScoreDistance();
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, turnOffDate);
+        values.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, turnOnDate);
+        values.put(DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE, monsterDistance);
+        values.put(DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE, highScoreDistance);
+
+        String selection = DbContract.User._ID + " LIKE ?";
+        String[] selectionArgs = { "1" };
+
+        int count = db.update(
+                DbContract.MonsterStats.TABLE_NAME_MONSTER,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    public Monster readMonster() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Monster monster = null;
+
+        String[] projection = {
+                DbContract.MonsterStats.COLUMN_TURN_OFF_DATE,
+                DbContract.MonsterStats.COLUMN_TURN_ON_DATE,
+                DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE,
+                DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE
+        };
+
+        Cursor cursor = db.query(
+                DbContract.MonsterStats.TABLE_NAME_MONSTER,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()){
+            String turnOffDate = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE));
+            String turnOnDate = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.MonsterStats.COLUMN_TURN_ON_DATE));
+            double monsterDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE));
+            double highScoreDistance = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE));
+            monster = new Monster(turnOffDate, turnOnDate, monsterDistance, highScoreDistance);
+        }
+        cursor.close();
+
+        return monster;
+    }
+
+    public void createAchievement(Achievement achievement) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues achievementValues = new ContentValues();
+        achievementValues.put(DbContract.Achievement.COLUMN_ACHIEVEMENT_NAME, achievement.name);
+        achievementValues.put(DbContract.Achievement.COLUMN_ACHIEVEMENT_DESCRIPTION, achievement.description);
+        achievementValues.put(DbContract.Achievement.COLUMN_ACHIEVEMENT_PERCENT, achievement.completionPercent);
+
+        try {
+            long newRowId = db.insert(DbContract.Achievement.TABLE_NAME_ACHIEVEMENT, null, achievementValues);
+        }
+        catch (SQLiteException e) {
+            if (e.getMessage().contains("no such table")) {
+                Log.e("stepdbmodel", "table doesn't exist");
+            }
+        }
+    }
+
+    public void updateAchievementProgress(Achievement achievement) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        int ID = achievement.getID();
+        double completionPercent = achievement.getCompletionPercent();
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put(DbContract.Achievement.COLUMN_ACHIEVEMENT_PERCENT, completionPercent);
+
+        String selection = DbContract.User._ID + " = " + ID;
+
+        int count = db.update(
+                DbContract.MonsterStats.TABLE_NAME_MONSTER,
+                values,
+                selection,
+                null);
+    }
+
+    public ArrayList<Achievement> readAchievements() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        ArrayList<Achievement> achievements = new ArrayList<>();
+        Achievement achievement = null;
+
+        String[] projection = {
+                DbContract.Achievement.COLUMN_ACHIEVEMENT_NAME,
+                DbContract.Achievement.COLUMN_ACHIEVEMENT_DESCRIPTION,
+                DbContract.Achievement.COLUMN_ACHIEVEMENT_PERCENT,
+                DbContract.Achievement._ID
+        };
+
+        Cursor cursor = db.query(
+                DbContract.Achievement.TABLE_NAME_ACHIEVEMENT,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()){
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Achievement.COLUMN_ACHIEVEMENT_NAME));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Achievement.COLUMN_ACHIEVEMENT_DESCRIPTION));
+            double percent = cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.Achievement.COLUMN_ACHIEVEMENT_PERCENT));
+            int ID = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.Achievement._ID));
+            achievement = new Achievement(name, description, percent);
+            achievement.setID(ID);
+            achievements.add(achievement);
+        }
+        cursor.close();
+
+        return achievements;
+    }
+
 }

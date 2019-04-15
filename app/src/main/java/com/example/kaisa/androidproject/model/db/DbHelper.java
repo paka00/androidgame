@@ -40,6 +40,21 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.ClothesUnlocks.COLUMN_PANTS_M + " INTEGER," +
                     DbContract.ClothesUnlocks.COLUMN_SHOES_M + " INTEGER);";
 
+    private static final String SQL_CREATE_MONSTER_TABLE =
+            "CREATE TABLE " + DbContract.MonsterStats.TABLE_NAME_MONSTER + " (" +
+                    DbContract.MonsterStats._ID + " INTEGER PRIMARY KEY NOT NULL," +
+                    DbContract.MonsterStats.COLUMN_TURN_OFF_DATE + " STRING," +
+                    DbContract.MonsterStats.COLUMN_TURN_ON_DATE + " STRING," +
+                    DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE + " DOUBLE," +
+                    DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE + " DOUBLE);";
+
+    private static final String SQL_CREATE_ACHIEVEMENT_TABLE =
+            "CREATE TABLE " + DbContract.Achievement.TABLE_NAME_ACHIEVEMENT + " (" +
+                    DbContract.Achievement._ID + " INTEGER PRIMARY KEY NOT NULL," +
+                    DbContract.Achievement.COLUMN_ACHIEVEMENT_NAME + " STRING," +
+                    DbContract.Achievement.COLUMN_ACHIEVEMENT_DESCRIPTION + " STRING," +
+                    DbContract.Achievement.COLUMN_ACHIEVEMENT_PERCENT + " DOUBLE);";
+
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME_USER;
@@ -55,6 +70,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_CLOTHES_TABLE);
+        db.execSQL(SQL_CREATE_MONSTER_TABLE);
+        db.execSQL(SQL_CREATE_ACHIEVEMENT_TABLE);
     }
 
     @Override

@@ -17,13 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@null"
-        android:gravity="center"
-        android:hint="Name your character"
-        android:textColor="#dd9e6f"
+        android:gravity="bottom|center"
+        android:hint="Name"
+        android:textColor="#a0724e"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/horGuideline9"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLength="12"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/horGuideline1"
@@ -37,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.18" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -103,7 +104,7 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon"/>
+            android:src="@drawable/nuoli_ikoni"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_left"
@@ -112,7 +113,7 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni" />
 
         <ImageButton
             android:id="@+id/button_legs_to_left"
@@ -121,7 +122,7 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni" />
 
         <ImageButton
             android:id="@+id/button_feet_to_left"
@@ -130,7 +131,7 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni" />
         </LinearLayout>
 
         <RelativeLayout
@@ -187,7 +188,7 @@
             android:scaleY="-1"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon"/>
+            android:src="@drawable/nuoli_ikoni_vihrea"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_right"
@@ -198,7 +199,7 @@
             android:scaleY="-1"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni_vihrea" />
 
         <ImageButton
             android:id="@+id/button_legs_to_right"
@@ -209,7 +210,7 @@
             android:scaleY="-1"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni_vihrea" />
 
         <ImageButton
             android:id="@+id/button_feet_to_right"
@@ -220,7 +221,7 @@
             android:scaleY="-1"
             android:scaleType="centerInside"
             android:layout_weight="1"
-            android:src="@drawable/nuoli_icon" />
+            android:src="@drawable/nuoli_ikoni_vihrea" />
 
         </LinearLayout>
 
