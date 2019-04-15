@@ -8,10 +8,18 @@ import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Dimension;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.net.Uri;
@@ -40,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
     public NonSwipeableViewPager viewPager = null;
     public BottomNavigationView navigation;
     public boolean databaseEmpty = false;
+    private View iconView = null;
     DbModel model = new DbModel(MainActivity.this);
     int i = 0;
     boolean appOn = false;
+    PagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +61,15 @@ public class MainActivity extends AppCompatActivity {
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
         Log.v("start", "main activity startattu");
+        adapter = new PagerAdapter(getSupportFragmentManager(), 4);
+
 
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
+        navigation.setItemIconSize(130);
         model = new DbModel(this);
         if (!model.checkIfTableEmpty()) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
@@ -174,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupViewpager(ViewPager viewPager) {
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 4);
         viewPager.setAdapter(adapter);
     }
 

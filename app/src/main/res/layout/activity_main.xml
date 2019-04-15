@@ -10,8 +10,10 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
+        app:itemBackground="@drawable/selector_bottom_navigation"
+        android:background="@drawable/selector_bottom_navigation"
+        app:labelVisibilityMode="unlabeled"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -36,13 +38,12 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="fitXY"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/dropdown_menu_default_margin"
+        android:layout_marginEnd="@dimen/dropdown_menu_default_margin"
+        android:layout_marginRight="@dimen/dropdown_menu_default_margin"
         android:background="@null"
         android:src="@drawable/menu_icon_burger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </android.support.constraint.ConstraintLayout>

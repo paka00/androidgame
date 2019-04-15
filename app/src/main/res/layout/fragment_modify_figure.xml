@@ -289,7 +289,7 @@
             android:layout_margin="5dp"
             app:layout_constraintLeft_toRightOf="@id/verGuideline5"
             app:layout_constraintRight_toLeftOf="@id/verGuideline7"
-            android:background="@drawable/sukupuoli_ukko"
+            android:background="@drawable/gender_male"
             android:button="@null" />
 
 
@@ -310,7 +310,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/sukupuoli_akka"
+            android:background="@drawable/gender_female"
             android:button="@null"
             android:layout_marginRight="5dp"
             app:layout_constraintRight_toRightOf="parent"

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_home"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/paanakyma"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
 
@@ -17,9 +18,28 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="300dp">
+        android:layout_height="match_parent">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/horGuideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/horGuideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.67" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/horGuideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.08" />
 
 
         <TextView
@@ -30,7 +50,7 @@
             android:text="Daily task: Walk 1000 steps"
             android:textColor="@android:color/white"
             android:textSize="20dp"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/horGuideline1"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -59,10 +79,39 @@
             android:layout_height="wrap_content"
             android:text="Claim&#10;Reward"
             android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline1"/>
 
+        <ImageView
+            android:id="@+id/imageview_head"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline3"
+            app:layout_constraintBottom_toTopOf="@id/horGuideline2"
+            android:src="@drawable/ukko_paa_1" />
+
+        <ImageView
+            android:id="@+id/imageview_torso"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline3"
+            app:layout_constraintBottom_toTopOf="@id/horGuideline2"
+            android:src="@drawable/ukko_torso_1" />
+
+        <ImageView
+            android:id="@+id/imageview_legs"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline3"
+            app:layout_constraintBottom_toTopOf="@id/horGuideline2"
+            android:src="@drawable/ukko_pants_1" />
+
+        <ImageView
+            android:id="@+id/imageview_feet"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/horGuideline2"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline3"
+            android:src="@drawable/ukko_shoes_1" />
     </android.support.constraint.ConstraintLayout>
-
-
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

@@ -3,6 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBottomNavigationBar"></color>
+    <color name="colorBottomNavigationBarBackground">#706b67</color>
     <color name="colorEditTextName"></color>
+    <color name="colorBottomNavigationBarChecked">#565350</color>
 </resources>
+
+
