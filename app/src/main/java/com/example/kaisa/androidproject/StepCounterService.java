@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.Monster;
 import com.example.kaisa.androidproject.model.User;
 
 public class StepCounterService extends Service implements SensorEventListener {
@@ -25,7 +26,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     int dailyStepCounter;
     int dailyStepHelper;
     int countSteps;
-    double totalDistance;
+    double monsterDistance;
     double dailyDistance;
     boolean serviceStopped;
     private final Handler handler = new Handler();
@@ -121,16 +122,21 @@ public class StepCounterService extends Service implements SensorEventListener {
     private void broadcastSteps() {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
-        User user = model.readUserFromDb();
+        user = model.readUserFromDb();
+        Monster monster = model.readMonster();
         Intent intent = new Intent("StepCounter");
         String sSteps = String.valueOf(totalStepCounter);
         String dSteps = String.valueOf(dailyStepCounter);
         dailyStepHelper = user.getDailyStepHelper();
         dailyStepCounter = totalStepCounter - dailyStepHelper;
         dailyDistance = dailyStepCounter * 0.000762;
-       totalDistance = user.getTotalDistance();
-        totalDistance = totalDistance + 0.5;
-        user.setTotalDistance(totalDistance);
+        double totaldistance = user.getTotalDistance();
+        double totalsteps = user.getSteps();
+        //monsterDistance = monster.getMonsterDistance();
+        if(totaldistance+totalsteps-monsterDistance<5000) {//tarkistus että käyttäjä on kulkenut 5000metriä ennen kuin hirviö liikkuu
+            monsterDistance = monsterDistance + 0.4;
+          //  monster.setMonsterDistance(monsterDistance);
+        }
         if (!model.checkIfTableEmpty()) {
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);

@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.Monster;
 import com.example.kaisa.androidproject.model.User;
 
 public class AchievementsFragment extends Fragment {
@@ -116,6 +117,7 @@ public class AchievementsFragment extends Fragment {
         final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
+            Monster monster = model.readMonster();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
             dbdistance = user.getTotalDistance();
