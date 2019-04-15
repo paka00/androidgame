@@ -11,6 +11,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
     private TextView textView;
+    int height = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int height = progress+110;
+                height = progress+110;
                 textView.setText("Current height: "+height);
             }
 
