@@ -146,10 +146,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         tv1 = getView().findViewById(R.id.tv1);
         tv2 = getView().findViewById(R.id.tv2);
 
-
-        googleApiClient = new GoogleApiClient.Builder(getContext())
-                .addOnConnectionFailedListener(this).
-                        addConnectionCallbacks(this).addApi(LocationServices.API).build();
+    googleApiClient = new GoogleApiClient.Builder(getContext())
+            .addOnConnectionFailedListener(this).
+                    addConnectionCallbacks(this).addApi(LocationServices.API).build();
 
 
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
