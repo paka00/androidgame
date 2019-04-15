@@ -4,17 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,7 @@ public class HomeFragment extends Fragment {
     List<Integer> checkedValues;
     int clothesType;
     int clothesID;
+    ImageView imageview_head, imageview_torso, imageview_legs, imageview_feet;
 
 
     @Override
@@ -59,19 +63,22 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
+        imageview_head = getView().findViewById(R.id.imageview_head);
+        imageview_torso = getView().findViewById(R.id.imageview_torso);
+        imageview_legs = getView().findViewById(R.id.imageview_legs);
+        imageview_feet = getView().findViewById(R.id.imageview_feet);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty()) {
+        if (!model.checkIfTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
             dailyStepsCheck();
-        }
-        else {
+        } else {
             dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
@@ -93,7 +100,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             try {
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
@@ -110,7 +117,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty()) {
+            if (!model.checkIfTableEmpty()) {
                 dailyStepsCheck();
             }
         }
@@ -123,11 +130,11 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
+            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! You can now claim the reward");
@@ -147,7 +154,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -186,8 +193,7 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                }
-                else {
+                } else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
                 }
             }
@@ -208,7 +214,7 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected String formatTime (long hours, long minutes, long seconds) {
+    protected String formatTime(long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -237,20 +243,17 @@ public class HomeFragment extends Fragment {
         Random clothesRandom = new Random();
         clothesType = clothesRandom.nextInt(4);
         Log.v("clothesType", "clothesType type = " + clothesType);
-        if(!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
+        if (!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
             Log.v("clothesType", "clothesType type full");
             checkedValues.add(clothesType);
             selectRandomClothes();
-        }
-        else if (checkedValues.contains(clothesType)){
-            if(checkedValues.size() == 4){
+        } else if (checkedValues.contains(clothesType)) {
+            if (checkedValues.size() == 4) {
                 Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 selectRandomClothes();
             }
-        }
-        else {
+        } else {
             clothesID = randomInt(maxClothes);
             switch (clothesType) {
                 case 0:
@@ -333,4 +336,5 @@ public class HomeFragment extends Fragment {
         int i = r.nextInt((10 - 5) + 1) + 5;
         return i * 1000;
     }
+
 }

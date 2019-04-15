@@ -2,7 +2,9 @@ package com.example.kaisa.androidproject;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
@@ -50,7 +53,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     EditText nameEditText = null;
     boolean isUserCreated = false;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
-    
+    Button femaleButton,maleButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,10 +118,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_feet_to_right = getView().findViewById(R.id.button_feet_to_right);
         button_feet_to_right.setOnClickListener(this);
 
-        Button femaleButton = getView().findViewById(R.id.button_female);
+        femaleButton = getView().findViewById(R.id.button_female);
         femaleButton.setOnClickListener(this);
 
-        Button maleButton = getView().findViewById(R.id.button_male);
+        maleButton = getView().findViewById(R.id.button_male);
         maleButton.setOnClickListener(this);
 
         ImageButton doneButton = getView().findViewById(R.id.done_button);
@@ -410,6 +413,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_legs_to_right.setVisibility(View.VISIBLE);
         button_feet_to_left.setVisibility(View.VISIBLE);
         button_feet_to_right.setVisibility(View.VISIBLE);
+        maleButton.setVisibility(View.GONE);
+        femaleButton.setVisibility(View.GONE);
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
         context.databaseEmpty = false;
@@ -559,4 +564,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         addToFemaleLegList(model.readPants(1));
         addToFemaleFeetList(model.readShoes(1));
     }
+
+
 }

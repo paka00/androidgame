@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_modify_figure"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -134,13 +135,13 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/character_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/verGuideline1"
-            app:layout_constraintRight_toLeftOf="@+id/verGuideline2">
+        android:id="@+id/character_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/verGuideline1"
+        app:layout_constraintRight_toLeftOf="@+id/verGuideline2">
         <ImageView
             android:id="@+id/imageview_head"
             android:layout_width="wrap_content"
@@ -168,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ukko_shoes_1" />
-        </RelativeLayout>
+    </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
