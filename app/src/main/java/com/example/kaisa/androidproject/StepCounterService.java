@@ -132,10 +132,10 @@ public class StepCounterService extends Service implements SensorEventListener {
         dailyDistance = dailyStepCounter * 0.000762;
         double totaldistance = user.getTotalDistance();
         double totalsteps = user.getSteps();
-        //monsterDistance = monster.getMonsterDistance();
+        monsterDistance = monster.getMonsterDistance();
         if(totaldistance+totalsteps-monsterDistance<5000) {//tarkistus että käyttäjä on kulkenut 5000metriä ennen kuin hirviö liikkuu
             monsterDistance = monsterDistance + 0.4;
-          //  monster.setMonsterDistance(monsterDistance);
+            monster.setMonsterDistance(monsterDistance);
         }
         if (!model.checkIfTableEmpty()) {
             user.setTotalSteps(totalStepCounter);
@@ -144,6 +144,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             user.setStepHelper(stepHelper);
             user.setDailyDistance(dailyDistance);
             model.updateUser(user);
+            model.updateMonster(monster);
         }
         intent.putExtra("steps_int", totalStepCounter);
         intent.putExtra("daily_steps_int", dailyStepCounter);
