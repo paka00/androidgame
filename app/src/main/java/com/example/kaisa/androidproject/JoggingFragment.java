@@ -375,7 +375,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void initializedb(){
         model = new DbModel(getContext());
 
-        if(!model.checkIfTableEmpty()) {
+        if(!model.checkIfUserTableEmpty()) {
             try {
                 user = model.readUserFromDb();
 
