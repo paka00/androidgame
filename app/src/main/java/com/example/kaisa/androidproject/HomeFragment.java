@@ -4,11 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -47,6 +53,8 @@ public class HomeFragment extends Fragment {
     int clothesType;
     int clothesID;
     ImageView imageview_head_home, imageview_torso_home, imageview_legs_home, imageview_feet_home;
+    ConstraintLayout bg = null;
+    boolean randomizeDailyStepGoal = true;
 
 
     @Override
@@ -69,14 +77,25 @@ public class HomeFragment extends Fragment {
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
+        bg = getView().findViewById(R.id.fragment_home);
+        Glide.with(this).load(R.drawable.paanakyma).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    bg.setBackground(resource);
+                }
+            }
+        });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if (!model.checkIfTableEmpty()) {
+        if(!model.checkIfUserTableEmpty()) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
             dailyStepsCheck();
-        } else {
+            randomizeDailyStepGoal = false;
+        }
+        if(randomizeDailyStepGoal) {
             dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
@@ -115,7 +134,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if (!model.checkIfTableEmpty()) {
+            if(!model.checkIfUserTableEmpty()) {
                 dailyStepsCheck();
             }
         }
@@ -202,6 +221,7 @@ public class HomeFragment extends Fragment {
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
                 dailyStepGoal = getRandomSteps();
+                dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
                 user.setDailyStepHelper(totalSteps);
                 user.setDailyReward(0);
                 user.setDailyStepGoal(dailyStepGoal);

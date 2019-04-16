@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tausta_achievements"
     tools:context=".JoggingFragment">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/tv1"
@@ -13,7 +12,6 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:layout_marginTop="60dp"
-
         android:text="Juu"/>
 
     <TextView
@@ -21,18 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="jees"
-        android:gravity="center"
-         />
+        android:gravity="center"/>
+
     <Button
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:id="@+id/start_jog_button"
-        android:textSize="20dp"
-        android:text="Start"
-        android:background="@drawable/round_button"
-
-        />
+        android:background="@drawable/start_run_button"/>
 
     <TextView
         android:layout_width="match_parent"
