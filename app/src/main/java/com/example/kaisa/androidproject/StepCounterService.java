@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.Monster;
 import com.example.kaisa.androidproject.model.User;
 
 import java.util.Calendar;
@@ -36,6 +37,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     private final Handler handler = new Handler();
     User user = null;
     DbModel model = null;
+    double monsterSpeed = 0.4;
 
     @Override
     public void onCreate() {
@@ -128,6 +130,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         Log.v("stepservice", "broadcaststeps");
         model = new DbModel(StepCounterService.this);
         User user = model.readUserFromDb();
+        Monster monster = model.readMonster();
         Intent intent = new Intent("StepCounter");
         user.setTotalDistance(totalDistance);
         if (!model.checkIfUserTableEmpty()) {
@@ -138,12 +141,18 @@ public class StepCounterService extends Service implements SensorEventListener {
             dailyStepCounter = totalStepCounter - dailyStepHelper;
             dailyDistance = dailyStepCounter * 0.000762;
             totalDistance = user.getTotalDistance();
-            totalDistance = totalDistance + 0.5;
+
+            double monsterDistance = monster.getMonsterDistance();
+            monsterDistance = monsterDistance + monsterSpeed;
+            monster.setMonsterDistance(monsterDistance);
+
             user.setTotalSteps(totalStepCounter);
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
             user.setStepHelper(stepHelper);
             user.setDailyDistance(dailyDistance);
+
+            model.updateMonster(monster);
             model.updateUser(user);
         }
         String sSteps = String.valueOf(totalStepCounter);

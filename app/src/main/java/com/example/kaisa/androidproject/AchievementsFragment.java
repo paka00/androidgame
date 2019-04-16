@@ -164,14 +164,10 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
-
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-
         float dpWidth = displayMetrics.widthPixels;
         percentagedistance = dpWidth / distancerange;
         travelleddistance = totalSteps;
-
-
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = dpWidth-(distancem * percentagedistance);
@@ -181,7 +177,6 @@ public class AchievementsFragment extends Fragment {
         wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
-
         float monsterTravelledDistance = 2500;
         float monsterDistance = monsterTravelledDistance;
         monsterDistance =   monsterTravelledDistance * percentagedistance;
@@ -191,17 +186,9 @@ public class AchievementsFragment extends Fragment {
            monsterimg.setX(monsterDistance-dpWidth/10);
        }
 
-
-
-
         if (distancem <= (dpWidth / 2)) {
             distancem = dpWidth;
             gift.setX(distancem);
         }
-
-
-
     }
-
-
 }

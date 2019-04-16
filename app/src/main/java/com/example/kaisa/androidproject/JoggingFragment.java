@@ -77,8 +77,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     float distance = 0;
     float distance2 = 0;
     boolean locationservices = false;
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-
     private SensorManager sensorManager;
     private Sensor sensor;
     float gravity[] = {0, 0, 0};
@@ -100,21 +98,16 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     User user = null;
     int startsteps = 0;
     int stopsteps = 0;
-
     double dbdistance = 0;
     double dbwalktime = 0;
     String dbwalkdate = null;
     double jogtimeseconds = 0;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = (MainActivity) container.getContext();
         return inflater.inflate(R.layout.fragment_jogging, container, false);
-
-
     }
 
     @Override
@@ -124,8 +117,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         getView().requestFocus();
         testPager = context.viewPager;
         initializedb();
-
-
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -145,12 +136,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         });
         tv1 = getView().findViewById(R.id.tv1);
         tv2 = getView().findViewById(R.id.tv2);
-
     googleApiClient = new GoogleApiClient.Builder(getContext())
             .addOnConnectionFailedListener(this).
                     addConnectionCallbacks(this).addApi(LocationServices.API).build();
-
-
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
@@ -168,8 +156,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 if (ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermission();
                     Toast.makeText(getActivity(), "You need to permit location to use jog functionality", Toast.LENGTH_SHORT).show();
-
-
                 } else {
                     statusCheck();
                     if(locationservices==true){
@@ -184,7 +170,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         getTime();
                         jogStarted = true;
                         startsteps = user.getSteps();
-
 
                     } else {
                         context.navigation.setVisibility(View.VISIBLE);
@@ -203,14 +188,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 }
                 else{
                         Toast.makeText(getActivity(), "Please enable GPS to use jog feature", Toast.LENGTH_LONG).show();
-
                     }
                 }
             }
 
         });
-
-
     }
 
 
@@ -240,9 +222,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             @Override
             public void onSensorChanged(SensorEvent event) {
 
-
                 final float alpha = (float) 0.8;
-
                 // Isolate the force of gravity with the low-pass filter.
                 gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
                 gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
@@ -257,8 +237,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 double y = Math.pow(linear_acceleration[1], 2);
                 double z = Math.pow(linear_acceleration[2], 2);
                 totalacceleration = Math.sqrt(x + y + z);
-
-
             }
 
             @Override
@@ -281,24 +259,18 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-
                                 tv1.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude());
-
-
                             }
                         }
                     });
         }
     }
-
     public void resetValues() {
         locationNew = null;
         locationOld = null;
         distance = 0;
         distance2 = 0;
         sensorManager.unregisterListener(sensorlistener, sensor);
-
-
     }
 
     @Override
@@ -367,7 +339,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
 
     }
 
-
     public void updategps() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission();
@@ -414,7 +385,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         int hours = (int) (mills / (1000 * 60 * 60));
         int mins = (int) (mills / (1000 * 60)) % 60;
         int sec = (int) (mills / 1000);
-        String elapsedTime = hours + ":" + mins + ":" + sec;
+        elapsedTime = hours + ":" + mins + ":" + sec;
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         tv1.setText("elapsed time: " + elapsedTime + " " + currentDate);
         jogtimeseconds = sec + (mins * 60) + (hours / 60 / 60);
@@ -457,12 +428,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             user.setWalkTime(Double.toString(totalwalktime));
         }
         user.setWalkDate(currentDate);
-
-
         model.updateUser(user);
         tv1.setText(distance2 + " " + Double.toString(user.getTotalDistance()) + " aika> " + user.getWalkTime() + "< " + Double.toString(jogtimeseconds));
-
-
     }
 
     public void checkLocationStatus() {
