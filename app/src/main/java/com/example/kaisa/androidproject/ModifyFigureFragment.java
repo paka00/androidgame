@@ -1,5 +1,7 @@
 package com.example.kaisa.androidproject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -8,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -18,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +32,9 @@ import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class ModifyFigureFragment extends Fragment implements View.OnClickListener {
 
@@ -50,6 +58,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     EditText nameEditText = null;
     boolean isUserCreated = false;
     ConstraintLayout bg = null;
+    SharedPreferences prefs = null;
+    Typeface pixelFont = null;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
     
 
@@ -65,8 +75,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         nameEditText = getView().findViewById(R.id.name_edit_text);
-        Typeface custom_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
-        nameEditText.setTypeface(custom_font);
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        nameEditText.setTypeface(pixelFont);
         nameEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
         nameEditText.setCursorVisible(false);
         bg = getView().findViewById(R.id.modify_figure_fragment);
@@ -209,6 +220,35 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 readUnlockedClothes();
             } catch (NullPointerException e) {
                 Log.d("modifyfigure", e.toString());
+            }
+            if (!prefs.getBoolean("appHasRunBeforeModify", false)) {
+                LayoutInflater inflater = (LayoutInflater) this
+                        .getContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialoglayout);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+                titleText.setTypeface(pixelFont);
+                titleText.setText("Edit your character");
+                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+                bodyText.setTypeface(pixelFont);
+                bodyText.setText("On this page you can edit your character by pressing the yellow arrows. " +
+                        "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
+                        "You should check out the achievements page by pressing the gold cup if you haven't already!");
+                doneBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+                prefs.edit().putBoolean("appHasRunBeforeModify", true).apply();
+                Log.d("homefragment", "firstrun");
             }
             Log.d("modifyfigure", "setuservisiblehint");
 

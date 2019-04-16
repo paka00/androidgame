@@ -3,6 +3,7 @@ package com.example.kaisa.androidproject;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
         }
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,9 +2,13 @@ package com.example.kaisa.androidproject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +17,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +35,17 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
+import org.w3c.dom.Text;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class HomeFragment extends Fragment {
 
@@ -53,6 +66,8 @@ public class HomeFragment extends Fragment {
     int clothesID;
     ConstraintLayout bg = null;
     boolean randomizeDailyStepGoal = true;
+    SharedPreferences prefs = null;
+    Typeface pixelFont = null;
 
 
     @Override
@@ -67,6 +82,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -109,6 +125,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
     }
 
     @Override
@@ -121,6 +138,35 @@ public class HomeFragment extends Fragment {
                 model.updateUser(user);
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
+            }
+            if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
+                LayoutInflater inflater = (LayoutInflater) this
+                        .getContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialoglayout);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+                titleText.setTypeface(pixelFont);
+                titleText.setText("Welcome to Creature Chase!");
+                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+                bodyText.setTypeface(pixelFont);
+                bodyText.setText("This is the home page where you will find some essential information about your character. " +
+                        "You can check your level, your characters appearance and your progress on the current daily quest. " +
+                        "Go check out the other pages from the buttons at the bottom of the screen!");
+                doneBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+                prefs.edit().putBoolean("appHasRunBeforeHome", true).apply();
+                Log.d("homefragment", "firstrun");
             }
             Log.d("homefragment", "setuservisiblehint");
         }
@@ -185,6 +231,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        Log.d("homefragment", "onResume");
     }
 
     protected void startCountdownTimer() {
