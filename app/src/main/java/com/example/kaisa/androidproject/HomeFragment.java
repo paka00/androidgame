@@ -68,6 +68,8 @@ public class HomeFragment extends Fragment {
     boolean randomizeDailyStepGoal = true;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
 
 
     @Override
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -125,7 +128,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
     }
 
     @Override
@@ -139,36 +141,45 @@ public class HomeFragment extends Fragment {
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
             }
-            if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
-                LayoutInflater inflater = (LayoutInflater) this
-                        .getContext()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setView(dialoglayout);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
-                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
-                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
-                titleText.setTypeface(pixelFont);
-                titleText.setText("Welcome to Creature Chase!");
-                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
-                bodyText.setTypeface(pixelFont);
-                bodyText.setText("This is the home page where you will find some essential information about your character. " +
-                        "You can check your level, your characters appearance and your progress on the current daily quest. " +
-                        "Go check out the other pages from the buttons at the bottom of the screen!");
-                doneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                prefs.edit().putBoolean("appHasRunBeforeHome", true).apply();
-                Log.d("homefragment", "firstrun");
-            }
             Log.d("homefragment", "setuservisiblehint");
+        }
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
+
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("Home page");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("Now that you've created your character, you can start your journey!\n " +
+                    "This is the home page where you will find some essential information about your character. " +
+                    "You can check your level, your characters appearance and your progress on the current daily quest. " +
+                    "Go check out the other pages from the buttons at the bottom of the screen!");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeHome", true).apply();
+            Log.d("homefragment", "firstrun");
         }
     }
 
@@ -401,5 +412,20 @@ public class HomeFragment extends Fragment {
         Random r = new Random();
         int i = r.nextInt((10 - 5) + 1) + 5;
         return i * 1000;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isStarted = true;
+        if (isVisible) {
+            createDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isStarted = false;
     }
 }

@@ -53,15 +53,17 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     int gender = 0;
     int listMinValue = 0;
     String name;
-    ImageView imageview_head, imageview_torso, imageview_legs,imageview_feet, imageView_rock;
+    ImageView imageview_head, imageview_torso, imageview_legs, imageview_feet, imageView_rock;
     MainActivity context;
     EditText nameEditText = null;
     boolean isUserCreated = false;
     ConstraintLayout bg = null;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
-    
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +77,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         nameEditText = getView().findViewById(R.id.name_edit_text);
-        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         nameEditText.setTypeface(pixelFont);
         nameEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
@@ -97,7 +99,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_feet = getView().findViewById(R.id.imageview_feet);
         isUserCreated = false;
         DbModel model = new DbModel(getContext());
-        if (model.checkIfTableEmpty("user")){
+        if (model.checkIfTableEmpty("user")) {
             model.addHat(1, 0);
             model.addShirt(1, 0);
             model.addPants(1, 0);
@@ -106,6 +108,31 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             model.addShirt(1, 1);
             model.addPants(1, 1);
             model.addShoes(1, 1);
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            titleText.setText("Welcome to creature chase!");
+            bodyText.setText("Your epic journey to outrun a terrifying creature is beginning... \n" +
+                    "But first, you have to create your character! " +
+                    "Choose a name and gender and press the done button when you're finished.");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
 
         } else {
             isUserCreated = true;
@@ -157,13 +184,12 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
         readClothesFromDatabase();
         nameEditText.setText(name);
-        if(gender == 0){
+        if (gender == 0) {
             setMaleHeadImage();
             setMaleTorsoImage();
             setMaleLegImage();
             setMaleFeetImage();
-        }
-        else {
+        } else {
             setFemaleHeadImage();
             setFemaleTorsoImage();
             setFemaleLegImage();
@@ -172,7 +198,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
         Bundle bundle = this.getArguments();
 
-        if(bundle != null){
+        if (bundle != null) {
             int clothes = bundle.getInt("clothesType");
             int rand = bundle.getInt("randClothes");
             switch (clothes) {
@@ -200,7 +226,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
-        if(model.checkIfTableEmpty("user")){
+        if (model.checkIfTableEmpty("user")) {
             button_head_to_left.setVisibility(View.INVISIBLE);
             button_head_to_right.setVisibility(View.INVISIBLE);
             button_torso_to_left.setVisibility(View.INVISIBLE);
@@ -210,48 +236,56 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             button_feet_to_left.setVisibility(View.INVISIBLE);
             button_feet_to_right.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && isUserCreated) {
+        //super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isUserCreated) {
             try {
                 readUnlockedClothes();
             } catch (NullPointerException e) {
                 Log.d("modifyfigure", e.toString());
             }
-            if (!prefs.getBoolean("appHasRunBeforeModify", false)) {
-                LayoutInflater inflater = (LayoutInflater) this
-                        .getContext()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setView(dialoglayout);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
-                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
-                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
-                titleText.setTypeface(pixelFont);
-                titleText.setText("Edit your character");
-                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
-                bodyText.setTypeface(pixelFont);
-                bodyText.setText("On this page you can edit your character by pressing the yellow arrows. " +
-                        "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
-                        "You should check out the achievements page by pressing the gold cup if you haven't already!");
-                doneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                prefs.edit().putBoolean("appHasRunBeforeModify", true).apply();
-                Log.d("homefragment", "firstrun");
-            }
             Log.d("modifyfigure", "setuservisiblehint");
+        }
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
 
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeModify", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            titleText.setText("Edit your character");
+            bodyText.setText("On this page you can edit your character by pressing the yellow arrows. " +
+                    "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
+                    "You should check out the achievements page by pressing the gold cup if you haven't already!");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeModify", true).apply();
+            Log.d("homefragment", "firstrun");
         }
     }
 
@@ -259,10 +293,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         int buttonID = v.getId();
 
-        if(buttonID == R.id.button_female){
+        if (buttonID == R.id.button_female) {
             setFemaleCharacter();
         }
-        if(buttonID == R.id.button_male){
+        if (buttonID == R.id.button_male) {
             setMaleCharacter();
         }
 
@@ -280,7 +314,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
 
         if (gender == 0) {                                              //IF CHARACTER IS MALE
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.button_head_to_left:                              //head left
                     if (headPosition <= listMinValue) {
                         headPosition = maleHeadList.size() - 1;
@@ -301,7 +335,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = maleTorsoList.size() -1;
+                        torsoPosition = maleTorsoList.size() - 1;
                     } else {
                         torsoPosition--;
                     }
@@ -319,7 +353,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_legs_to_left:                          //legs left
                     if (legPosition <= listMinValue) {
-                        legPosition = maleLegList.size()-1;
+                        legPosition = maleLegList.size() - 1;
                     } else {
                         legPosition--;
                     }
@@ -337,7 +371,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_feet_to_left:                          //feet left
                     if (feetPosition <= listMinValue) {
-                        feetPosition = maleFeetList.size()-1;
+                        feetPosition = maleFeetList.size() - 1;
                     } else {
                         feetPosition--;
                     }
@@ -354,8 +388,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                     break;
             }
         }
-        if(gender == 1){                                       //IF CHARACTER IS FEMALE
-            switch (v.getId()){
+        if (gender == 1) {                                       //IF CHARACTER IS FEMALE
+            switch (v.getId()) {
                 case R.id.button_head_to_left:                              //head left
                     if (headPosition <= listMinValue) {
                         headPosition = femaleHeadList.size() - 1;
@@ -376,7 +410,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_torso_to_left:                         //torso left
                     if (torsoPosition <= listMinValue) {
-                        torsoPosition = femaleTorsoList.size() -1;
+                        torsoPosition = femaleTorsoList.size() - 1;
                     } else {
                         torsoPosition--;
                     }
@@ -394,7 +428,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_legs_to_left:                          //legs left
                     if (legPosition <= listMinValue) {
-                        legPosition = femaleLegList.size()-1;
+                        legPosition = femaleLegList.size() - 1;
                     } else {
                         legPosition--;
                     }
@@ -412,7 +446,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
                 case R.id.button_feet_to_left:                          //feet left
                     if (feetPosition <= listMinValue) {
-                        feetPosition = femaleFeetList.size()-1;
+                        feetPosition = femaleFeetList.size() - 1;
                     } else {
                         feetPosition--;
                     }
@@ -440,14 +474,37 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void setFemaleLegImage(){ Glide.with(this).load(femaleLegList.get(legPosition)).into(imageview_legs); }
     public void setFemaleFeetImage(){ Glide.with(this).load(femaleFeetList.get(feetPosition)).into(imageview_feet);}*/
 
-    public void setMaleHeadImage(){imageview_head.setImageResource(maleHeadList.get(headPosition));}
-    public void setMaleTorsoImage(){ imageview_torso.setImageResource(maleTorsoList.get(torsoPosition));}
-    public void setMaleLegImage(){ imageview_legs.setImageResource(maleLegList.get(legPosition));}
-    public void setMaleFeetImage(){imageview_feet.setImageResource(maleFeetList.get(feetPosition));}
-    public void setFemaleHeadImage(){imageview_head.setImageResource(femaleHeadList.get(headPosition));}
-    public void setFemaleTorsoImage(){ imageview_torso.setImageResource(femaleTorsoList.get(torsoPosition));}
-    public void setFemaleLegImage(){ imageview_legs.setImageResource(femaleLegList.get(legPosition));}
-    public void setFemaleFeetImage(){imageview_feet.setImageResource(femaleFeetList.get(feetPosition));}
+    public void setMaleHeadImage() {
+        imageview_head.setImageResource(maleHeadList.get(headPosition));
+    }
+
+    public void setMaleTorsoImage() {
+        imageview_torso.setImageResource(maleTorsoList.get(torsoPosition));
+    }
+
+    public void setMaleLegImage() {
+        imageview_legs.setImageResource(maleLegList.get(legPosition));
+    }
+
+    public void setMaleFeetImage() {
+        imageview_feet.setImageResource(maleFeetList.get(feetPosition));
+    }
+
+    public void setFemaleHeadImage() {
+        imageview_head.setImageResource(femaleHeadList.get(headPosition));
+    }
+
+    public void setFemaleTorsoImage() {
+        imageview_torso.setImageResource(femaleTorsoList.get(torsoPosition));
+    }
+
+    public void setFemaleLegImage() {
+        imageview_legs.setImageResource(femaleLegList.get(legPosition));
+    }
+
+    public void setFemaleFeetImage() {
+        imageview_feet.setImageResource(femaleFeetList.get(feetPosition));
+    }
 
     public void createNewFigure() {
         context.viewPager.disableScroll(false);
@@ -467,42 +524,43 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
 
-    public void addToMaleHeadList(ArrayList<Integer> list){
+    public void addToMaleHeadList(ArrayList<Integer> list) {
         maleHeadList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_paa_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             maleHeadList.add(imageResource);
         }
     }
 
-    public void addToMaleTorsoList(ArrayList<Integer> list){
+    public void addToMaleTorsoList(ArrayList<Integer> list) {
         maleTorsoList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_torso_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             maleTorsoList.add(imageResource);
         }
     }
 
-    public void addToMaleLegList(ArrayList<Integer> list){
+    public void addToMaleLegList(ArrayList<Integer> list) {
         maleLegList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_pants_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             maleLegList.add(imageResource);
         }
     }
 
-    public void addToMaleFeetList(ArrayList<Integer> list){
+    public void addToMaleFeetList(ArrayList<Integer> list) {
         maleFeetList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/ukko_shoes_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             maleFeetList.add(imageResource);
         }
     }
-    public void setFemaleCharacter(){
+
+    public void setFemaleCharacter() {
         gender = 1;
         headPosition = 0;
         torsoPosition = 0;
@@ -517,7 +575,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         setFemaleTorsoImage();
         setFemaleHeadImage();
     }
-    public void setMaleCharacter(){
+
+    public void setMaleCharacter() {
         gender = 0;
         headPosition = 0;
         torsoPosition = 0;
@@ -532,35 +591,37 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         setMaleTorsoImage();
         setMaleHeadImage();
     }
-    public void addToFemaleHeadList(ArrayList<Integer> list){
+
+    public void addToFemaleHeadList(ArrayList<Integer> list) {
         femaleHeadList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_paa_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             femaleHeadList.add(imageResource);
         }
     }
-    public void addToFemaleTorsoList(ArrayList<Integer> list){
+
+    public void addToFemaleTorsoList(ArrayList<Integer> list) {
         femaleTorsoList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_torso_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             femaleTorsoList.add(imageResource);
         }
     }
 
-    public void addToFemaleLegList(ArrayList<Integer> list){
+    public void addToFemaleLegList(ArrayList<Integer> list) {
         femaleLegList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_pants_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             femaleLegList.add(imageResource);
         }
     }
 
-    public void addToFemaleFeetList(ArrayList<Integer> list){
+    public void addToFemaleFeetList(ArrayList<Integer> list) {
         femaleFeetList.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             String uri = "drawable/akka_shoes_" + list.get(i);
             int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
             femaleFeetList.add(imageResource);
@@ -570,12 +631,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void saveClothesToDatabase() {
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
-        if(model.checkIfTableEmpty("user")) {
-            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0, 0);
+        if (model.checkIfTableEmpty("user")) {
+            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0, 0.0, 0.0, 0.0, "", "", 0, 0, 0);
             model.addUserToDb(user);
             model.addMonster();
-        }
-        else {
+        } else {
             User user = model.readUserFromDb();
             user.setName(name);
             user.setGender(gender);
@@ -589,7 +649,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void readClothesFromDatabase() {
         DbModel model = new DbModel(getContext());
-        if (!model.checkIfTableEmpty("user")){
+        if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             name = user.getName();
             gender = user.getGender();
@@ -597,8 +657,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             torsoPosition = (user.getShirt());
             legPosition = (user.getPants());
             feetPosition = (user.getShoes());
-        }
-        else {
+        } else {
             name = "";
             gender = 0;
             headPosition = 0;
@@ -618,5 +677,20 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         addToFemaleTorsoList(model.readShirts(1));
         addToFemaleLegList(model.readPants(1));
         addToFemaleFeetList(model.readShoes(1));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isStarted = true;
+        if (isVisible && isUserCreated) {
+            createDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isStarted = false;
     }
 }

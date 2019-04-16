@@ -61,6 +61,8 @@ public class AchievementsFragment extends Fragment {
    View monster = null;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,37 +127,44 @@ public class AchievementsFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
-            if (!prefs.getBoolean("appHasRunBeforeAchievement", false)) {
-                LayoutInflater inflater = (LayoutInflater) this
-                        .getContext()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setView(dialoglayout);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
-                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
-                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
-                titleText.setTypeface(pixelFont);
-                titleText.setText("The Creature and achievements");
-                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
-                bodyText.setTypeface(pixelFont);
-                bodyText.setText("On the top you can see the creature chasing you. You have to run away from it by walking in real life! " +
-                        "If you get far enough you will get rewards.\n" +
-                        "On the bottom are your stats and achievements. You will also get rewards from the achievements. Try to complete them all! " +
-                        "\nIf you are planning to go outside for a walk now, check out the walk page by pressing the shoe at the bottom.");
-                doneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                prefs.edit().putBoolean("appHasRunBeforeAchievement", true).apply();
-                Log.d("homefragment", "firstrun");
-            }
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
+
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeAchievement", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("The Creature and achievements");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("On the top you can see the creature chasing you. You have to run away from it by walking in real life! " +
+                    "If you get far enough you will get rewards.\n" +
+                    "On the bottom are your stats and achievements. You will also get rewards from the achievements. Try to complete them all! " +
+                    "\nIf you are planning to go outside for a walk now, check out the walk page by pressing the shoe at the bottom.");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeAchievement", true).apply();
+            Log.d("homefragment", "firstrun");
+
         }
     }
 
@@ -251,6 +260,21 @@ public class AchievementsFragment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isStarted = true;
+        if (isVisible) {
+            createDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isStarted = false;
     }
 
 

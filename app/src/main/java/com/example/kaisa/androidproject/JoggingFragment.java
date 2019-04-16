@@ -89,6 +89,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double jogtimeseconds = 0;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
 
 
 
@@ -105,12 +107,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         testPager = context.viewPager;
         initializedb();
-        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
 
 
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -190,36 +192,42 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
-            if (!prefs.getBoolean("appHasRunBeforeWalk", false)) {
-                LayoutInflater inflater = (LayoutInflater) this
-                        .getContext()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setView(dialoglayout);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
-                alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-                ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
-                TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
-                titleText.setTypeface(pixelFont);
-                titleText.setText("Go outside and walk!");
-                TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
-                bodyText.setTypeface(pixelFont);
-                bodyText.setText("But before starting your walk or run outside, press the start run button. When you're finished press the button again. " +
-                        "This way the stats from your walk or run will be saved. " +
-                        "You can also view the stats from your previous walk or run below the button.");
-                doneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                prefs.edit().putBoolean("appHasRunBeforeWalk", true).apply();
-                Log.d("homefragment", "firstrun");
-            }
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
+
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeWalk", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("Go outside and walk!");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("But before starting your walk or run outside, press the start run button. When you're finished press the button again. " +
+                    "This way the stats from your walk or run will be saved. " +
+                    "You can also view the stats from your previous walk or run below the button.");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeWalk", true).apply();
+            Log.d("homefragment", "firstrun");
         }
     }
 
@@ -345,10 +353,16 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     private void requestPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, RequestPermissionCode);
     }
+
+
     @Override
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
+        isStarted = true;
+        if (isVisible) {
+            createDialog();
+        }
 
     }
 
@@ -358,7 +372,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             googleApiClient.disconnect();
         }
         super.onStop();
-
+        isStarted = false;
     }
 
 
