@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,12 +26,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +65,9 @@ import java.util.concurrent.Executor;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.location.GpsStatus.GPS_EVENT_STARTED;
 import static android.location.GpsStatus.GPS_EVENT_STOPPED;
+import static android.content.Context.MODE_PRIVATE;
 import static android.os.Looper.getMainLooper;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -102,6 +108,13 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     double dbwalktime = 0;
     String dbwalkdate = null;
     double jogtimeseconds = 0;
+    SharedPreferences prefs = null;
+    Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,8 +126,10 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         testPager = context.viewPager;
         initializedb();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -195,6 +210,47 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         });
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
+
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeWalk", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("Go outside and walk!");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("But before starting your walk or run outside, press the start run button. When you're finished press the button again. " +
+                    "This way the stats from your walk or run will be saved. " +
+                    "You can also view the stats from your previous walk or run below the button.");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeWalk", true).apply();
+            Log.d("homefragment", "firstrun");
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -313,6 +369,10 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
+        isStarted = true;
+        if (isVisible) {
+            createDialog();
+        }
 
     }
 
@@ -336,7 +396,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             locationservices = false;
         }
         super.onStop();
-
+        isStarted = false;
     }
 
     public void updategps() {
@@ -396,7 +456,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void initializedb() {
         model = new DbModel(getContext());
 
-        if(!model.checkIfUserTableEmpty()) {
+        if(!model.checkIfTableEmpty("user")) {
             try {
                 user = model.readUserFromDb();
 

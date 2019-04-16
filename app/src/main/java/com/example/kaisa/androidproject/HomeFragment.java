@@ -2,9 +2,13 @@ package com.example.kaisa.androidproject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +17,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +35,17 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
+import org.w3c.dom.Text;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class HomeFragment extends Fragment {
 
@@ -53,6 +66,10 @@ public class HomeFragment extends Fragment {
     int clothesID;
     ConstraintLayout bg = null;
     boolean randomizeDailyStepGoal = true;
+    SharedPreferences prefs = null;
+    Typeface pixelFont = null;
+    private boolean isVisible;
+    private boolean isStarted;
 
 
     @Override
@@ -67,6 +84,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -82,10 +101,13 @@ public class HomeFragment extends Fragment {
         });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfUserTableEmpty()) {
+        if(!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
+            if(dailyStepGoal == 0){
+                dailyStepGoal = getRandomSteps();
+            }
             dailyStepsCheck();
             randomizeDailyStepGoal = false;
         }
@@ -121,6 +143,44 @@ public class HomeFragment extends Fragment {
             }
             Log.d("homefragment", "setuservisiblehint");
         }
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
+        }
+    }
+
+    public void createDialog() {
+        prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("Home page");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("Now that you've created your character, you can start your journey!\n " +
+                    "This is the home page where you will find some essential information about your character. " +
+                    "You can check your level, your characters appearance and your progress on the current daily quest. " +
+                    "Go check out the other pages from the buttons at the bottom of the screen!");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeHome", true).apply();
+            Log.d("homefragment", "firstrun");
+        }
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -128,7 +188,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfUserTableEmpty()) {
+            if(!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
             }
         }
@@ -182,6 +242,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        Log.d("homefragment", "onResume");
     }
 
     protected void startCountdownTimer() {
@@ -351,5 +412,20 @@ public class HomeFragment extends Fragment {
         Random r = new Random();
         int i = r.nextInt((10 - 5) + 1) + 5;
         return i * 1000;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isStarted = true;
+        if (isVisible) {
+            createDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isStarted = false;
     }
 }

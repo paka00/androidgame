@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -42,7 +43,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         model = new DbModel(this);
-        if (!model.checkIfUserTableEmpty()) {
+        if (!model.checkIfTableEmpty("user")) {
             try {
                 user = model.readUserFromDb();
                 totalStepCounter = user.getSteps();
@@ -99,12 +100,9 @@ public class StepCounterService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             countSteps = (int) event.values[0];
-            if (!model.checkIfUserTableEmpty()) {
-                if (stepHelper == 0) {
-                    Log.v("stepscounter", "stepcounter = 0");
-                    stepHelper = (int) event.values[0];
-                    dailyStepHelper = totalStepCounter;
-                }
+            if (stepHelper == 0) {
+                Log.v("stepscounter", "stepcounter = 0");
+                stepHelper = (int) event.values[0];
             }
             totalStepCounter = countSteps - stepHelper;
             Log.v("totalsteps", "" + totalStepCounter);
@@ -132,12 +130,9 @@ public class StepCounterService extends Service implements SensorEventListener {
         User user = model.readUserFromDb();
         Monster monster = model.readMonster();
         Intent intent = new Intent("StepCounter");
-        user.setTotalDistance(totalDistance);
-        if (!model.checkIfUserTableEmpty()) {
+        if (!model.checkIfTableEmpty("user")) {
             dailyStepHelper = user.getDailyStepHelper();
-            if (dailyStepHelper == 0){
-                dailyStepHelper = totalStepCounter;
-            }
+            Log.v("stepservice", "dailyStepHelper: " + dailyStepHelper);
             dailyStepCounter = totalStepCounter - dailyStepHelper;
             dailyDistance = dailyStepCounter * 0.000762;
             totalDistance = user.getTotalDistance();
@@ -147,6 +142,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             monster.setMonsterDistance(monsterDistance);
 
             user.setTotalSteps(totalStepCounter);
+            user.setTotalDistance(totalDistance);
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
             user.setStepHelper(stepHelper);
@@ -173,7 +169,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         calendar.set(Calendar.SECOND, 0);
         Intent alarmIntent = new Intent(this, ResetDailyStatsBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        AlarmManager alarmMgr = (AlarmManager)StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmMgr = (AlarmManager) StepCounterService.this.getSystemService(Context.ALARM_SERVICE);
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmPendingIntent);

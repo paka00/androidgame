@@ -22,6 +22,7 @@ public class DbModel {
 
     }
 
+    //Adds a User to the database
     public void addUserToDb(User addable){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -57,6 +58,7 @@ public class DbModel {
         }
     }
 
+    //Reads the user from database
     public User readUserFromDb() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         User user = null;
@@ -120,6 +122,7 @@ public class DbModel {
         return user;
     }
 
+    //Takes the user parameter and replaces the current one in the database with it
     public void updateUser(User user) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -176,11 +179,12 @@ public class DbModel {
 
     }
 
-    public void resetDailyStats() {
+    //Sets daily stats in the database to 0
+    public void resetDailyStats(int dailyStepHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
-        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, 0);
+        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, dailyStepHelper);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, 0);
         String selection = DbContract.User._ID + " LIKE ?";
@@ -193,10 +197,11 @@ public class DbModel {
                 selectionArgs);
     }
 
-    public boolean checkIfUserTableEmpty() {
+    //Checks if the table user is empty. Returns true if table is empty and false if not.
+    public boolean checkIfTableEmpty(String table) {
         boolean empty = true;
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        String count = "SELECT count(*) FROM user";
+        String count = "SELECT count(*) FROM " + table;
         Cursor mcursor = db.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
@@ -206,20 +211,7 @@ public class DbModel {
         return empty;
     }
 
-    public boolean checkIfMonsterTableEmpty() {
-        boolean empty = true;
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        String count = "SELECT count(*) FROM monsterStats";
-        Cursor mcursor = db.rawQuery(count, null);
-        mcursor.moveToFirst();
-        int icount = mcursor.getInt(0);
-        if(icount>0){
-            empty = false;
-        }
-        return empty;
-    }
-
-
+    //Adds a hat (integer) to database
     public void addHat (int hatNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -256,6 +248,7 @@ public class DbModel {
         }
     }
 
+    //Adds a shirt (integer) to database
     public void addShirt (int shirtNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> shirts = readShirts(gender);
@@ -292,6 +285,7 @@ public class DbModel {
         }
     }
 
+    //Adds pants (integer) to database
     public void addPants (int pantsNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> pants = readPants(gender);
@@ -326,6 +320,7 @@ public class DbModel {
         }
     }
 
+    //Adds shoes (integer) to database
     public void addShoes (int shoesNumber, int gender) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Integer> shoes = readShoes(gender);
@@ -360,6 +355,7 @@ public class DbModel {
         }
     }
 
+    //Reads the hats (integers) from the database and returns them in an ArrayList
     public ArrayList<Integer> readHats(int gender) {
         ArrayList<Integer> hats = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -415,6 +411,7 @@ public class DbModel {
         return hats;
     }
 
+    //Reads the shirts (integers) from the database and returns them in an ArrayList
     public ArrayList<Integer> readShirts(int gender) {
         ArrayList<Integer> shirts = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -467,6 +464,7 @@ public class DbModel {
         return shirts;
     }
 
+    //Reads the pants (integers) from the database and returns them in an ArrayList
     public ArrayList<Integer> readPants(int gender) {
         ArrayList<Integer> pants = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -521,6 +519,7 @@ public class DbModel {
         return pants;
     }
 
+    //Reads the shoes (integers) from the database and returns them in an ArrayList
     public ArrayList<Integer> readShoes(int gender) {
         ArrayList<Integer> shoes = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -574,12 +573,14 @@ public class DbModel {
         return shoes;
     }
 
+    //Returns how many rows are in the clothes table
     public long getRowsCount() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         long count = DatabaseUtils.queryNumEntries(db, DbContract.ClothesUnlocks.TABLE_NAME_CLOTHES);
         return count;
     }
 
+    //CLears the whole database
     public void clearDatabase() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         String clearDBQuery = "DROP TABLE IF EXISTS " + DbContract.User.TABLE_NAME_USER;
@@ -588,6 +589,7 @@ public class DbModel {
         db.execSQL(clearDBQuery2);
     }
 
+    //Initializes a monster to the database. Adds null or 0 values to everything.
     public void addMonster() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -607,6 +609,7 @@ public class DbModel {
         }
     }
 
+    //Takes the monster parameter and replaces the monster in the database with it.
     public void updateMonster(Monster monster) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -631,6 +634,7 @@ public class DbModel {
                 selectionArgs);
     }
 
+    //Reads monster's data from the database.
     public Monster readMonster() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Monster monster = null;
@@ -664,6 +668,7 @@ public class DbModel {
         return monster;
     }
 
+    //Creates an achievement into the database.
     public void createAchievement(Achievement achievement) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -682,6 +687,7 @@ public class DbModel {
         }
     }
 
+    //Updates the progress for an achievement based on its ID.
     public void updateAchievementProgress(Achievement achievement) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -700,6 +706,7 @@ public class DbModel {
                 null);
     }
 
+    //Reads all the achievements and returns them in an arraylist.
     public ArrayList<Achievement> readAchievements() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         ArrayList<Achievement> achievements = new ArrayList<>();

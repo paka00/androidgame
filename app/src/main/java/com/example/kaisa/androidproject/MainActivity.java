@@ -1,6 +1,9 @@
 package com.example.kaisa.androidproject;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -53,17 +56,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.pager);
         Log.v("start", "main activity startattu");
         adapter = new PagerAdapter(getSupportFragmentManager(), 4);
-
-
-
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
         navigation.setItemIconSize(130);
         model = new DbModel(this);
-        if(model.checkIfMonsterTableEmpty()){
-            model.addMonster();
+        if(!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
         }
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!model.checkIfUserTableEmpty()) {
+        if (!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
             Log.v("stepsmain", "onresume");
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkIfUserExist() {
-        if (model.checkIfUserTableEmpty()) {
+        if (model.checkIfTableEmpty("user")) {
             this.databaseEmpty = true;
             viewPager.setCurrentItem(1);
             navigation.setVisibility(View.INVISIBLE);
@@ -226,5 +225,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             viewPager.setCurrentItem(0);
         }
+    }
+
+    private boolean isServiceRunning(Class<?> serviceClass){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
