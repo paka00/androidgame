@@ -1,45 +1,23 @@
 package com.example.kaisa.androidproject;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Dimension;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import com.example.kaisa.androidproject.model.DbModel;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
         navigation.setItemIconSize(130);
         model = new DbModel(this);
-        if (!model.checkIfTableEmpty()) {
+        if(model.checkIfMonsterTableEmpty()){
+            model.addMonster();
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
         }
@@ -157,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!model.checkIfTableEmpty()) {
+        if (!model.checkIfUserTableEmpty()) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
             Log.v("stepsmain", "onresume");
@@ -199,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkIfUserExist() {
-        if (model.checkIfTableEmpty()) {
+        if (model.checkIfUserTableEmpty()) {
             this.databaseEmpty = true;
             viewPager.setCurrentItem(1);
             navigation.setVisibility(View.INVISIBLE);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/vesitausta"
+    android:id="@+id/modify_figure_fragment"
     android:layout_gravity="center"
     android:orientation="vertical"
     android:focusable="true"
@@ -18,6 +18,8 @@
         android:layout_height="0dp"
         android:background="@null"
         android:gravity="bottom|center"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:hint="Name"
         android:textColor="#a0724e"
         android:textColorHint="@android:color/darker_gray"
@@ -50,7 +52,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/kivi"
+        android:id="@+id/rock_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -103,8 +105,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni"/>
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_left"
@@ -112,8 +113,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_legs_to_left"
@@ -121,8 +121,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_feet_to_left"
@@ -130,8 +129,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni" />
+            android:layout_weight="1" />
         </LinearLayout>
 
         <RelativeLayout
@@ -183,8 +181,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea"/>
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_torso_to_right"
@@ -194,8 +191,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/button_legs_to_right"
@@ -205,8 +201,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/button_feet_to_right"
@@ -216,8 +211,7 @@
             android:rotation="180"
             android:scaleY="-1"
             android:scaleType="centerInside"
-            android:layout_weight="1"
-            android:src="@drawable/nuoli_ikoni_vihrea" />
+            android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -230,7 +224,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.71" />
 
     <android.support.constraint.Guideline
         android:id="@+id/horGuideline3"

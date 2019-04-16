@@ -4,18 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.Layout;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,7 +110,7 @@ public class AchievementsFragment extends Fragment {
     }
     private void getdbdata(){
         final DbModel model = new DbModel(getContext());
-        if (!model.checkIfTableEmpty()) {
+        if (!model.checkIfUserTableEmpty()) {
             User user = model.readUserFromDb();
             Monster monster = model.readMonster();
             totalSteps = user.getTotalSteps();
@@ -127,7 +122,8 @@ public class AchievementsFragment extends Fragment {
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
-            textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+            //textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+            textView.setText("monsterdistance: " + monster.getMonsterDistance());
             dbdistance = dbdistance + totalSteps*1;
             String formattedValue = String.format("%.2f", dbdistance);
 
