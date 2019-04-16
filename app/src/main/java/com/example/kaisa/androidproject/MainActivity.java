@@ -16,8 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.Monster;
+import com.example.kaisa.androidproject.model.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     int i = 0;
     boolean appOn = false;
     PagerAdapter adapter;
+    Date stopTime;
+    Date startTime;
+    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    String stopTimeSeconds;
+    String startTimeSeconds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             model.addMonster();
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
+        }
+        if (!model.checkIfUserTableEmpty()) {
+            Monster monster = model.readMonster();
         }
 
 
@@ -95,11 +111,29 @@ public class MainActivity extends AppCompatActivity {
         setupViewpager(viewPager);
         checkIfUserExist();
 
-        if(appOn == false){
-            appOn = true;
-            //if stop date == null;->do nothing
-            //else{
-            //compare times}
+        if (appOn == false) {
+
+            startTime = Calendar.getInstance().getTime();
+            long seconds = startTime.getTime() / 1000;
+            startTimeSeconds = Long.toString(seconds);
+            Monster monster = model.readMonster();
+       stopTimeSeconds = monster.getTurnOffDate();
+       if(monster.getTurnOffDate().isEmpty()){
+
+       }else {
+           long stopTimeDb = Long.parseLong(stopTimeSeconds);
+           long startTimeDb = Long.parseLong(startTimeSeconds);
+           long monsterOfflineTime = startTimeDb - stopTimeDb;
+           double monsterDistance = monster.getMonsterDistance();
+
+           if (monsterOfflineTime - startTimeDb == 0) {
+               monsterOfflineTime = Long.valueOf(0);
+           }
+           monsterDistance = monsterDistance + (monsterOfflineTime * 0.05);
+           monster.setMonsterDistance(monsterDistance);
+           model.updateMonster(monster);
+           appOn = true;
+       }
         }
     }
 
@@ -146,15 +180,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //save app close date and time to database.
+
+        stopTime = Calendar.getInstance().getTime();
+        long seconds = stopTime.getTime()/1000;
+        stopTimeSeconds =Long.toString(seconds);
+        Monster monster = model.readMonster();
+        monster.setTurnOffDate(stopTimeSeconds);
+        model.updateMonster(monster);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-
-        //save start date and time
     }
 
     public boolean selectFragment(Fragment fragment) {

@@ -29,6 +29,9 @@ public class AchievementsFragment extends Fragment {
     TextView textView = null;
     Button boxButton = null;
     View gift = null;
+    float monsterDistance;
+    float monsterTravelledDistance;
+
     float distancem = 0;
     static final float distancerange = 10000;
     float percentagedistance = 0;
@@ -47,6 +50,7 @@ public class AchievementsFragment extends Fragment {
     AnimationDrawable monsterAnimation;
     AnimationDrawable characterWalkAnimation;
     ImageView characterimg= null;
+    String totalDistanceFormatted;
 
     ImageView monsterimg = null;
    View monster = null;
@@ -115,6 +119,8 @@ public class AchievementsFragment extends Fragment {
             Monster monster = model.readMonster();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
+            user.setTotalDistance(5050);
+            model.updateUser(user);
             dbdistance = user.getTotalDistance();
             dbjogdate = user.getWalkDate();
             dbwalktime = user.getWalkTime();
@@ -122,12 +128,12 @@ public class AchievementsFragment extends Fragment {
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
-            //textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-            textView.setText("monsterdistance: " + monster.getMonsterDistance());
+            textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+          //  textView.setText("monsterdistance: " + monster.getMonsterDistance());
             dbdistance = dbdistance + totalSteps*1;
-            String formattedValue = String.format("%.2f", dbdistance);
+            totalDistanceFormatted = String.format("%.2f", dbdistance);
 
-            jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
+           jogdata.setText("Monster: " + monster.getMonsterDistance() +"\nDistance: " + totalDistanceFormatted +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
 
     }
@@ -164,10 +170,13 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
+        final DbModel model = new DbModel(getContext());
+        Monster monsterDb = model.readMonster();
+
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels;
         percentagedistance = dpWidth / distancerange;
-        travelleddistance = totalSteps;
+        travelleddistance = (float) dbdistance;
         distancem = travelleddistance % 5000;
         boxButton.setText(Float.toString(distancem));
         distancem = dpWidth-(distancem * percentagedistance);
@@ -177,18 +186,26 @@ public class AchievementsFragment extends Fragment {
         wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
-        float monsterTravelledDistance = 2500;
-        float monsterDistance = monsterTravelledDistance;
-        monsterDistance =   monsterTravelledDistance * percentagedistance;
-       characterdistancetxt.setText(Float.toString(monsterDistance));
-       if(travelleddistance-monsterTravelledDistance<5000){
+        //float monsterTravelledDistance = Float.valueOf(Double.toString(monsterDb.getMonsterDistance()));
+        double monsterD = monsterDb.getMonsterDistance();
+          monsterTravelledDistance = (float) monsterD;
+         //monster distance ja monster traveleddista pitää olla monster.getMonsterDistance
+
+       // monsterDistance =   monsterTravelledDistance * percentagedistance;
+       if(dbdistance-monsterTravelledDistance<6000&&dbdistance>5000){
+              monsterDistance = monsterTravelledDistance;
+          monsterDistance = dpWidth/2-(travelleddistance - monsterDistance ) *percentagedistance;
            monster.setX(monsterDistance);
            monsterimg.setX(monsterDistance-dpWidth/10);
+       }
+       if(travelleddistance-monsterTravelledDistance<0){
+           //monsteri aloitus paikkaan ja hahmon sijainnin resetointi
        }
 
         if (distancem <= (dpWidth / 2)) {
             distancem = dpWidth;
             gift.setX(distancem);
+
         }
     }
 }

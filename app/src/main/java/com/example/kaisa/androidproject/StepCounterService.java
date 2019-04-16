@@ -37,7 +37,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     private final Handler handler = new Handler();
     User user = null;
     DbModel model = null;
-    double monsterSpeed = 0.4;
+    double monsterSpeed = 1;
 
     @Override
     public void onCreate() {
