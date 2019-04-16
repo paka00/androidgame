@@ -413,8 +413,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_legs_to_right.setVisibility(View.VISIBLE);
         button_feet_to_left.setVisibility(View.VISIBLE);
         button_feet_to_right.setVisibility(View.VISIBLE);
-        maleButton.setVisibility(View.GONE);
-        femaleButton.setVisibility(View.GONE);
+
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
         context.databaseEmpty = false;

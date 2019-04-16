@@ -4,14 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +46,7 @@ public class HomeFragment extends Fragment {
     List<Integer> checkedValues;
     int clothesType;
     int clothesID;
-    ImageView imageview_head, imageview_torso, imageview_legs, imageview_feet;
+    ImageView imageview_head_home, imageview_torso_home, imageview_legs_home, imageview_feet_home;
 
 
     @Override
@@ -63,10 +61,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
-        imageview_head = getView().findViewById(R.id.imageview_head);
-        imageview_torso = getView().findViewById(R.id.imageview_torso);
-        imageview_legs = getView().findViewById(R.id.imageview_legs);
-        imageview_feet = getView().findViewById(R.id.imageview_feet);
+        imageview_head_home = getView().findViewById(R.id.imageview_head_home);
+        imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
+        imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
+        imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -336,5 +334,6 @@ public class HomeFragment extends Fragment {
         int i = r.nextInt((10 - 5) + 1) + 5;
         return i * 1000;
     }
+
 
 }
