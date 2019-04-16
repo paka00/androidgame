@@ -59,8 +59,10 @@ public class AchievementsFragment extends Fragment {
     AnimationDrawable characterWalkAnimation;
     ImageView characterimg= null;
     AchievementArrayAdapter adapter = null;
+    ArrayList<Achievement> arrayListAchievements;
     ImageView monsterimg = null;
     ListView listView;
+    DbModel dbModel;
    View monster = null;
 
     @Override
@@ -83,7 +85,7 @@ public class AchievementsFragment extends Fragment {
         monsterimg = getView().findViewById(R.id.monsterImage);
         monsterimg.setBackgroundResource(R.drawable.animationtest2);
         monsterAnimation = (AnimationDrawable) monsterimg.getBackground();
-
+        dbModel = new DbModel(getContext());
         characterimg = getView().findViewById(R.id.characterImage);
         characterimg.setBackgroundResource(R.drawable.animationwalkcyclecharacter);
         characterWalkAnimation = (AnimationDrawable) characterimg.getBackground();
@@ -108,11 +110,11 @@ public class AchievementsFragment extends Fragment {
             }
         });
 
-        final DbModel model = new DbModel(getContext());
+
         getdbdata();
         updatedistance();
 
-        ArrayList<Achievement> arrayListAchievements = model.readAchievements();
+        arrayListAchievements = dbModel.readAchievements();
         adapter = new AchievementArrayAdapter(getContext(), arrayListAchievements);
         listView.setAdapter(adapter);
     }
@@ -162,6 +164,7 @@ public class AchievementsFragment extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         getdbdata();
         updatedistance();
+        //updateAchievements();
     }
 
     @Override
@@ -202,5 +205,7 @@ public class AchievementsFragment extends Fragment {
            // gift.setX(distancem);
         }
     }
+
+
 
 }

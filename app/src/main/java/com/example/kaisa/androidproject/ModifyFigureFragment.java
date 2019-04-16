@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.kaisa.androidproject.model.Achievement;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -49,6 +50,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     MainActivity context;
     EditText nameEditText = null;
     boolean isUserCreated = false;
+    AchievementsFragment achievementsFragment;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
     
 
@@ -72,6 +74,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
         imageview_feet = getView().findViewById(R.id.imageview_feet);
+        achievementsFragment = new AchievementsFragment();
         isUserCreated = false;
         DbModel model = new DbModel(getContext());
         if (model.checkIfTableEmpty()){
@@ -394,9 +397,31 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_feet_to_right.setVisibility(View.VISIBLE);
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
+        createDefaultAchievements();
         context.databaseEmpty = false;
         Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
     }
+
+    public void createDefaultAchievements(){
+        DbModel model = new DbModel(getContext());
+        Achievement achievement1 = new Achievement("First step", "Reach your first step!", 0);
+        Achievement achievement2 = new Achievement("100 steps", "Reach 100 steps", 0);
+        Achievement achievement3 = new Achievement("10 kilometers", "Walk 10 kilometers", 0);
+        Achievement achievement4 = new Achievement("Estonia!", "You have walked from Helsinki to Tallinn! (85km)", 0);
+        Achievement achievement5 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
+        Achievement achievement6 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
+        Achievement achievement7 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
+        Achievement achievement8 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
+        model.createAchievement(achievement1);
+        model.createAchievement(achievement2);
+        model.createAchievement(achievement3);
+        model.createAchievement(achievement4);
+        model.createAchievement(achievement5);
+        model.createAchievement(achievement6);
+        model.createAchievement(achievement7);
+        model.createAchievement(achievement8);
+    }
+
 
     public void addToMaleHeadList(ArrayList<Integer> list){
         maleHeadList.clear();
