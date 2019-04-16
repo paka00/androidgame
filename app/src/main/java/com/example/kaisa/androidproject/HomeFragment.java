@@ -82,10 +82,13 @@ public class HomeFragment extends Fragment {
         });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfUserTableEmpty()) {
+        if(!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
+            if(dailyStepGoal == 0){
+                dailyStepGoal = getRandomSteps();
+            }
             dailyStepsCheck();
             randomizeDailyStepGoal = false;
         }
@@ -128,7 +131,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfUserTableEmpty()) {
+            if(!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
             }
         }

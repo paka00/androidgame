@@ -110,7 +110,7 @@ public class AchievementsFragment extends Fragment {
     }
     private void getdbdata(){
         final DbModel model = new DbModel(getContext());
-        if (!model.checkIfUserTableEmpty()) {
+        if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             Monster monster = model.readMonster();
             totalSteps = user.getTotalSteps();
@@ -122,8 +122,7 @@ public class AchievementsFragment extends Fragment {
             textView = getView().findViewById(R.id.steps);
             String steps = String.valueOf(totalSteps);
             String dSteps = String.valueOf(dailySteps);
-            //textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
-            textView.setText("monsterdistance: " + monster.getMonsterDistance());
+            textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
             dbdistance = dbdistance + totalSteps*1;
             String formattedValue = String.format("%.2f", dbdistance);
 

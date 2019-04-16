@@ -180,11 +180,11 @@ public class DbModel {
     }
 
     //Sets daily stats in the database to 0
-    public void resetDailyStats() {
+    public void resetDailyStats(int dailyStepHelper) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_DAILY_STEPS, 0);
-        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, 0);
+        values.put(DbContract.User.COLUMN_DAILY_STEP_COUNTER_HELPER, dailyStepHelper);
         values.put(DbContract.User.COLUMN_DAILY_DISTANCE, 0);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, 0);
         String selection = DbContract.User._ID + " LIKE ?";
@@ -198,24 +198,10 @@ public class DbModel {
     }
 
     //Checks if the table user is empty. Returns true if table is empty and false if not.
-    public boolean checkIfUserTableEmpty() {
+    public boolean checkIfTableEmpty(String table) {
         boolean empty = true;
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        String count = "SELECT count(*) FROM user";
-        Cursor mcursor = db.rawQuery(count, null);
-        mcursor.moveToFirst();
-        int icount = mcursor.getInt(0);
-        if(icount>0){
-            empty = false;
-        }
-        return empty;
-    }
-
-    //Checks if the table monster is empty. Returns true if table is empty and false if not.
-    public boolean checkIfMonsterTableEmpty() {
-        boolean empty = true;
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        String count = "SELECT count(*) FROM monsterStats";
+        String count = "SELECT count(*) FROM " + table;
         Cursor mcursor = db.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);

@@ -86,7 +86,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_feet = getView().findViewById(R.id.imageview_feet);
         isUserCreated = false;
         DbModel model = new DbModel(getContext());
-        if (model.checkIfUserTableEmpty()){
+        if (model.checkIfTableEmpty("user")){
             model.addHat(1, 0);
             model.addShirt(1, 0);
             model.addPants(1, 0);
@@ -100,14 +100,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             isUserCreated = true;
         }
         readUnlockedClothes();
-        loadImages(maleHeadList);
-        loadImages(maleTorsoList);
-        loadImages(maleLegList);
-        loadImages(maleFeetList);
-        loadImages(femaleHeadList);
-        loadImages(femaleTorsoList);
-        loadImages(femaleLegList);
-        loadImages(femaleFeetList);
         Log.d("modifyfigure", "male head array size: " + maleHeadList.size());
         Log.d("modifyfigure", "male head array: " + maleHeadList);
         setMaleCharacter();
@@ -197,7 +189,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
-        if(model.checkIfUserTableEmpty()){
+        if(model.checkIfTableEmpty("user")){
             button_head_to_left.setVisibility(View.INVISIBLE);
             button_head_to_right.setVisibility(View.INVISIBLE);
             button_torso_to_left.setVisibility(View.INVISIBLE);
@@ -538,9 +530,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     public void saveClothesToDatabase() {
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
-        if(model.checkIfUserTableEmpty()) {
+        if(model.checkIfTableEmpty("user")) {
             User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 0, 0, 0, 0,0.0, 0.0, 0.0, "", "", 0, 0, 0);
             model.addUserToDb(user);
+            model.addMonster();
         }
         else {
             User user = model.readUserFromDb();
@@ -556,7 +549,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void readClothesFromDatabase() {
         DbModel model = new DbModel(getContext());
-        if (!model.checkIfUserTableEmpty()){
+        if (!model.checkIfTableEmpty("user")){
             User user = model.readUserFromDb();
             name = user.getName();
             gender = user.getGender();
@@ -585,17 +578,5 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         addToFemaleTorsoList(model.readShirts(1));
         addToFemaleLegList(model.readPants(1));
         addToFemaleFeetList(model.readShoes(1));
-    }
-
-    public void loadImages(ArrayList<Integer> imageList) {
-        for (int i = 0; i < imageList.size(); i++) {
-            /*RequestOptions requestOptions = RequestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-
-            Glide.with(this)
-                    .asBitmap()
-                    .load(imageList.get(i))
-                    .apply(requestOptions)
-                    .submit();*/
-        }
     }
 }
