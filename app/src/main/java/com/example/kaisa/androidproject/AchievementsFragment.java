@@ -247,7 +247,10 @@ public class AchievementsFragment extends Fragment {
         monsterAnimation.start();
         characterWalkAnimation.start();
         //float monsterTravelledDistance = Float.valueOf(Double.toString(monsterDb.getMonsterDistance()));
-        double monsterD = monsterDb.getMonsterDistance();
+        double monsterD = 0;
+        if(!model.checkIfTableEmpty("monsterStats")) {
+            monsterD = monsterDb.getMonsterDistance();
+        }
           monsterTravelledDistance = (float) monsterD;
          //monster distance ja monster traveleddista pitää olla monster.getMonsterDistance
 

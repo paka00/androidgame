@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
         }
-        if (!model.checkIfUserTableEmpty()) {
+        if (!model.checkIfTableEmpty("user")) {
             Monster monster = model.readMonster();
         }
 
@@ -116,8 +116,10 @@ public class MainActivity extends AppCompatActivity {
             long seconds = startTime.getTime() / 1000;
             startTimeSeconds = Long.toString(seconds);
             Monster monster = model.readMonster();
-       stopTimeSeconds = monster.getTurnOffDate();
-       if(monster.getTurnOffDate().isEmpty()){
+            if(!model.checkIfTableEmpty("monsterStats")) {
+                stopTimeSeconds = monster.getTurnOffDate();
+            }
+       if(model.checkIfTableEmpty("monsterStats")){
 
        }else {
            long stopTimeDb = Long.parseLong(stopTimeSeconds);
