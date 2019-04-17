@@ -119,22 +119,22 @@ public class MainActivity extends AppCompatActivity {
             if(!model.checkIfTableEmpty("monsterStats")) {
                 stopTimeSeconds = monster.getTurnOffDate();
             }
-       if(model.checkIfTableEmpty("monsterStats")){
+            if(model.checkIfTableEmpty("monsterStats")){
 
-       }else {
-           long stopTimeDb = Long.parseLong(stopTimeSeconds);
-           long startTimeDb = Long.parseLong(startTimeSeconds);
-           long monsterOfflineTime = startTimeDb - stopTimeDb;
-           double monsterDistance = monster.getMonsterDistance();
+            }else {
+                long stopTimeDb = Long.parseLong(stopTimeSeconds);
+                long startTimeDb = Long.parseLong(startTimeSeconds);
+                long monsterOfflineTime = startTimeDb - stopTimeDb;
+                double monsterDistance = monster.getMonsterDistance();
 
-           if (monsterOfflineTime - startTimeDb == 0) {
-               monsterOfflineTime = Long.valueOf(0);
-           }
-           monsterDistance = monsterDistance + (monsterOfflineTime * 0.05);
-           monster.setMonsterDistance(monsterDistance);
-           model.updateMonster(monster);
-           appOn = true;
-       }
+                if (monsterOfflineTime - startTimeDb == 0) {
+                    monsterOfflineTime = Long.valueOf(0);
+                }
+                monsterDistance = monsterDistance + (monsterOfflineTime * 0.05);
+                monster.setMonsterDistance(monsterDistance);
+                model.updateMonster(monster);
+                appOn = true;
+            }
         }
     }
 

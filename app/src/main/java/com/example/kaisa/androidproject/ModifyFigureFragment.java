@@ -63,7 +63,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
-    AchievementsFragment achievementsFragment;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
 
 
@@ -99,7 +98,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         imageview_torso = getView().findViewById(R.id.imageview_torso);
         imageview_legs = getView().findViewById(R.id.imageview_legs);
         imageview_feet = getView().findViewById(R.id.imageview_feet);
-        achievementsFragment = new AchievementsFragment();
         isUserCreated = false;
         DbModel model = new DbModel(getContext());
         if (model.checkIfTableEmpty("user")) {
@@ -548,7 +546,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         model.createAchievement(achievement8);
     }
 
-
     public void addToMaleHeadList(ArrayList<Integer> list) {
         maleHeadList.clear();
         for (int i = 0; i < list.size(); i++) {
@@ -719,3 +716,4 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         isStarted = false;
     }
 }
+
