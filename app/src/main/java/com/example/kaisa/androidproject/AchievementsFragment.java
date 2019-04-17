@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +25,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.kaisa.androidproject.model.Achievement;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.Monster;
 import com.example.kaisa.androidproject.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -59,9 +67,13 @@ public class AchievementsFragment extends Fragment {
     AnimationDrawable monsterAnimation;
     AnimationDrawable characterWalkAnimation;
     ImageView characterimg= null;
+    AchievementArrayAdapter adapter = null;
+    ArrayList<Achievement> arrayListAchievements;
     String totalDistanceFormatted;
 
     ImageView monsterimg = null;
+    ListView listView;
+    DbModel dbModel;
    View monster = null;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
@@ -79,6 +91,7 @@ public class AchievementsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //gift = getView().findViewById(R.id.box);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         boxButton = getView().findViewById(R.id.moveButton);
@@ -86,24 +99,18 @@ public class AchievementsFragment extends Fragment {
         giftimg = getView().findViewById(R.id.gift);
         giftimg.setBackgroundResource(R.drawable.animationtest);
         wifianimation = (AnimationDrawable) giftimg.getBackground();
-        monster = getView().findViewById(R.id.monsterline);
-
+        //monster = getView().findViewById(R.id.monsterline);
+        listView = getView().findViewById(R.id.listview_achievements);
         monsterimg = getView().findViewById(R.id.monsterImage);
         monsterimg.setBackgroundResource(R.drawable.animationtest2);
         monsterAnimation = (AnimationDrawable) monsterimg.getBackground();
-
+        dbModel = new DbModel(getContext());
         characterimg = getView().findViewById(R.id.characterImage);
         characterimg.setBackgroundResource(R.drawable.animationwalkcyclecharacter);
         characterWalkAnimation = (AnimationDrawable) characterimg.getBackground();
 
         characterdistancetxt = getView().findViewById(R.id.distancecharacter);
-        boxButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               getdbdata();
-                updatedistance();
-            }
-        });
+
         jogdata = getView().findViewById(R.id.userdata);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -122,10 +129,13 @@ public class AchievementsFragment extends Fragment {
             }
         });
 
-        final DbModel model = new DbModel(getContext());
-        getdbdata();
 
+        getdbdata();
         updatedistance();
+
+        arrayListAchievements = dbModel.readAchievements();
+        adapter = new AchievementArrayAdapter(getContext(), arrayListAchievements);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -193,6 +203,7 @@ public class AchievementsFragment extends Fragment {
             dbdistance = dbdistance + totalSteps*1;
             totalDistanceFormatted = String.format("%.2f", dbdistance);
 
+            //jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
            jogdata.setText("Monster: " + monster.getMonsterDistance() +"\nDistance: " + totalDistanceFormatted +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
         }
 
@@ -221,6 +232,7 @@ public class AchievementsFragment extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         getdbdata();
         updatedistance();
+        //updateAchievements();
     }
 
     @Override
@@ -238,11 +250,10 @@ public class AchievementsFragment extends Fragment {
         percentagedistance = dpWidth / distancerange;
         travelleddistance = (float) dbdistance;
         distancem = travelleddistance % 5000;
-        boxButton.setText(Float.toString(distancem));
         distancem = dpWidth-(distancem * percentagedistance);
-        gift.setX(distancem);
+        //gift.setX(distancem);
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
-        giftimg.setX(distancem-dpWidth/16);
+        //giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
@@ -260,6 +271,13 @@ public class AchievementsFragment extends Fragment {
           monsterDistance = dpWidth/2-(travelleddistance - monsterDistance ) *percentagedistance;
            monster.setX(monsterDistance);
            monsterimg.setX(monsterDistance-dpWidth/10);
+        float monsterTravelledDistance = 2500;
+        float monsterDistance = monsterTravelledDistance;
+        monsterDistance =   monsterTravelledDistance * percentagedistance;
+       characterdistancetxt.setText(Float.toString(monsterDistance));
+       if(travelleddistance-monsterTravelledDistance<5000){
+          // monster.setX(monsterDistance);
+           //monsterimg.setX(monsterDistance-dpWidth/10);
        }
        if(travelleddistance-monsterTravelledDistance<0){
            //monsteri aloitus paikkaan ja hahmon sijainnin resetointi
@@ -267,6 +285,7 @@ public class AchievementsFragment extends Fragment {
 
         if (distancem <= (dpWidth / 2)) {
             distancem = dpWidth;
+           // gift.setX(distancem);
             gift.setX(distancem);
 
         }
@@ -286,6 +305,7 @@ public class AchievementsFragment extends Fragment {
         super.onStop();
         isStarted = false;
     }
+
 
 
 }
