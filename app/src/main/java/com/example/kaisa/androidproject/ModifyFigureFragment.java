@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.kaisa.androidproject.model.Achievement;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -548,7 +549,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     }
 
 
-    public void addToMaleHeadList(ArrayList<Integer> list){
     public void addToMaleHeadList(ArrayList<Integer> list) {
         maleHeadList.clear();
         for (int i = 0; i < list.size(); i++) {
