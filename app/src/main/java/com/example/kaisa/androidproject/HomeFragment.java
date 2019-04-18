@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,12 +129,55 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        LayoutInflater inflater = (LayoutInflater) getContext()
+                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View dialoglayout = inflater.inflate(R.layout.exit_dialog_layout, null);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setView(dialoglayout);
+                        final AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                        alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+                        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        Button cancelBtn = dialoglayout.findViewById(R.id.dialog_cancel_btn);
+                        Button okBtn = dialoglayout.findViewById(R.id.dialog_ok_btn);
+                        TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+                        titleText.setTypeface(pixelFont);
+                        titleText.setText("Are you sure you want to exit?");
+                        cancelBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        okBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((MainActivity)getActivity()).closeActivity();
+                            }
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
+        if(isVisibleToUser) {
+            Log.d("homefragment", "setuservisiblehint");
+        }
         if (isVisible && isStarted) {
             createDialog();
             try {
@@ -159,9 +203,9 @@ public class HomeFragment extends Fragment {
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
             titleText.setTypeface(pixelFont);
             titleText.setText("Home page");

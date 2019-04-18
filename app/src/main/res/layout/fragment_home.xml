@@ -47,6 +47,7 @@
             android:id="@+id/daily_task"
             android:background="@color/colorPrimary"
             android:text="Daily task: Walk 1000 steps"
+            android:fontFamily="@font/pixel_font"
             android:textColor="@android:color/white"
             android:textSize="20dp"
             app:layout_constraintTop_toBottomOf="@id/horGuideline1"/>
@@ -58,6 +59,7 @@
             android:background="@color/colorPrimary"
             android:text="Time left: "
             android:textColor="@android:color/white"
+            android:fontFamily="@font/pixel_font"
             android:textSize="20dp"
             app:layout_constraintTop_toBottomOf="@id/daily_task"/>
 
@@ -68,6 +70,7 @@
             android:background="@color/colorPrimary"
             android:text="Progress: "
             android:textColor="@android:color/white"
+            android:fontFamily="@font/pixel_font"
             android:textSize="20dp"
             app:layout_constraintTop_toBottomOf="@id/daily_task_time"/>
         
@@ -77,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Claim&#10;Reward"
+            android:fontFamily="@font/pixel_font"
             android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horGuideline1"/>

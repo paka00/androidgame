@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -119,9 +120,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
             titleText.setTypeface(pixelFont);
             TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
@@ -129,7 +130,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             titleText.setText("Welcome to creature chase!");
             bodyText.setText("Your epic journey to outrun a terrifying creature is beginning... \n" +
                     "But first, you have to create your character! " +
-                    "Choose a name and gender and press the done button when you're finished.");
+                    "Choose a name and gender and press the save button when you're finished.");
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -182,7 +183,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Button maleButton = getView().findViewById(R.id.button_male);
         maleButton.setOnClickListener(this);
 
-        ImageButton doneButton = getView().findViewById(R.id.done_button);
+        Button doneButton = getView().findViewById(R.id.done_button);
         doneButton.setOnClickListener(this);
 
         readClothesFromDatabase();
@@ -271,15 +272,15 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
             titleText.setTypeface(pixelFont);
             TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
             bodyText.setTypeface(pixelFont);
             titleText.setText("Edit your character");
-            bodyText.setText("On this page you can edit your character by pressing the yellow arrows and pressing the done button when you are ready. " +
+            bodyText.setText("On this page you can edit your character by pressing the yellow arrows and pressing the save button when you are ready. " +
                     "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
                     "You should check out the achievements page by pressing the gold cup if you haven't already!");
             doneBtn.setOnClickListener(new View.OnClickListener() {
