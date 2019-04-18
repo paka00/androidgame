@@ -283,17 +283,20 @@
             android:button="@null" />
 
 
-        <ImageButton
+        <Button
             android:id="@+id/done_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Done"
             android:gravity="center"
-            app:layout_constraintLeft_toLeftOf="@id/verGuideline7"
-            app:layout_constraintRight_toRightOf="@id/verGuideline8"
-            android:src="@drawable/done_button"
+            app:layout_constraintLeft_toRightOf="@id/button_male"
+            app:layout_constraintRight_toLeftOf="@id/button_female"
+            android:src="@drawable/button_layout"
             android:scaleType="centerInside"
-            android:background="@null"/>
+            android:text="Save"
+            android:textSize="25dp"
+            android:fontFamily="@font/pixel_font"
+            android:textColor="@color/colorButtonText"
+            android:background="@drawable/button_layout"/>
 
         <RadioButton
             android:id="@+id/button_female"

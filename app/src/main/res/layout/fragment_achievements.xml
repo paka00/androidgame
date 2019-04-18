@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textSize="20dp"
+            android:fontFamily="@font/pixel_font"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -82,6 +83,7 @@
             android:id="@+id/steps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pixel_font"
             android:layout_gravity="left"
             android:text="test"
             android:textColor="#FFFFFF"
@@ -92,6 +94,7 @@
             android:id="@+id/userdata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pixel_font"
             android:layout_gravity="left"
             android:text="test"
             android:textColor="#FFFFFF"

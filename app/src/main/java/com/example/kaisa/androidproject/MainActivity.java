@@ -278,4 +278,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public void closeActivity(){
+        finish();
+    }
 }
