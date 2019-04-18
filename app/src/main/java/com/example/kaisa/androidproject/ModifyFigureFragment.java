@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -307,7 +308,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         if (buttonID == R.id.done_button) {
             if (context.databaseEmpty) {
                 //If database is empty
-                createNewFigure();
+                //createNewFigure();
+                selectSettings();
                 isUserCreated = true;
             } else {
                 saveClothesToDatabase();
@@ -517,7 +519,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         saveClothesToDatabase();
         createDefaultAchievements();
         context.databaseEmpty = false;
-        Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void selectSettings() {
+        createNewFigure();
+        Intent intent = new Intent(getContext(), SettingsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
     }
 
     public void createDefaultAchievements(){

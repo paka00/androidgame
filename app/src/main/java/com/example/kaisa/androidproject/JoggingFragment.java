@@ -73,6 +73,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     //yeet
     String startbuttontxt = "Start";
     Button startButton;
+    public static final int RequestPermissionCode = 1;
     private GoogleApiClient googleApiClient;
     private FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest = null;
@@ -149,7 +150,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         });
         tv1 = getView().findViewById(R.id.tv1);
         tv2 = getView().findViewById(R.id.tv2);
-        googleApiClient = new GoogleApiClient.Builder(getContext())
+    googleApiClient = new GoogleApiClient.Builder(getContext())
             .addOnConnectionFailedListener(this).
                     addConnectionCallbacks(this).addApi(LocationServices.API).build();
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -175,8 +176,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.INVISIBLE);
                         context.imageButton.setEnabled(false);
                         testPager.disableScroll(true);
-                        startbuttontxt = "Stop";
-                        startButton.setBackground(getResources().getDrawable(R.drawable.stop_run_button));
+                        startButton.setBackgroundResource(R.drawable.stop_run_button);
                         requestLocationUpdates();
                         startSensor();
                         getTime();
@@ -187,8 +187,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
-                        startbuttontxt = "Start";
-                        startButton.setBackground(getResources().getDrawable(R.drawable.start_run_button));
+                        startButton.setBackgroundResource(R.drawable.start_run_button);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();
@@ -359,7 +358,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, SplashScreen.RequestPermissionCode);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, RequestPermissionCode);
     }
 
     @Override
