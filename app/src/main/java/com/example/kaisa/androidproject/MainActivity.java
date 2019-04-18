@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     Date stopTime;
     Date startTime;
     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    String stopTimeSeconds;
-    String startTimeSeconds;
+    String stopTimeSeconds = null;
+    String startTimeSeconds = null;
 
 
     @Override
