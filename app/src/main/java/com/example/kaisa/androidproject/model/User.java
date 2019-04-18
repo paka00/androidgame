@@ -23,8 +23,10 @@ public class User implements Serializable {
     float walkDistance;
     int dailyReward;
     int dailyStepGoal;
+    int difficultyLevel;
+    int height;
 
-    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward, int dailyStepGoal) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward, int dailyStepGoal, int difficultyLevel, int height) {
         this.name = name;
         this.gender = gender;
         this.hat = hat;
@@ -44,6 +46,8 @@ public class User implements Serializable {
         this.walkDistance = walkDistance;
         this.dailyReward = dailyReward;
         this.dailyStepGoal = dailyStepGoal;
+        this.difficultyLevel = difficultyLevel;
+        this.height = height;
     }
 
     public int getSteps() {
@@ -204,5 +208,21 @@ public class User implements Serializable {
 
     public void setDailyStepGoal(int dailyStepGoal) {
         this.dailyStepGoal = dailyStepGoal;
+    }
+
+    public int getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(int difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
