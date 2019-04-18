@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.kaisa.androidproject.model.Achievement;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
@@ -258,6 +259,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //Creates a dialog box with information about the current page.
     public void createDialog() {
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         if (!prefs.getBoolean("appHasRunBeforeModify", false)) {
@@ -467,15 +469,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /*public void setMaleHeadImage(){ Glide.with(this).load(maleHeadList.get(headPosition)).into(imageview_head);}
-    public void setMaleTorsoImage(){ Glide.with(this).load(maleTorsoList.get(torsoPosition)).into(imageview_torso);}
-    public void setMaleLegImage(){ Glide.with(this).load(maleLegList.get(legPosition)).into(imageview_legs);}
-    public void setMaleFeetImage(){ Glide.with(this).load(maleFeetList.get(feetPosition)).into(imageview_feet);}
-    public void setFemaleHeadImage(){ Glide.with(this).load(femaleHeadList.get(headPosition)).into(imageview_head);}
-    public void setFemaleTorsoImage(){ Glide.with(this).load(femaleTorsoList.get(torsoPosition)).into(imageview_torso);}
-    public void setFemaleLegImage(){ Glide.with(this).load(femaleLegList.get(legPosition)).into(imageview_legs); }
-    public void setFemaleFeetImage(){ Glide.with(this).load(femaleFeetList.get(feetPosition)).into(imageview_feet);}*/
-
     public void setMaleHeadImage() {
         imageview_head.setImageResource(maleHeadList.get(headPosition));
     }
@@ -529,7 +522,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
 
     public void createDefaultAchievements(){
         DbModel model = new DbModel(getContext());
-        Achievement achievement1 = new Achievement("First step", "Reach your first step!", 0);
+        Achievement achievement1 = new Achievement("First step", "Take your first step!", 0);
         Achievement achievement2 = new Achievement("100 steps", "Reach 100 steps", 0);
         Achievement achievement3 = new Achievement("10 kilometers", "Walk 10 kilometers", 0);
         Achievement achievement4 = new Achievement("Estonia!", "You have walked from Helsinki to Tallinn! (85km)", 0);
@@ -547,8 +540,9 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         model.createAchievement(achievement8);
     }
 
-
-    public void addToMaleHeadList(ArrayList<Integer> list){
+    //Takes a list of ints which contain the unlocked clothes
+    //and adds them to the end of a predetermined string to get a drawable of the clothes
+    //Then takes the drawables resource and adds that to a different array list.
     public void addToMaleHeadList(ArrayList<Integer> list) {
         maleHeadList.clear();
         for (int i = 0; i < list.size(); i++) {
@@ -584,39 +578,6 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             maleFeetList.add(imageResource);
         }
     }
-
-    public void setFemaleCharacter() {
-        gender = 1;
-        headPosition = 0;
-        torsoPosition = 0;
-        legPosition = 0;
-        feetPosition = 0;
-        /*Glide.with(this).load(R.drawable.akka_paa_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_head);
-        Glide.with(this).load(R.drawable.akka_torso_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_torso);
-        Glide.with(this).load(R.drawable.akka_pants_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_legs);
-        Glide.with(this).load(R.drawable.akka_shoes_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_feet);*/
-        setFemaleFeetImage();
-        setFemaleLegImage();
-        setFemaleTorsoImage();
-        setFemaleHeadImage();
-    }
-
-    public void setMaleCharacter() {
-        gender = 0;
-        headPosition = 0;
-        torsoPosition = 0;
-        legPosition = 0;
-        feetPosition = 0;
-        /*Glide.with(this).load(R.drawable.ukko_paa_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_head);
-        Glide.with(this).load(R.drawable.ukko_torso_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_torso);
-        Glide.with(this).load(R.drawable.ukko_pants_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_legs);
-        Glide.with(this).load(R.drawable.ukko_shoes_1).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(imageview_feet);*/
-        setMaleFeetImage();
-        setMaleLegImage();
-        setMaleTorsoImage();
-        setMaleHeadImage();
-    }
-
     public void addToFemaleHeadList(ArrayList<Integer> list) {
         femaleHeadList.clear();
         for (int i = 0; i < list.size(); i++) {
@@ -653,6 +614,35 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //Sets the character to female.
+    public void setFemaleCharacter() {
+        gender = 1;
+        headPosition = 0;
+        torsoPosition = 0;
+        legPosition = 0;
+        feetPosition = 0;
+        setFemaleFeetImage();
+        setFemaleLegImage();
+        setFemaleTorsoImage();
+        setFemaleHeadImage();
+    }
+
+    //Sets the character to male.
+    public void setMaleCharacter() {
+        gender = 0;
+        headPosition = 0;
+        torsoPosition = 0;
+        legPosition = 0;
+        feetPosition = 0;
+        setMaleFeetImage();
+        setMaleLegImage();
+        setMaleTorsoImage();
+        setMaleHeadImage();
+    }
+
+
+    //Takes the clothes and other information the user has chosen and either creates a new user in the database,
+    //Or updates an existing user if it exists.
     public void saveClothesToDatabase() {
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
@@ -672,6 +662,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //Reads the users information from the database
     public void readClothesFromDatabase() {
         DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty("user")) {
@@ -692,6 +683,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //Reads all the clothes the user has unlocked from the database and adds them to the array lists.
     public void readUnlockedClothes() {
         DbModel model = new DbModel(getContext());
         addToMaleHeadList(model.readHats(0));

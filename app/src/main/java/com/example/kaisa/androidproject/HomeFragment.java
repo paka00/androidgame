@@ -149,6 +149,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    //Creates a dialog box with information about the current page.
     public void createDialog() {
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
@@ -245,6 +246,7 @@ public class HomeFragment extends Fragment {
         Log.d("homefragment", "onResume");
     }
 
+    //Starts a timer which ends at midnight each day
     protected void startCountdownTimer() {
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTimeZone(TimeZone.getDefault());
@@ -288,6 +290,8 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
+    //Formats the time to HH:MM:SS.
+    //For some reason the already existing tools for that didn't work.
     protected String formatTime (long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
@@ -309,7 +313,10 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
+    //Randomizes a piece of clothing.
+    //First a random int from 0 to 3 is taken, which determines whether the random piece of clothing is a hat, a shirt, pants or shoes.
+    //Then a check if all the clothes from a certain clothing type have been unlocked.
+    //Finally, another random int is taken, which is the ID for that particular piece of clothing.
     public void selectRandomClothes() {
         model = new DbModel(getContext());
         User user = model.readUserFromDb();
@@ -374,18 +381,19 @@ public class HomeFragment extends Fragment {
                     Log.v("clothesType", "added clothesID to db");
                     break;
             }
-            //sendRandomClothes(clothesID);
             model.updateUser(user);
-
         }
     }
 
+    //Returns a random int from range 1 to max.
     public int randomInt(int max) {
         Random random = new Random();
         int rand = random.nextInt(max) + 1;
         return rand;
     }
 
+    //Used to check if the database already has all of the certain type of clothing.
+    //i is the type of clothing (e.g. a hat, which is 0), and g is the gender of the users character.
     public boolean checkIfAllUnlocked(int i, int g) {
         boolean bool = false;
         switch (i) {
@@ -408,6 +416,7 @@ public class HomeFragment extends Fragment {
         return bool;
     }
 
+    //Takes a random int from 5 to 10 and multiplies it by 1000, and returns it.
     public int getRandomSteps() {
         Random r = new Random();
         int i = r.nextInt((10 - 5) + 1) + 5;

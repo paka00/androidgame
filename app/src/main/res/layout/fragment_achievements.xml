@@ -27,7 +27,6 @@
 
 
     <android.support.constraint.ConstraintLayout
-        android:background="@drawable/juoksutausta3"
         app:layout_constraintBottom_toTopOf="@id/horGuideline1"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/clayout"
