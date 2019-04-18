@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dropdown_menu_default_margin">8dp</dimen>
+    <dimen name="seek_bar_thickness">25dp</dimen>
+    <dimen name="seek_bar_thumb_size">20dp</dimen>
+    <dimen name="seek_bar_width">250dp</dimen>
+    <dimen name="seek_bar_height">20dp</dimen>
 </resources>
