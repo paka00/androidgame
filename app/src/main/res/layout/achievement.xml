@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tekstilaatikko">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MORO"
+        android:textColor="#FFFFFF"
+        android:paddingTop="10dp"
+        android:paddingLeft="30dp"/>
+
+    <TextView
+        android:id="@+id/text_view_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="JEES"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="30dp"
+        app:layout_constraintTop_toBottomOf="@id/text_view_name"/>
+
+    <TextView
+        android:id="@+id/text_view_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="30dp"
+        app:layout_constraintTop_toBottomOf="@id/text_view_description"/>
+
+</android.support.constraint.ConstraintLayout>

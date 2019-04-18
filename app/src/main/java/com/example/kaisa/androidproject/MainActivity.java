@@ -1,6 +1,9 @@
 package com.example.kaisa.androidproject;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +19,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.kaisa.androidproject.model.DbModel;
+import com.example.kaisa.androidproject.model.Monster;
+import com.example.kaisa.androidproject.model.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
     int i = 0;
     boolean appOn = false;
     PagerAdapter adapter;
+    Date stopTime;
+    Date startTime;
+    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    String stopTimeSeconds;
+    String startTimeSeconds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +56,18 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.pager);
         Log.v("start", "main activity startattu");
         adapter = new PagerAdapter(getSupportFragmentManager(), 4);
-
-
-
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
         navigation.setItemIconSize(130);
         model = new DbModel(this);
-        if(model.checkIfMonsterTableEmpty()){
-            model.addMonster();
+        if(!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
+        }
+        if (!model.checkIfTableEmpty("user")) {
+            Monster monster = model.readMonster();
         }
 
 
@@ -95,11 +110,31 @@ public class MainActivity extends AppCompatActivity {
         setupViewpager(viewPager);
         checkIfUserExist();
 
-        if(appOn == false){
-            appOn = true;
-            //if stop date == null;->do nothing
-            //else{
-            //compare times}
+        if (appOn == false) {
+
+            startTime = Calendar.getInstance().getTime();
+            long seconds = startTime.getTime() / 1000;
+            startTimeSeconds = Long.toString(seconds);
+            Monster monster = model.readMonster();
+            if(!model.checkIfTableEmpty("monsterStats")) {
+                stopTimeSeconds = monster.getTurnOffDate();
+            }
+       if(model.checkIfTableEmpty("monsterStats")){
+
+       }else {
+           long stopTimeDb = Long.parseLong(stopTimeSeconds);
+           long startTimeDb = Long.parseLong(startTimeSeconds);
+           long monsterOfflineTime = startTimeDb - stopTimeDb;
+           double monsterDistance = monster.getMonsterDistance();
+
+           if (monsterOfflineTime - startTimeDb == 0) {
+               monsterOfflineTime = Long.valueOf(0);
+           }
+           monsterDistance = monsterDistance + (monsterOfflineTime * 0.05);
+           monster.setMonsterDistance(monsterDistance);
+           model.updateMonster(monster);
+           appOn = true;
+       }
         }
     }
 
@@ -136,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!model.checkIfUserTableEmpty()) {
+        if (!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
             Log.v("stepsmain", "onresume");
@@ -146,15 +181,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //save app close date and time to database.
+
+        stopTime = Calendar.getInstance().getTime();
+        long seconds = stopTime.getTime()/1000;
+        stopTimeSeconds =Long.toString(seconds);
+        Monster monster = model.readMonster();
+        monster.setTurnOffDate(stopTimeSeconds);
+        model.updateMonster(monster);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-
-        //save start date and time
     }
 
     public boolean selectFragment(Fragment fragment) {
@@ -178,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkIfUserExist() {
-        if (model.checkIfUserTableEmpty()) {
+        if (model.checkIfTableEmpty("user")) {
             this.databaseEmpty = true;
             viewPager.setCurrentItem(1);
             navigation.setVisibility(View.INVISIBLE);
@@ -187,5 +227,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             viewPager.setCurrentItem(0);
         }
+    }
+
+    private boolean isServiceRunning(Class<?> serviceClass){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
