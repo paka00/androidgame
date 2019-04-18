@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
     int level = 0;
     DbModel model;
     User user;
-    ImageButton doneButton;
+    Button doneButton;
     ModifyFigureFragment modifyFigureFragment;
     MainActivity activity;
 
