@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/navigation_something"
-        android:icon="@drawable/star_icon"
+        android:icon="@drawable/kenka_ikoni"
         android:title="@string/title_empty"/>
 
 </menu>

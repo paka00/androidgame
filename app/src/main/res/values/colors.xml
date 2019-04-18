@@ -7,6 +7,8 @@
     <color name="colorEditTextName"></color>
     <color name="colorBottomNavigationBarChecked">#494a40</color>
     <color name="colorAchievementsBackground">#404041</color>
+    <color name="colorSeekbarSelected">#d8a17c</color>
+    <color name="colorSeekbarBackground">#916f59</color>
 </resources>
 
 
