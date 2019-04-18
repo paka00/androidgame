@@ -217,9 +217,11 @@ public class AchievementsFragment extends Fragment {
             //  textView.setText("monsterdistance: " + monster.getMonsterDistance());
             dbdistance = dbdistance + totalSteps * 1;
             totalDistanceFormatted = String.format("%.2f", dbdistance);
-
+              int hours =  (Integer.parseInt(dbwalktime) / (1 * 60 * 60));
+              int mins =  (Integer.parseInt(dbwalktime) / (1 * 60)) % 60;
+              int sec =  (Integer.parseInt(dbwalktime) % 60);
             //jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
-            jogdata.setText("Monster: " + monsterDb.getMonsterDistance() + "\nDistance: " + totalDistanceFormatted + "\nDaily distance: " + dbdailydistance + "\nTotal jog time: " + dbwalktime + "\nlast jog was on: " + dbjogdate);
+            jogdata.setText("Monster: " + monsterDb.getMonsterDistance() + "\nDistance: " + totalDistanceFormatted + "\nLast jog distance: " + dbdailydistance + "\nTotal jog time: h:" + hours+" m:"+ mins+" s:"+ sec + "\nlast jog was on: " + dbjogdate);
         }
 
     }

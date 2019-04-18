@@ -150,7 +150,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
             user.setStepHelper(stepHelper);
-            user.setDailyDistance(dailyDistance);
+           // user.setDailyDistance(dailyDistance);
 
             if(user.getDailySteps() >= user.getDailyStepGoal() && user.getDailyStepGoal() != 0 && user.getDailyReward() == 0 && !MainActivity.isVisible) {
                 showNotification("Creature Chase", "You have finished your daily quest!");

@@ -71,7 +71,6 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class JoggingFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     //yeet
-    String startbuttontxt = "Start";
     Button startButton;
     public static final int RequestPermissionCode = 1;
     private GoogleApiClient googleApiClient;
@@ -377,12 +376,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
-        /*if (startbuttontxt.equals("Stop")) {
+        /*
+        if (jogStarted==true) {
             context.navigation.setVisibility(View.VISIBLE);
             context.imageButton.setEnabled(true);
             stopsteps = user.getSteps();
-            startbuttontxt = "Start";
-            startButton.setText(startbuttontxt);
             testPager.disableScroll(false);
             fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
             compareTime();
@@ -390,7 +388,8 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             savedatatodb();
             resetValues();
             locationservices = false;
-        }*/
+        }
+        */
         super.onStop();
         isStarted = false;
     }
@@ -470,6 +469,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     public void savedatatodb() {
 
         dbdistance = user.getTotalDistance();
+        user.setDailyDistance(distance2);
         dbdistance = dbdistance + distance2;
         dbdistance = dbdistance - ((stopsteps - startsteps) * 0.5);
         user.setTotalDistance(dbdistance);
@@ -505,8 +505,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
-                        startbuttontxt = "Start";
-                        startButton.setText(startbuttontxt);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();
