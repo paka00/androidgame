@@ -25,9 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.kaisa.androidproject.model.DbModel;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -70,6 +72,8 @@ public class HomeFragment extends Fragment {
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
+    ImageView imageview_head_home, imageview_torso_home, imageview_legs_home, imageview_feet_home;
+
 
 
     @Override
@@ -83,6 +87,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
+        imageview_head_home = getView().findViewById(R.id.imageview_head_home);
+        imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
+        imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
+        imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
@@ -128,6 +136,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        //checkTablesetImages();
     }
 
     @Override
@@ -146,6 +155,7 @@ public class HomeFragment extends Fragment {
         isVisible = isVisibleToUser;
         if (isVisible && isStarted) {
             createDialog();
+            checkTableSetImages();
         }
     }
 
@@ -437,4 +447,48 @@ public class HomeFragment extends Fragment {
         super.onStop();
         isStarted = false;
     }
+    public void testSetImages() {
+       /* ModifyFigureFragment modifyFigureFragment = new ModifyFigureFragment();
+        User user = model.readUserFromDb();
+        int hat = user.getHat();
+        modifyFigureFragment.maleHeadList.size();
+        imageview_head_home.setImageResource(modifyFigureFragment.maleHeadList.get(hat));
+        Log.d("testi","homefragment testsetimages");
+
+
+        if (modifyFigureFragment.isUserCreated == true) {
+            Log.d("testi","homefragment testsetimages usercreated");
+
+            // if (modifyFigureFragment.gender == 0) {
+                //modifyFigureFragment.readClothesFromDatabase();
+                //modifyFigureFragment.readUnlockedClothes();
+                //User user = model.readUserFromDb();
+                //int hat = user.getHat();
+                //modifyFigureFragment.maleHeadList.size();
+                //imageview_head_home.setImageResource(modifyFigureFragment.maleHeadList.get(hat));
+
+
+
+        }*/
+    }
+    public void checkTableSetImages(){
+        ModifyFigureFragment modifyFigureFragment = new ModifyFigureFragment();
+        DbModel model = new DbModel(getContext());
+        Intent intent = getActivity().getIntent();
+        int message = intent.getIntExtra("gender",0);
+        Log.d("testi2","message:"+message);
+        Log.d("testi","gender"+modifyFigureFragment.gender);
+        if(model.checkIfTableEmpty("user")){
+            if(modifyFigureFragment.gender == 0){
+                imageview_head_home.setImageResource(R.drawable.ukko_paa_1);
+            }
+            if(modifyFigureFragment.gender == 1){
+                imageview_head_home.setImageResource(R.drawable.akka_paa_1);
+            }
+        }else{
+            //tähän tämänhetkiset vaatteet
+            Log.d("testi","Tablessa on kamaa");
+        }
+    }
+
 }

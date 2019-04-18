@@ -258,7 +258,7 @@ public class AchievementsFragment extends Fragment {
     }
 
     public void updatedistance() {
-        final DbModel model = new DbModel(getContext());
+      /*  final DbModel model = new DbModel(getContext());
         Monster monsterDb = model.readMonster();
 
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -266,46 +266,36 @@ public class AchievementsFragment extends Fragment {
         percentagedistance = dpWidth / distancerange;
         travelleddistance = (float) dbdistance;
         distancem = travelleddistance % 5000;
-        distancem = dpWidth - (distancem * percentagedistance);
-        //gift.setX(distancem);
-        characterdistancetxt.setText(Float.toString(travelleddistance) + "m");
-        //giftimg.setX(distancem-dpWidth/16);
+        distancem = dpWidth-(distancem * percentagedistance);
+        gift.setX(distancem);
+        characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
+        giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
         //float monsterTravelledDistance = Float.valueOf(Double.toString(monsterDb.getMonsterDistance()));
-        double monsterD = 0;
-        if (!model.checkIfTableEmpty("monsterStats")) {
-            monsterD = monsterDb.getMonsterDistance();
-        }
+        double monsterD = monsterDb.getMonsterDistance();
         monsterTravelledDistance = (float) monsterD;
         //monster distance ja monster traveleddista pitää olla monster.getMonsterDistance
 
         // monsterDistance =   monsterTravelledDistance * percentagedistance;
-        if (dbdistance - monsterTravelledDistance < 6000 && dbdistance > 5000) {
+        if(dbdistance-monsterTravelledDistance<6000&&dbdistance>5500){
             monsterDistance = monsterTravelledDistance;
-            monsterDistance = dpWidth / 2 - (travelleddistance - monsterDistance) * percentagedistance;
-            //monster.setX(monsterDistance);
-            monsterimg.setX(monsterDistance - dpWidth / 10);
-            float monsterTravelledDistance = 2500;
-            float monsterDistance = monsterTravelledDistance;
-            monsterDistance = monsterTravelledDistance * percentagedistance;
-            characterdistancetxt.setText(Float.toString(monsterDistance));
-            if (travelleddistance - monsterTravelledDistance < 5000) {
-                // monster.setX(monsterDistance);
-                //monsterimg.setX(monsterDistance-dpWidth/10);
-            }
-            if (travelleddistance - monsterTravelledDistance < 0) {
-                //monsteri aloitus paikkaan ja hahmon sijainnin resetointi
-            }
-
-            if (distancem <= (dpWidth / 2)) {
-                distancem = dpWidth;
-                // gift.setX(distancem);
-                gift.setX(distancem);
-
-            }
+            monsterDistance = dpWidth/2-(travelleddistance - monsterDistance ) *percentagedistance;
+            monster.setX(monsterDistance);
+            monsterimg.setX(monsterDistance-dpWidth/10);
         }
+        if(travelleddistance-monsterTravelledDistance<0){
+            monsterDb.setMonsterDistance(dbdistance-6000);
+        }
+
+
+
+        if (distancem <= (dpWidth / 2)) {
+            distancem = dpWidth;
+            gift.setX(distancem);
+
+        }*/
     }
 
     @Override

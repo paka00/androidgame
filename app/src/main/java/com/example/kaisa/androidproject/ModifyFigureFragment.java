@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -79,6 +80,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle2 = new Bundle();
+        bundle2.putSerializable("key", maleHeadList);
         nameEditText = getView().findViewById(R.id.name_edit_text);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
@@ -239,7 +242,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             button_legs_to_right.setVisibility(View.INVISIBLE);
             button_feet_to_left.setVisibility(View.INVISIBLE);
             button_feet_to_right.setVisibility(View.INVISIBLE);
+        }else{
+            maleButton.setVisibility(View.GONE);
+            femaleButton.setVisibility(View.GONE);
         }
+
 
     }
 
@@ -309,6 +316,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             if (context.databaseEmpty) {
                 //If database is empty
                 createNewFigure();
+                Intent intent = new Intent(getActivity().getBaseContext(),
+                HomeFragment.class);
+                intent.putExtra("gender",gender);
+                getActivity().startActivity(intent);
                 isUserCreated = true;
             } else {
                 saveClothesToDatabase();
@@ -514,6 +525,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_legs_to_right.setVisibility(View.VISIBLE);
         button_feet_to_left.setVisibility(View.VISIBLE);
         button_feet_to_right.setVisibility(View.VISIBLE);
+        maleButton.setVisibility(View.GONE);
+        femaleButton.setVisibility(View.GONE);
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
         createDefaultAchievements();
