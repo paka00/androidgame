@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         if (!model.checkIfTableEmpty("user")) {
             Monster monster = model.readMonster();
         }
+        else {
+            model.addMonster();
+        }
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {

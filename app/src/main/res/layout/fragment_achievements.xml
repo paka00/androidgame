@@ -15,17 +15,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/horGuideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.88" />
-
-
-
-
-
     <android.support.constraint.ConstraintLayout
         app:layout_constraintBottom_toTopOf="@id/horGuideline1"
         app:layout_constraintTop_toTopOf="parent"
@@ -77,7 +66,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorAchievementsBackground"
-        app:layout_constraintTop_toBottomOf="@id/horGuideline1">
+        app:layout_constraintTop_toBottomOf="@id/clayout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/horGuideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.88" />
 
         <TextView
             android:id="@+id/steps"
@@ -88,7 +85,9 @@
             android:text="test"
             android:textColor="#FFFFFF"
             android:textSize="15dp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/userdata"/>
 
         <TextView
             android:id="@+id/userdata"
@@ -100,13 +99,15 @@
             android:textColor="#FFFFFF"
             android:textSize="15dp"
             app:layout_constraintTop_toBottomOf="@id/steps"
+            app:layout_constraintBottom_toTopOf="@id/listview_achievements"
             android:visibility="visible" />
 
         <ListView
             android:id="@+id/listview_achievements"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/userdata">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/userdata"
+            app:layout_constraintBottom_toBottomOf="@id/horGuideline2">
         </ListView>
 
     </android.support.constraint.ConstraintLayout>
