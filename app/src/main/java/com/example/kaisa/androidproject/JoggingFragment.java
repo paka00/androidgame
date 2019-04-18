@@ -162,7 +162,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         checkLocationStatus();
         previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
-        startButton.setText(startbuttontxt);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +177,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.imageButton.setEnabled(false);
                         testPager.disableScroll(true);
                         startbuttontxt = "Stop";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackground(getResources().getDrawable(R.drawable.stop_run_button));
                         requestLocationUpdates();
                         startSensor();
                         getTime();
@@ -190,7 +189,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
                         startbuttontxt = "Start";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackground(getResources().getDrawable(R.drawable.start_run_button));
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();

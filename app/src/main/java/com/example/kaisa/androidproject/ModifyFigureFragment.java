@@ -279,7 +279,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
             bodyText.setTypeface(pixelFont);
             titleText.setText("Edit your character");
-            bodyText.setText("On this page you can edit your character by pressing the yellow arrows. " +
+            bodyText.setText("On this page you can edit your character by pressing the yellow arrows and pressing the done button when you are ready. " +
                     "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
                     "You should check out the achievements page by pressing the gold cup if you haven't already!");
             doneBtn.setOnClickListener(new View.OnClickListener() {

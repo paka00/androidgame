@@ -604,8 +604,8 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues monsterValues = new ContentValues();
-        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, "");
-        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, "");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, "0");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, "0");
         monsterValues.put(DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE, 0);
         monsterValues.put(DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE, 0);
 

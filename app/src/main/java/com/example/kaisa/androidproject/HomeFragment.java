@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
-        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
@@ -101,18 +101,19 @@ public class HomeFragment extends Fragment {
         });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty("user")) {
+        if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
-            if(dailyStepGoal == 0){
+            /*if(dailyStepGoal == 0){
                 dailyStepGoal = getRandomSteps();
-            }
+            }*/
             dailyStepsCheck();
             randomizeDailyStepGoal = false;
         }
-        if(randomizeDailyStepGoal) {
-            dailyStepGoal = getRandomSteps();
+        if (randomizeDailyStepGoal) {
+            //dailyStepGoal = getRandomSteps();
+            dailyStepGoal = 10;
         }
         Log.d("homefragment", "onviewcreated");
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
@@ -133,19 +134,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        isVisible = isVisibleToUser;
+        if (isVisible && isStarted) {
+            createDialog();
             try {
+                dailyStepsCheck();
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
             }
-            Log.d("homefragment", "setuservisiblehint");
-        }
-        isVisible = isVisibleToUser;
-        if (isVisible && isStarted) {
-            createDialog();
         }
     }
 
@@ -161,7 +160,7 @@ public class HomeFragment extends Fragment {
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.tekstilaatikko));
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
             ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
@@ -189,7 +188,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty("user")) {
+            if (!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
             }
         }
@@ -202,11 +201,11 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
+            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! You can now claim the reward");
@@ -226,7 +225,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -267,18 +266,24 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                }
-                else {
+                } else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
+                }
+                try {
+                    User user = model.readUserFromDb();
+                    user.setDailyStepGoal(dailyStepGoal);
+                    model.updateUser(user);
+                    dailyStepsCheck();
+                } catch (Exception e) {
+                    Log.e("homefragment", e.toString());
                 }
             }
 
             @Override
             public void onFinish() {
-                DbModel model = new DbModel(getContext());
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
-                dailyStepGoal = getRandomSteps();
+                //dailyStepGoal = getRandomSteps();
                 dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
                 user.setDailyStepHelper(totalSteps);
                 user.setDailyReward(0);
@@ -292,7 +297,7 @@ public class HomeFragment extends Fragment {
 
     //Formats the time to HH:MM:SS.
     //For some reason the already existing tools for that didn't work.
-    protected String formatTime (long hours, long minutes, long seconds) {
+    protected String formatTime(long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -324,20 +329,17 @@ public class HomeFragment extends Fragment {
         Random clothesRandom = new Random();
         clothesType = clothesRandom.nextInt(4);
         Log.v("clothesType", "clothesType type = " + clothesType);
-        if(!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
+        if (!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
             Log.v("clothesType", "clothesType type full");
             checkedValues.add(clothesType);
             selectRandomClothes();
-        }
-        else if (checkedValues.contains(clothesType)){
-            if(checkedValues.size() == 4){
+        } else if (checkedValues.contains(clothesType)) {
+            if (checkedValues.size() == 4) {
                 Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 selectRandomClothes();
             }
-        }
-        else {
+        } else {
             clothesID = randomInt(maxClothes);
             switch (clothesType) {
                 case 0:
