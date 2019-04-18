@@ -240,8 +240,12 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 //If database is empty
                 createNewFigure();
                 isUserCreated = true;
+                maleButton.setVisibility(View.GONE);
+                femaleButton.setVisibility(View.GONE);
             } else {
                 saveClothesToDatabase();
+                maleButton.setVisibility(View.GONE);
+                femaleButton.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 //Tietojentallennus tietokantaan
             }
@@ -430,6 +434,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_legs_to_right.setVisibility(View.VISIBLE);
         button_feet_to_left.setVisibility(View.VISIBLE);
         button_feet_to_right.setVisibility(View.VISIBLE);
+        maleButton.setVisibility(View.VISIBLE);
+        femaleButton.setVisibility(View.VISIBLE);
 
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
