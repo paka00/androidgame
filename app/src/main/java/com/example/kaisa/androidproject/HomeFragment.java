@@ -105,15 +105,14 @@ public class HomeFragment extends Fragment {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
-            /*if(dailyStepGoal == 0){
+            if(dailyStepGoal == 0){
                 dailyStepGoal = getRandomSteps();
-            }*/
+            }
             dailyStepsCheck();
             randomizeDailyStepGoal = false;
         }
         if (randomizeDailyStepGoal) {
-            //dailyStepGoal = getRandomSteps();
-            dailyStepGoal = 10;
+            dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
@@ -283,7 +282,7 @@ public class HomeFragment extends Fragment {
             public void onFinish() {
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
-                //dailyStepGoal = getRandomSteps();
+                dailyStepGoal = getRandomSteps();
                 dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
                 user.setDailyStepHelper(totalSteps);
                 user.setDailyReward(0);
