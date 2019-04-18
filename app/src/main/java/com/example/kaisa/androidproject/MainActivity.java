@@ -185,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
         stopTime = Calendar.getInstance().getTime();
         long seconds = stopTime.getTime()/1000;
         stopTimeSeconds =Long.toString(seconds);
-        Monster monster = model.readMonster();
-        monster.setTurnOffDate(stopTimeSeconds);
-        model.updateMonster(monster);
+        //Monster monster = model.readMonster();
+        //monster.setTurnOffDate(stopTimeSeconds);
+        //model.updateMonster(monster);
 
     }
 
@@ -215,6 +215,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             viewPager.setCurrentItem(0);
         }
+    }
+
+    public void setItemsVisible() {
+        viewPager.disableScroll(false);
+        navigation.setVisibility(View.VISIBLE);
+        imageButton.setVisibility(View.VISIBLE);
+        viewPager.setCurrentItem(0);
     }
 
     public void checkIfUserExist() {

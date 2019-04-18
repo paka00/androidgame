@@ -177,8 +177,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.INVISIBLE);
                         context.imageButton.setEnabled(false);
                         testPager.disableScroll(true);
-                        startbuttontxt = "Stop";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.stop_run_button);
                         requestLocationUpdates();
                         startSensor();
                         getTime();
@@ -189,8 +188,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
-                        startbuttontxt = "Start";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.start_run_button);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();
