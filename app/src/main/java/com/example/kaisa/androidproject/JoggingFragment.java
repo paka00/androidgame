@@ -225,9 +225,9 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
             titleText.setTypeface(pixelFont);
             titleText.setText("Go outside and walk!");

@@ -3,8 +3,8 @@
     <item
         android:state_pressed="true"
         android:state_enabled="true"
-        android:drawable="@drawable/nappi_done_painettu_2" />
+        android:drawable="@drawable/laatunappi_painettu" />
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/nappi_done_2" />
+        android:drawable="@drawable/laatunappi" />
 </selector>
