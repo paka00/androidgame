@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
            if (monsterOfflineTime - startTimeDb == 0) {
                monsterOfflineTime = Long.valueOf(0);
            }
-           monsterDistance = monsterDistance + (monsterOfflineTime * 0.05);
+           monsterDistance = monsterDistance + (monsterOfflineTime * 1);
            monster.setMonsterDistance(monsterDistance);
            model.updateMonster(monster);
            appOn = true;

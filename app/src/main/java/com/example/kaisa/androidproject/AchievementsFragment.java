@@ -98,7 +98,7 @@ public class AchievementsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //gift = getView().findViewById(R.id.box);
+        gift = getView().findViewById(R.id.gift);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         bg = getView().findViewById(R.id.clayout);
@@ -111,7 +111,7 @@ public class AchievementsFragment extends Fragment {
             }
         });
         //boxButton = getView().findViewById(R.id.moveButton);
-        //gift = getView().findViewById(R.id.box);
+       // gift = getView().findViewById(R.id.gift);
         giftimg = getView().findViewById(R.id.gift);
         giftimg.setBackgroundResource(R.drawable.animationtest);
         wifianimation = (AnimationDrawable) giftimg.getBackground();
@@ -266,46 +266,36 @@ public class AchievementsFragment extends Fragment {
         percentagedistance = dpWidth / distancerange;
         travelleddistance = (float) dbdistance;
         distancem = travelleddistance % 5000;
-        distancem = dpWidth - (distancem * percentagedistance);
-        //gift.setX(distancem);
-        characterdistancetxt.setText(Float.toString(travelleddistance) + "m");
-        //giftimg.setX(distancem-dpWidth/16);
+        distancem = dpWidth-(distancem * percentagedistance);
+
+        gift.setX(distancem);
+
+        characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
+        giftimg.setX(distancem-dpWidth/16);
         wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
-        //float monsterTravelledDistance = Float.valueOf(Double.toString(monsterDb.getMonsterDistance()));
-        double monsterD = 0;
-        if (!model.checkIfTableEmpty("monsterStats")) {
-            monsterD = monsterDb.getMonsterDistance();
-        }
+
+
+        double monsterD = monsterDb.getMonsterDistance();
         monsterTravelledDistance = (float) monsterD;
-        //monster distance ja monster traveleddista pitää olla monster.getMonsterDistance
-
-        // monsterDistance =   monsterTravelledDistance * percentagedistance;
-        if (dbdistance - monsterTravelledDistance < 6000 && dbdistance > 5000) {
+        if(dbdistance-monsterTravelledDistance<6000&&dbdistance>5000){
             monsterDistance = monsterTravelledDistance;
-            monsterDistance = dpWidth / 2 - (travelleddistance - monsterDistance) * percentagedistance;
-            //monster.setX(monsterDistance);
-            monsterimg.setX(monsterDistance - dpWidth / 10);
-            float monsterTravelledDistance = 2500;
-            float monsterDistance = monsterTravelledDistance;
-            monsterDistance = monsterTravelledDistance * percentagedistance;
-            characterdistancetxt.setText(Float.toString(monsterDistance));
-            if (travelleddistance - monsterTravelledDistance < 5000) {
-                // monster.setX(monsterDistance);
-                //monsterimg.setX(monsterDistance-dpWidth/10);
-            }
-            if (travelleddistance - monsterTravelledDistance < 0) {
-                //monsteri aloitus paikkaan ja hahmon sijainnin resetointi
-            }
-
-            if (distancem <= (dpWidth / 2)) {
-                distancem = dpWidth;
-                // gift.setX(distancem);
-                gift.setX(distancem);
-
-            }
+            monsterDistance = dpWidth/2- ( travelleddistance-monsterDistance) *percentagedistance;
+            monsterimg.setX(monsterDistance-dpWidth/10);
         }
+        if(travelleddistance-monsterTravelledDistance<0){
+            monsterDb.setMonsterDistance(dbdistance-6000);
+        }
+
+
+
+        if (distancem <= (dpWidth / 2)) {
+            distancem = dpWidth;
+            gift.setX(distancem);
+
+        }
+
     }
 
     @Override
