@@ -380,7 +380,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
-        if (startbuttontxt.equals("Stop")) {
+        /*if (startbuttontxt.equals("Stop")) {
             context.navigation.setVisibility(View.VISIBLE);
             context.imageButton.setEnabled(true);
             stopsteps = user.getSteps();
@@ -393,7 +393,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
             savedatatodb();
             resetValues();
             locationservices = false;
-        }
+        }*/
         super.onStop();
         isStarted = false;
     }

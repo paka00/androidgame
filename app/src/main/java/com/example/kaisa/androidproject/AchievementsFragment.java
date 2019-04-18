@@ -54,6 +54,7 @@ public class AchievementsFragment extends Fragment {
     View gift = null;
     float monsterDistance;
     float monsterTravelledDistance;
+    Monster monsterDb = null;
 
     float distancem = 0;
     static final float distancerange = 10000;
@@ -202,11 +203,9 @@ public class AchievementsFragment extends Fragment {
         final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
-            Monster monster = model.readMonster();
+            monsterDb = model.readMonster();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
-            user.setTotalDistance(5050);
-            model.updateUser(user);
             dbdistance = user.getTotalDistance();
             dbjogdate = user.getWalkDate();
             dbwalktime = user.getWalkTime();
@@ -220,7 +219,7 @@ public class AchievementsFragment extends Fragment {
             totalDistanceFormatted = String.format("%.2f", dbdistance);
 
             //jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
-            jogdata.setText("Monster: " + monster.getMonsterDistance() + "\nDistance: " + totalDistanceFormatted + "\nDaily distance: " + dbdailydistance + "\nTotal jog time: " + dbwalktime + "\nlast jog was on: " + dbjogdate);
+            jogdata.setText("Monster: " + monsterDb.getMonsterDistance() + "\nDistance: " + totalDistanceFormatted + "\nDaily distance: " + dbdailydistance + "\nTotal jog time: " + dbwalktime + "\nlast jog was on: " + dbjogdate);
         }
 
     }
@@ -259,7 +258,7 @@ public class AchievementsFragment extends Fragment {
 
     public void updatedistance() {
         final DbModel model = new DbModel(getContext());
-        Monster monsterDb = model.readMonster();
+         monsterDb = model.readMonster();
 
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels;
@@ -276,19 +275,24 @@ public class AchievementsFragment extends Fragment {
         monsterAnimation.start();
         characterWalkAnimation.start();
 
-
         double monsterD = monsterDb.getMonsterDistance();
         monsterTravelledDistance = (float) monsterD;
+
         if(dbdistance-monsterTravelledDistance<6000&&dbdistance>5000){
             monsterDistance = monsterTravelledDistance;
             monsterDistance = dpWidth/2- ( travelleddistance-monsterDistance) *percentagedistance;
             monsterimg.setX(monsterDistance-dpWidth/10);
+            monsterimg.setVisibility(View.VISIBLE);
         }
-        if(travelleddistance-monsterTravelledDistance<0){
-            monsterDb.setMonsterDistance(dbdistance-6000);
+        else{
+           monsterimg.setVisibility(View.INVISIBLE);
         }
 
 
+        if(travelleddistance-monsterTravelledDistance<=0){
+            monsterDb.setMonsterDistance((double) (travelleddistance-6000));
+            model.updateMonster(monsterDb);
+          }
 
         if (distancem <= (dpWidth / 2)) {
             distancem = dpWidth;

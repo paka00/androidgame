@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
         monster.setTurnOffDate(stopTimeSeconds);
         model.updateMonster(monster);
 
+
     }
 
     @Override
