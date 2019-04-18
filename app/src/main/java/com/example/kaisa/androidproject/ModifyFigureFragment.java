@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -279,7 +280,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
             bodyText.setTypeface(pixelFont);
             titleText.setText("Edit your character");
-            bodyText.setText("On this page you can edit your character by pressing the yellow arrows. " +
+            bodyText.setText("On this page you can edit your character by pressing the yellow arrows and pressing the done button when you are ready. " +
                     "You might not have many clothes right now, but you'll earn some soon enough from the daily quests and achievements. " +
                     "You should check out the achievements page by pressing the gold cup if you haven't already!");
             doneBtn.setOnClickListener(new View.OnClickListener() {
@@ -307,7 +308,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         if (buttonID == R.id.done_button) {
             if (context.databaseEmpty) {
                 //If database is empty
-                createNewFigure();
+                //createNewFigure();
+                selectSettings();
                 isUserCreated = true;
             } else {
                 saveClothesToDatabase();
@@ -517,7 +519,14 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         saveClothesToDatabase();
         createDefaultAchievements();
         context.databaseEmpty = false;
-        Toast.makeText(getActivity(), "New figure created!", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void selectSettings() {
+        createNewFigure();
+        Intent intent = new Intent(getContext(), SettingsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
     }
 
     public void createDefaultAchievements(){

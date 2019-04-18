@@ -1,11 +1,15 @@
 package com.example.kaisa.androidproject;
 
 import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -46,11 +51,15 @@ public class MainActivity extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     String stopTimeSeconds;
     String startTimeSeconds;
+    static final String CHANNEL_ID = "CREATURE_CHASE_CHANNEL_ID";
+    public static boolean isVisible = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         imageButton = findViewById(R.id.btn_Menu);
         viewPager = findViewById(R.id.pager);
@@ -62,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
         navigation.setItemIconSize(130);
         model = new DbModel(this);
+        createNotificationChannel();
         if(!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
@@ -138,6 +148,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Creature Chase";
+            String description = "Creature Chase channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -171,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        isVisible = true;
         if (!isServiceRunning(StepCounterService.class)) {
             Intent stepCounterIntent = new Intent(this, StepCounterService.class);
             startService(stepCounterIntent);
@@ -181,14 +209,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        isVisible = false;
         stopTime = Calendar.getInstance().getTime();
         long seconds = stopTime.getTime()/1000;
         stopTimeSeconds =Long.toString(seconds);
         Monster monster = model.readMonster();
         monster.setTurnOffDate(stopTimeSeconds);
         model.updateMonster(monster);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isVisible = false;
 
     }
 
@@ -216,6 +249,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             viewPager.setCurrentItem(0);
         }
+    }
+
+    public void setItemsVisible() {
+        viewPager.disableScroll(false);
+        navigation.setVisibility(View.VISIBLE);
+        imageButton.setVisibility(View.VISIBLE);
+        viewPager.setCurrentItem(0);
     }
 
     public void checkIfUserExist() {

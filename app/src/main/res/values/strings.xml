@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">androidproject</string>
+    <string name="app_name">Creature Chase</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>

@@ -162,7 +162,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         checkLocationStatus();
         previousWalk = getActivity().findViewById(R.id.prev_walk_stats);
         startButton = getView().findViewById(R.id.start_jog_button);
-        startButton.setText(startbuttontxt);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,12 +172,11 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 } else {
                     statusCheck();
                     if(locationservices==true){
-                    if (startbuttontxt.equals("Start")) {
+                    if (jogStarted==false) {
                         context.navigation.setVisibility(View.INVISIBLE);
                         context.imageButton.setEnabled(false);
                         testPager.disableScroll(true);
-                        startbuttontxt = "Stop";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.stop_run_button);
                         requestLocationUpdates();
                         startSensor();
                         getTime();
@@ -189,8 +187,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
-                        startbuttontxt = "Start";
-                        startButton.setText(startbuttontxt);
+                        startButton.setBackgroundResource(R.drawable.start_run_button);
                         testPager.disableScroll(false);
                         fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
                         compareTime();
@@ -504,7 +501,7 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         // do your tasks
                         break;
                     case GPS_EVENT_STOPPED:
-                        if (startbuttontxt.equals("Stop")) {
+                        if (jogStarted==true) {
                         context.navigation.setVisibility(View.VISIBLE);
                         context.imageButton.setEnabled(true);
                         stopsteps = user.getSteps();
