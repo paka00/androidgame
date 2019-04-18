@@ -46,6 +46,8 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_WALK_DISTANCE, addable.walkDistance);
         userValues.put(DbContract.User.COLUMN_DAILY_REWARD, addable.dailyReward);
         userValues.put(DbContract.User.COLUMN_DAILY_STEP_GOAL, addable.dailyStepGoal);
+        userValues.put(DbContract.User.COLUMN_DIFFICULTY_LEVEL, addable.difficultyLevel);
+        userValues.put(DbContract.User.COLUMN_HEIGHT, addable.height);
 
         try {
             long newRowId = db.insert(DbContract.User.TABLE_NAME_USER, null, userValues);
@@ -82,6 +84,8 @@ public class DbModel {
                 DbContract.User.COLUMN_WALK_TIME,
                 DbContract.User.COLUMN_WALK_DISTANCE,
                 DbContract.User.COLUMN_DAILY_REWARD,
+                DbContract.User.COLUMN_DIFFICULTY_LEVEL,
+                DbContract.User.COLUMN_HEIGHT,
                 DbContract.User.COLUMN_DAILY_STEP_GOAL
         };
 
@@ -115,7 +119,9 @@ public class DbModel {
             float walkDistance = cursor.getFloat(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_WALK_DISTANCE));
             int dailyReward = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_REWARD));
             int dailyStepGoal = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEP_GOAL));
-            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward, dailyStepGoal);
+            int difficultyLevel = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DIFFICULTY_LEVEL));
+            int height = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_HEIGHT));
+            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward, dailyStepGoal, difficultyLevel, height);
         }
         cursor.close();
 
@@ -145,6 +151,8 @@ public class DbModel {
         float walkDistance = user.getWalkDistance();
         int dailyReward = user.getDailyReward();
         int dailyStepGoal = user.getDailyStepGoal();
+        int difficultyLevel = user.getDifficultyLevel();
+        int height = user.getHeight();
         // New value for one column
         ContentValues values = new ContentValues();
         values.put(DbContract.User.COLUMN_USERNAME, name);
@@ -166,6 +174,8 @@ public class DbModel {
         values.put(DbContract.User.COLUMN_WALK_DISTANCE, walkDistance);
         values.put(DbContract.User.COLUMN_DAILY_REWARD, dailyReward);
         values.put(DbContract.User.COLUMN_DAILY_STEP_GOAL, dailyStepGoal);
+        values.put(DbContract.User.COLUMN_DIFFICULTY_LEVEL, difficultyLevel);
+        values.put(DbContract.User.COLUMN_HEIGHT, height);
 
         // Which row to update, based on the title
         String selection = DbContract.User._ID + " LIKE ?";
@@ -594,8 +604,8 @@ public class DbModel {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues monsterValues = new ContentValues();
-        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, "");
-        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, "");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_OFF_DATE, "0");
+        monsterValues.put(DbContract.MonsterStats.COLUMN_TURN_ON_DATE, "0");
         monsterValues.put(DbContract.MonsterStats.COLUMN_MONSTER_DISTANCE, 0);
         monsterValues.put(DbContract.MonsterStats.COLUMN_HIGH_SCORE_DISTANCE, 0);
 

@@ -11,12 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
+        android:fontFamily="@font/pixel_font"
         android:layout_marginTop="60dp"
         android:text="Juu"/>
 
     <TextView
         android:id="@+id/tv2"
         android:layout_width="match_parent"
+        android:fontFamily="@font/pixel_font"
         android:layout_height="50dp"
         android:text="jees"
         android:gravity="center"/>
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/pixel_font"
         android:id="@+id/prev_walk_stats"
         android:gravity="center"/>
 

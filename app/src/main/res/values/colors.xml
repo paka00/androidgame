@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#494a40</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBottomNavigationBarBackground">#5f5f54</color>
     <color name="colorEditTextName"></color>
     <color name="colorBottomNavigationBarChecked">#494a40</color>
     <color name="colorAchievementsBackground">#404041</color>
+    <color name="colorButtonText">#775a44</color>
+    <color name="colorSeekbarSelected">#d8a17c</color>
+    <color name="colorSeekbarBackground">#916f59</color>
 </resources>
 
 

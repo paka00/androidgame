@@ -1,6 +1,7 @@
 package com.example.kaisa.androidproject;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -14,6 +15,8 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.example.kaisa.androidproject.model.DbModel;
@@ -39,6 +42,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     User user = null;
     DbModel model = null;
     double monsterSpeed = 1;
+    int notificationId = 1;
 
     @Override
     public void onCreate() {
@@ -146,7 +150,11 @@ public class StepCounterService extends Service implements SensorEventListener {
             user.setDailySteps(dailyStepCounter);
             user.setDailyStepHelper(dailyStepHelper);
             user.setStepHelper(stepHelper);
-            user.setDailyDistance(dailyDistance);
+           // user.setDailyDistance(dailyDistance);
+
+            if(user.getDailySteps() >= user.getDailyStepGoal() && user.getDailyStepGoal() != 0 && user.getDailyReward() == 0 && !MainActivity.isVisible) {
+                showNotification("Creature Chase", "You have finished your daily quest!");
+            }
 
             model.updateMonster(monster);
             model.updateUser(user);
@@ -174,5 +182,21 @@ public class StepCounterService extends Service implements SensorEventListener {
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmPendingIntent);
         Log.v("stepsalarm", "alarm set");
+    }
+
+    public void showNotification(String title, String description) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
+                .setSmallIcon(R.drawable.monster_idle_1)
+                .setContentTitle(title)
+                .setContentText(description)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, builder.build());
     }
 }

@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
-        pixelFont = Typeface.createFromAsset(getContext().getAssets(),  "fonts/smallest_pixel-7.ttf");
+        pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment {
         });
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
-        if(!model.checkIfTableEmpty("user")) {
+        if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
             dailySteps = user.getDailySteps();
             dailyStepGoal = user.getDailyStepGoal();
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment {
             dailyStepsCheck();
             randomizeDailyStepGoal = false;
         }
-        if(randomizeDailyStepGoal) {
+        if (randomizeDailyStepGoal) {
             dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
@@ -128,27 +129,69 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        LayoutInflater inflater = (LayoutInflater) getContext()
+                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View dialoglayout = inflater.inflate(R.layout.exit_dialog_layout, null);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setView(dialoglayout);
+                        final AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                        alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+                        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        Button cancelBtn = dialoglayout.findViewById(R.id.dialog_cancel_btn);
+                        Button okBtn = dialoglayout.findViewById(R.id.dialog_ok_btn);
+                        TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+                        titleText.setTypeface(pixelFont);
+                        titleText.setText("Are you sure you want to exit?");
+                        cancelBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        okBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((MainActivity)getActivity()).closeActivity();
+                            }
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
         if(isVisibleToUser) {
+            Log.d("homefragment", "setuservisiblehint");
+        }
+        if (isVisible && isStarted) {
+            createDialog();
             try {
+                dailyStepsCheck();
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
             }
-            Log.d("homefragment", "setuservisiblehint");
-        }
-        isVisible = isVisibleToUser;
-        if (isVisible && isStarted) {
-            createDialog();
         }
     }
 
+    //Creates a dialog box with information about the current page.
     public void createDialog() {
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         if (!prefs.getBoolean("appHasRunBeforeHome", false)) {
@@ -160,9 +203,9 @@ public class HomeFragment extends Fragment {
             builder.setView(dialoglayout);
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tekstilaatikko));
             alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-            ImageButton doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
             TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
             titleText.setTypeface(pixelFont);
             titleText.setText("Home page");
@@ -188,7 +231,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             dailySteps = intent.getIntExtra("daily_steps_int", 0);
             model = new DbModel(getContext());
-            if(!model.checkIfTableEmpty("user")) {
+            if (!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
             }
         }
@@ -201,11 +244,11 @@ public class HomeFragment extends Fragment {
             dailyTaskProgress.setText("Current progress: 0 %");
         }
         if (dailySteps < dailyStepGoal) {
-            double percentage = (double)dailySteps / (double)dailyStepGoal * 100.0;
+            double percentage = (double) dailySteps / (double) dailyStepGoal * 100.0;
             DecimalFormat df = new DecimalFormat("####0.0");
             dailyTaskProgress.setText("Current progress: " + df.format(percentage) + " %");
         }
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! You can now claim the reward");
@@ -225,7 +268,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        if(dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
+        if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
             dailyTask.setText("Task done! Wait for tomorrow!");
         }
@@ -245,6 +288,7 @@ public class HomeFragment extends Fragment {
         Log.d("homefragment", "onResume");
     }
 
+    //Starts a timer which ends at midnight each day
     protected void startCountdownTimer() {
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTimeZone(TimeZone.getDefault());
@@ -265,15 +309,21 @@ public class HomeFragment extends Fragment {
                 dailyTaskTime = getView().findViewById(R.id.daily_task_time);
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
-                }
-                else {
+                } else {
                     dailyTaskTime.setText("Time until next task: " + timeRemaining);
+                }
+                try {
+                    User user = model.readUserFromDb();
+                    user.setDailyStepGoal(dailyStepGoal);
+                    model.updateUser(user);
+                    dailyStepsCheck();
+                } catch (Exception e) {
+                    Log.e("homefragment", e.toString());
                 }
             }
 
             @Override
             public void onFinish() {
-                DbModel model = new DbModel(getContext());
                 User user = model.readUserFromDb();
                 int totalSteps = user.getTotalSteps();
                 dailyStepGoal = getRandomSteps();
@@ -288,7 +338,9 @@ public class HomeFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected String formatTime (long hours, long minutes, long seconds) {
+    //Formats the time to HH:MM:SS.
+    //For some reason the already existing tools for that didn't work.
+    protected String formatTime(long hours, long minutes, long seconds) {
         String hour = "" + hours;
         String minute = "" + minutes;
         String second = "" + seconds;
@@ -309,7 +361,10 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
+    //Randomizes a piece of clothing.
+    //First a random int from 0 to 3 is taken, which determines whether the random piece of clothing is a hat, a shirt, pants or shoes.
+    //Then a check if all the clothes from a certain clothing type have been unlocked.
+    //Finally, another random int is taken, which is the ID for that particular piece of clothing.
     public void selectRandomClothes() {
         model = new DbModel(getContext());
         User user = model.readUserFromDb();
@@ -317,20 +372,17 @@ public class HomeFragment extends Fragment {
         Random clothesRandom = new Random();
         clothesType = clothesRandom.nextInt(4);
         Log.v("clothesType", "clothesType type = " + clothesType);
-        if(!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
+        if (!checkedValues.contains(clothesType) && checkIfAllUnlocked(clothesType, gender)) {
             Log.v("clothesType", "clothesType type full");
             checkedValues.add(clothesType);
             selectRandomClothes();
-        }
-        else if (checkedValues.contains(clothesType)){
-            if(checkedValues.size() == 4){
+        } else if (checkedValues.contains(clothesType)) {
+            if (checkedValues.size() == 4) {
                 Toast.makeText(getContext(), "No more rewards left!", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 selectRandomClothes();
             }
-        }
-        else {
+        } else {
             clothesID = randomInt(maxClothes);
             switch (clothesType) {
                 case 0:
@@ -374,18 +426,19 @@ public class HomeFragment extends Fragment {
                     Log.v("clothesType", "added clothesID to db");
                     break;
             }
-            //sendRandomClothes(clothesID);
             model.updateUser(user);
-
         }
     }
 
+    //Returns a random int from range 1 to max.
     public int randomInt(int max) {
         Random random = new Random();
         int rand = random.nextInt(max) + 1;
         return rand;
     }
 
+    //Used to check if the database already has all of the certain type of clothing.
+    //i is the type of clothing (e.g. a hat, which is 0), and g is the gender of the users character.
     public boolean checkIfAllUnlocked(int i, int g) {
         boolean bool = false;
         switch (i) {
@@ -408,6 +461,7 @@ public class HomeFragment extends Fragment {
         return bool;
     }
 
+    //Takes a random int from 5 to 10 and multiplies it by 1000, and returns it.
     public int getRandomSteps() {
         Random r = new Random();
         int i = r.nextInt((10 - 5) + 1) + 5;
