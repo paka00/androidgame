@@ -537,17 +537,11 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Achievement achievement3 = new Achievement("10 kilometers", "Walk 10 kilometers", 0);
         Achievement achievement4 = new Achievement("Estonia!", "You have walked from Helsinki to Tallinn! (85km)", 0);
         Achievement achievement5 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
-        Achievement achievement6 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
-        Achievement achievement7 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
-        Achievement achievement8 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
         model.createAchievement(achievement1);
         model.createAchievement(achievement2);
         model.createAchievement(achievement3);
         model.createAchievement(achievement4);
         model.createAchievement(achievement5);
-        model.createAchievement(achievement6);
-        model.createAchievement(achievement7);
-        model.createAchievement(achievement8);
     }
 
     //Takes a list of ints which contain the unlocked clothes
