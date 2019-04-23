@@ -54,23 +54,26 @@ public class HomeFragment extends Fragment {
     TextView dailyTask = null;
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
-    int dailySteps;
+    TextView levelTextView = null;
+    int dailySteps, totalSteps;
     int dailyStepGoal;
     CountDownTimer countDownTimer = null;
     DbModel model = null;
-    Button btnClaimReward, btnTest = null;
+    Button btnClaimReward = null;
     MainActivity context;
     int maxClothes = 3;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothesType;
     int clothesID;
-    ConstraintLayout bg = null;
+    ConstraintLayout bg, exitDialogLayout = null;
     boolean randomizeDailyStepGoal = true;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
+    int level = 1;
+    int stepsToNextLevel, previousStepsToNextLevel;
 
 
     @Override
@@ -87,9 +90,9 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        levelTextView = getView().findViewById(R.id.level_text);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
-        btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
         bg = getView().findViewById(R.id.fragment_home);
         Glide.with(this).load(R.drawable.paanakyma).into(new SimpleTarget<Drawable>() {
@@ -110,6 +113,7 @@ public class HomeFragment extends Fragment {
                 dailyStepGoal = getRandomSteps();
             }
             dailyStepsCheck();
+            levelCheck();
             randomizeDailyStepGoal = false;
         }
         if (randomizeDailyStepGoal) {
@@ -117,18 +121,8 @@ public class HomeFragment extends Fragment {
         }
         Log.d("homefragment", "onviewcreated");
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
+        levelTextView.setText("" + level);
         startCountdownTimer();
-
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectRandomClothes();
-                Intent intent = new Intent(getActivity(), RewardActivity.class);
-                intent.putExtra("TYPE", clothesType);
-                intent.putExtra("ID", clothesID);
-                startActivity(intent);
-            }
-        });
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -146,6 +140,15 @@ public class HomeFragment extends Fragment {
                         alertDialog.show();
                         alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
                         alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        /*exitDialogLayout = getView().findViewById(R.id.exit_layout);
+                        Glide.with(getContext()).load(R.drawable.tekstiboxi_pieni).into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    exitDialogLayout.setBackground(resource);
+                                }
+                            }
+                        });*/
                         Button cancelBtn = dialoglayout.findViewById(R.id.dialog_cancel_btn);
                         Button okBtn = dialoglayout.findViewById(R.id.dialog_ok_btn);
                         TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
@@ -182,6 +185,7 @@ public class HomeFragment extends Fragment {
             createDialog();
             try {
                 dailyStepsCheck();
+                levelCheck();
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
@@ -233,9 +237,25 @@ public class HomeFragment extends Fragment {
             model = new DbModel(getContext());
             if (!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
+                levelCheck();
             }
         }
     };
+
+    protected void levelCheck() {
+        User user = model.readUserFromDb();
+        level = user.getLevel();
+        totalSteps = user.getTotalSteps();
+        stepsToNextLevel = previousStepsToNextLevel + level * 10;
+        Log.d("stepstonextlevel", "" + stepsToNextLevel);
+        if(totalSteps >= stepsToNextLevel) {
+            previousStepsToNextLevel = stepsToNextLevel;
+            level++;
+            user.setLevel(level);
+            model.updateUser(user);
+        }
+        levelTextView.setText("" + level);
+    }
 
     protected void dailyStepsCheck() {
         final User user = model.readUserFromDb();
