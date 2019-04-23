@@ -218,11 +218,12 @@ public class AchievementsFragment extends Fragment {
             //  textView.setText("monsterdistance: " + monster.getMonsterDistance());
             dbdistance = dbdistance + (totalSteps *( user.getHeight()*0.413/100));
             totalDistanceFormatted = String.format("%.2f", dbdistance);
+            String monsterDistanceFormatted = String.format("%.2f", monsterDb.getMonsterDistance());
               int hours =  (Integer.parseInt(dbwalktime) / (1 * 60 * 60));
               int mins =  (Integer.parseInt(dbwalktime) / (1 * 60)) % 60;
               int sec =  (Integer.parseInt(dbwalktime) % 60);
             //jogdata.setText("Distance: " + formattedValue +"\nDaily distance: "+ dbdailydistance +"\nTotal jog time: " + dbwalktime + "\nlast jog was on: "+ dbjogdate);
-            jogdata.setText("Monster: " + monsterDb.getMonsterDistance() + "\nDistance: " + totalDistanceFormatted + "\nLast jog distance: " + dbdailydistance + "\nTotal jog time: h:" + hours+" m:"+ mins+" s:"+ sec + "\nlast jog was on: " + dbjogdate);
+            jogdata.setText("Monster: " + monsterDistanceFormatted+"m" + "\nDistance: " + totalDistanceFormatted+"m" + "\nLast jog distance: " + dbdailydistance + "\nTotal jog time: h:" + hours+" m:"+ mins+" s:"+ sec + "\nlast jog was on: " + dbjogdate);
         }
 
     }
@@ -234,6 +235,7 @@ public class AchievementsFragment extends Fragment {
             String steps = intent.getStringExtra("steps_string");
             String dSteps = intent.getStringExtra("dsteps_string");
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
+            getdbdata();
             updatedistance();
 
         }
