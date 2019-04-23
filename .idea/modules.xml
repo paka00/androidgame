@@ -4,9 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android123.iml" filepath="$PROJECT_DIR$/android123.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidgame.iml" filepath="$PROJECT_DIR$/androidgame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidgame.iml" filepath="$PROJECT_DIR$/androidgame.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/androidgame.iml" filepath="$PROJECT_DIR$/.idea/androidgame.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidgamenikob.iml" filepath="$PROJECT_DIR$/androidgamenikob.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidgameproject.iml" filepath="$PROJECT_DIR$/androidgameproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobiilisovellusprojekti.iml" filepath="$PROJECT_DIR$/mobiilisovellusprojekti.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobilegame.iml" filepath="$PROJECT_DIR$/mobilegame.iml" />
