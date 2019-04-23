@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
     TextView dailyTaskProgress = null;
     TextView levelTextView = null;
     int dailySteps, totalSteps;
-    int dailyStepGoal;
+    int dailyStepGoal = 10;
     CountDownTimer countDownTimer = null;
     DbModel model = null;
     Button btnClaimReward = null;
@@ -91,6 +91,14 @@ public class HomeFragment extends Fragment {
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         levelTextView = getView().findViewById(R.id.level_text);
+        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    levelTextView.setBackground(resource);
+                }
+            }
+        });
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
@@ -117,7 +125,7 @@ public class HomeFragment extends Fragment {
             randomizeDailyStepGoal = false;
         }
         if (randomizeDailyStepGoal) {
-            dailyStepGoal = getRandomSteps();
+            //dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
@@ -262,7 +270,7 @@ public class HomeFragment extends Fragment {
         if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done! You can now claim the reward");
+            dailyTask.setText("Task done!");
             btnClaimReward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -271,7 +279,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("TYPE", clothesType);
                     intent.putExtra("ID", clothesID);
                     startActivity(intent);
-                    dailyTask.setText("Task done! Wait for tomorrow");
+                    dailyTask.setText("Task done!");
                     btnClaimReward.setVisibility(View.GONE);
                     user.setDailyReward(1);
                     model.updateUser(user);
@@ -281,7 +289,7 @@ public class HomeFragment extends Fragment {
 
         if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done! Wait for tomorrow!");
+            dailyTask.setText("Task done!");
         }
     }
 
@@ -321,7 +329,7 @@ public class HomeFragment extends Fragment {
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
                 } else {
-                    dailyTaskTime.setText("Time until next task: " + timeRemaining);
+                    dailyTaskTime.setText("Time until next \ntask: " + timeRemaining);
                 }
                 try {
                     User user = model.readUserFromDb();

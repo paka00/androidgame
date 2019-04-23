@@ -9,18 +9,16 @@
 
     <TextView
         android:id="@+id/level_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:gravity="center"
-        android:background="@color/colorPrimary"
         android:fontFamily="@font/pixel_font"
         android:padding="20dp"
         android:text="0"
         android:textColor="#faea4e"
         android:textSize="40dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/verGuideline1"/>
+        app:layout_constraintRight_toLeftOf="@+id/verGuideline1"
+        app:layout_constraintBottom_toBottomOf="@id/horGuideline5"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/verGuideline1"
@@ -28,6 +26,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.23" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/horGuideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -54,50 +59,74 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.08" />
 
+        <android.support.constraint.Guideline
+            android:id="@+id/horGuideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/tekstiboxi_1"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline1"
+            app:layout_constraintBottom_toBottomOf="@id/horGuideline4"
+            android:id="@+id/text_box_home"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:background="@drawable/tekstiboxi_1"
+            android:padding="30dp"
+            app:layout_constraintTop_toBottomOf="@id/horGuideline1"
+            app:layout_constraintBottom_toBottomOf="@id/horGuideline4">
 
         <TextView
             android:id="@+id/daily_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:fontFamily="@font/pixel_font"
             android:text="Daily task: Walk 1000 steps"
             android:textColor="@android:color/white"
-            android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/horGuideline1" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/daily_task_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:fontFamily="@font/pixel_font"
             android:text="Time left: "
             android:textColor="@android:color/white"
-            android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/daily_task" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/daily_task_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:fontFamily="@font/pixel_font"
             android:text="Progress: "
             android:textColor="@android:color/white"
-            android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/daily_task_time" />
+            android:textSize="20dp" />
 
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_claim_reward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
             android:layout_marginRight="8dp"
             android:fontFamily="@font/pixel_font"
             android:text="Claim&#10;Reward"
+            android:textSize="20dp"
+            android:textColor="@color/colorButtonText"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horGuideline1" />
+            app:layout_constraintTop_toBottomOf="@id/horGuideline1"
+            app:layout_constraintBottom_toBottomOf="@id/text_box_home"
+            android:layout_margin="20dp"/>
 
         <ImageView
             android:id="@+id/imageview_head"
