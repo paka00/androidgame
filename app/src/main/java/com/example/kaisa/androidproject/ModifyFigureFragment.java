@@ -655,7 +655,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         DbModel model = new DbModel(getContext());
         name = nameEditText.getText().toString();
         if (model.checkIfTableEmpty("user")) {
-            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0.0, 0.0, 0.0, "0", "0", 0, 0, 0, 0, 170);
+            User user = new User(name, gender, headPosition, torsoPosition, legPosition, feetPosition, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0.0, 0.0, 0.0, "0", "0", 0, 0, 0, 1, 100);
             model.addUserToDb(user);
         } else {
             User user = model.readUserFromDb();

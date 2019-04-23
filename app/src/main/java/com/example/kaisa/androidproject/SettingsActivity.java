@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user.getHeight() == 170) {
+                if (user.getHeight() == 100) {
                     //If database is empty
                     Toast.makeText(SettingsActivity.this, "New figure created!", Toast.LENGTH_SHORT).show();
                     finish();

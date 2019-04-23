@@ -95,7 +95,7 @@
         android:layout_width="@dimen/seek_bar_width"
         android:layout_height="@dimen/seek_bar_height"
         android:backgroundTint="@color/colorSeekbarBackground"
-        android:max="3"
+        android:max="5"
         android:min="1"
         android:progressDrawable="@drawable/seekbar_style"
         android:splitTrack="false"
