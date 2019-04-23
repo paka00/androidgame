@@ -104,9 +104,9 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        levelProgress = getView().findViewById(R.id.level_bar);
+        /*levelProgress = getView().findViewById(R.id.level_bar);
         levelBarBackground = getView().findViewById(R.id.level_bar_background);
-        view2 = getView().findViewById(R.id.level_bar_view);
+        view2 = getView().findViewById(R.id.level_bar_view);*/
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-        setLevelBar();
+        //setLevelBar();
     }
 
     @Override
@@ -496,7 +496,7 @@ public class HomeFragment extends Fragment {
         return i * 1000;
     }
 
-    public void setLevelBar(){
+    /*public void setLevelBar(){
         int steps = totalSteps-stepsToNextLevel;
         User user = model.readUserFromDb();
         int level = user.getLevel();
@@ -505,7 +505,7 @@ public class HomeFragment extends Fragment {
         view2.setMinimumHeight(500);
         levelBarBackground.setBackgroundColor(Color.RED);
         //10 steppia
-    }
+    }*/
 
     @Override
     public void onStart() {
