@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/tekstiboxi_1"
-    android:padding="40dp"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="40dp"
     android:id="@+id/exit_layout">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Hello"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorButtonText"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@id/buttons_layout"
         app:layout_constraintTop_toTopOf="parent" />

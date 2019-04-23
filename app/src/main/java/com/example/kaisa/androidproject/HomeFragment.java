@@ -140,15 +140,6 @@ public class HomeFragment extends Fragment {
                         alertDialog.show();
                         alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
                         alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                        /*exitDialogLayout = getView().findViewById(R.id.exit_layout);
-                        Glide.with(getContext()).load(R.drawable.tekstiboxi_pieni).into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                    exitDialogLayout.setBackground(resource);
-                                }
-                            }
-                        });*/
                         Button cancelBtn = dialoglayout.findViewById(R.id.dialog_cancel_btn);
                         Button okBtn = dialoglayout.findViewById(R.id.dialog_ok_btn);
                         TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
@@ -246,7 +237,7 @@ public class HomeFragment extends Fragment {
         User user = model.readUserFromDb();
         level = user.getLevel();
         totalSteps = user.getTotalSteps();
-        stepsToNextLevel = previousStepsToNextLevel + level * 10;
+        stepsToNextLevel = previousStepsToNextLevel + level * 100;
         Log.d("stepstonextlevel", "" + stepsToNextLevel);
         if(totalSteps >= stepsToNextLevel) {
             previousStepsToNextLevel = stepsToNextLevel;
