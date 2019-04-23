@@ -67,7 +67,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
     private boolean isStarted;
     AchievementsFragment achievementsFragment;
     ImageButton button_head_to_left, button_head_to_right, button_torso_to_left, button_torso_to_right, button_legs_to_left, button_legs_to_right, button_feet_to_left, button_feet_to_right;
-
+    Button maleButton,femaleButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -178,10 +178,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Glide.with(this).load(R.drawable.nuoli_uusi).into(button_feet_to_right);
         button_feet_to_right.setOnClickListener(this);
 
-        Button femaleButton = getView().findViewById(R.id.button_female);
+        femaleButton = getView().findViewById(R.id.button_female);
         femaleButton.setOnClickListener(this);
 
-        Button maleButton = getView().findViewById(R.id.button_male);
+        maleButton = getView().findViewById(R.id.button_male);
         maleButton.setOnClickListener(this);
 
         Button doneButton = getView().findViewById(R.id.done_button);
@@ -240,8 +240,10 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
             button_legs_to_right.setVisibility(View.INVISIBLE);
             button_feet_to_left.setVisibility(View.INVISIBLE);
             button_feet_to_right.setVisibility(View.INVISIBLE);
+        }else {
+            maleButton.setVisibility(View.GONE);
+            femaleButton.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -516,6 +518,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         button_legs_to_right.setVisibility(View.VISIBLE);
         button_feet_to_left.setVisibility(View.VISIBLE);
         button_feet_to_right.setVisibility(View.VISIBLE);
+        maleButton.setVisibility(View.GONE);
+        femaleButton.setVisibility(View.GONE);
         context.viewPager.setCurrentItem(0);
         saveClothesToDatabase();
         createDefaultAchievements();

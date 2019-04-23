@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/tekstilaatikko_iso"
-    android:paddingVertical="40dp"
-    android:paddingTop="20dp">
+    android:paddingVertical="50dp"
+    android:id="@+id/instruction_layout">
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
