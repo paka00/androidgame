@@ -535,8 +535,8 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
         Achievement achievement1 = new Achievement("First step", "Take your first step!", 0);
         Achievement achievement2 = new Achievement("100 steps", "Reach 100 steps", 0);
         Achievement achievement3 = new Achievement("10 kilometers", "Walk 10 kilometers", 0);
-        Achievement achievement4 = new Achievement("Estonia!", "You have walked from Helsinki to Tallinn! (85km)", 0);
-        Achievement achievement5 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! (133km)", 0);
+        Achievement achievement4 = new Achievement("Estonia!", "You have walked from Helsinki to Tallinn! \n(85km)", 0);
+        Achievement achievement5 = new Achievement("Sweden!", "You have walked from Oulu to Haparanda! \n(133km)", 0);
         model.createAchievement(achievement1);
         model.createAchievement(achievement2);
         model.createAchievement(achievement3);
