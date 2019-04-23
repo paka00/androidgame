@@ -204,8 +204,6 @@ public class AchievementsFragment extends Fragment {
         final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
-            user.setTotalSteps(20);
-            model.updateUser(user);
             monsterDb = model.readMonster();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
@@ -218,7 +216,7 @@ public class AchievementsFragment extends Fragment {
             String dSteps = String.valueOf(dailySteps);
             textView.setText("Total steps: " + steps + "\nDaily steps: " + dSteps);
             //  textView.setText("monsterdistance: " + monster.getMonsterDistance());
-            dbdistance = dbdistance + totalSteps * 1;
+            dbdistance = dbdistance + (totalSteps *( user.getHeight()*0.413/100));
             totalDistanceFormatted = String.format("%.2f", dbdistance);
               int hours =  (Integer.parseInt(dbwalktime) / (1 * 60 * 60));
               int mins =  (Integer.parseInt(dbwalktime) / (1 * 60)) % 60;
@@ -285,7 +283,7 @@ public class AchievementsFragment extends Fragment {
         double monsterD = monsterDb.getMonsterDistance();
         monsterTravelledDistance = (float) monsterD;
 
-        if(dbdistance-monsterTravelledDistance<6000&&dbdistance>5000){
+        if(dbdistance-monsterTravelledDistance<6000){
             monsterDistance = monsterTravelledDistance;
             monsterDistance = dpWidth/2- ( travelleddistance-monsterDistance) *percentagedistance;
             monsterimg.setX(monsterDistance-dpWidth/10);

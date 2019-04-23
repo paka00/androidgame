@@ -41,7 +41,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     private final Handler handler = new Handler();
     User user = null;
     DbModel model = null;
-    double monsterSpeed = 1;
+    double monsterSpeed = 0.5;
     int notificationId = 1;
 
     @Override
@@ -142,7 +142,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             totalDistance = user.getTotalDistance();
 
             double monsterDistance = monster.getMonsterDistance();
-            monsterDistance = monsterDistance + monsterSpeed;
+            monsterDistance = monsterDistance + monsterSpeed * user.getDifficultyLevel();
             monster.setMonsterDistance(monsterDistance);
 
             user.setTotalSteps(totalStepCounter);
