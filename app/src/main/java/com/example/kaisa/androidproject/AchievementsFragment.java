@@ -40,6 +40,7 @@ import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.Monster;
 import com.example.kaisa.androidproject.model.User;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -249,9 +250,11 @@ public class AchievementsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
-        getdbdata();
-        updatedistance();
-        updateAchievements();
+        if(!dbModel.checkIfTableEmpty("user")){
+            getdbdata();
+            updatedistance();
+            updateAchievements();
+        }
     }
 
     @Override
@@ -335,9 +338,10 @@ public class AchievementsFragment extends Fragment {
                 completionPercent = 100;
 
             }
-
+            DecimalFormat df = new DecimalFormat("#.00");
+            df.format(completionPercent);
             Log.d("TESTI", ""+completionPercent);
-            achievement.setCompletionPercent(Double.parseDouble(String.format("%.2f", completionPercent)));
+            achievement.setCompletionPercent(completionPercent);
         }
     }
 }

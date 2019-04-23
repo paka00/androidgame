@@ -57,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
         adjustHeight();
         adjustLevel();
 
+
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +99,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void adjustLevel() {
-        level = user.getDifficultyLevel();
+        if(!model.checkIfTableEmpty("user")) {
+            level = user.getDifficultyLevel();
+        }
         textViewDifficulty.setText("Current level: " + level);
         seekBarDifficulty.setProgress(level);
         seekBarDifficulty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
