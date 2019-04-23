@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +60,7 @@ public class HomeFragment extends Fragment {
     int dailyStepGoal;
     CountDownTimer countDownTimer = null;
     DbModel model = null;
-    Button btnClaimReward = null;
+    Button btnClaimReward,btnTest = null;
     MainActivity context;
     int maxClothes = 3;
     ArrayList<Integer> clothesArrayList;
@@ -74,6 +75,8 @@ public class HomeFragment extends Fragment {
     private boolean isStarted;
     int level = 1;
     int stepsToNextLevel, previousStepsToNextLevel;
+    ImageView imageview_head_home,imageview_torso_home,imageview_legs_home,imageview_feet_home;
+
 
 
     @Override
@@ -87,12 +90,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
+        imageview_head_home = getView().findViewById(R.id.imageview_head_home);
+        imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
+        imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
+        imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         levelTextView = getView().findViewById(R.id.level_text);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
+        btnTest = getView().findViewById(R.id.test_button);
         dailyTask = getView().findViewById(R.id.daily_task);
         bg = getView().findViewById(R.id.fragment_home);
         Glide.with(this).load(R.drawable.paanakyma).into(new SimpleTarget<Drawable>() {
@@ -114,7 +122,9 @@ public class HomeFragment extends Fragment {
             }
             dailyStepsCheck();
             levelCheck();
+            setImagesToHome();
             randomizeDailyStepGoal = false;
+
         }
         if (randomizeDailyStepGoal) {
             dailyStepGoal = getRandomSteps();
@@ -123,6 +133,17 @@ public class HomeFragment extends Fragment {
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
         levelTextView.setText("" + level);
         startCountdownTimer();
+
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectRandomClothes();
+                Intent intent = new Intent(getActivity(), RewardActivity.class);
+                intent.putExtra("TYPE", clothesType);
+                intent.putExtra("ID", clothesID);
+                startActivity(intent);
+            }
+        });
 
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -189,6 +210,7 @@ public class HomeFragment extends Fragment {
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
+                setImagesToHome();
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
             }
@@ -501,5 +523,51 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         isStarted = false;
+    }
+
+    public void setImagesToHome(){
+        DbModel model = new DbModel(getContext());
+        User user = model.readUserFromDb();
+        int gender = user.getGender();
+        int hatPos = user.getHat();
+        int shirtPos = user.getShirt();
+        int pantsPos = user.getPants();
+        int shoesPos = user.getShoes();
+        int hatNumber = model.readHats(gender).get(hatPos);
+        int shirtNumber = model.readShirts(gender).get(shirtPos);
+        int pantsNumber = model.readPants(gender).get(pantsPos);
+        int shoesNumber = model.readShoes(gender).get(shoesPos);
+        String uri1,uri2,uri3,uri4;
+        int imageResource;
+        if(gender == 0){
+            uri1 = "drawable/ukko_paa_" + hatNumber;
+            imageResource = getResources().getIdentifier(uri1, null, getContext().getPackageName());
+            imageview_head_home.setImageResource(imageResource);
+            uri2 = "drawable/ukko_torso_" + shirtNumber;
+            imageResource = getResources().getIdentifier(uri2, null, getContext().getPackageName());
+            imageview_torso_home.setImageResource(imageResource);
+            uri3 = "drawable/ukko_pants_" + pantsNumber;
+            imageResource = getResources().getIdentifier(uri3, null, getContext().getPackageName());
+            imageview_legs_home.setImageResource(imageResource);
+            uri4 = "drawable/ukko_shoes_" + shoesNumber;
+            imageResource = getResources().getIdentifier(uri4, null, getContext().getPackageName());
+            imageview_feet_home.setImageResource(imageResource);
+        }
+        if(gender == 1){
+            uri1 = "drawable/akka_paa_" + hatNumber;
+            imageResource = getResources().getIdentifier(uri1, null, getContext().getPackageName());
+            imageview_head_home.setImageResource(imageResource);
+            uri2 = "drawable/akka_torso_" + shirtNumber;
+            imageResource = getResources().getIdentifier(uri2, null, getContext().getPackageName());
+            imageview_torso_home.setImageResource(imageResource);
+            uri3 = "drawable/akka_pants_" + pantsNumber;
+            imageResource = getResources().getIdentifier(uri3, null, getContext().getPackageName());
+            imageview_legs_home.setImageResource(imageResource);
+            uri4 = "drawable/akka_shoes_" + shoesNumber;
+            imageResource = getResources().getIdentifier(uri4, null, getContext().getPackageName());
+            imageview_feet_home.setImageResource(imageResource);
+        }
+
+
     }
 }
