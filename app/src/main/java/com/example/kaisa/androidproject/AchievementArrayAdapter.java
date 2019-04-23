@@ -50,7 +50,7 @@ public class AchievementArrayAdapter extends ArrayAdapter<Achievement> {
         TextView textViewPercent = convertView.findViewById(R.id.text_view_percent);
         textViewName.setText(achievement.getName());
         textViewDescription.setText(achievement.getDescription());
-        textViewPercent.setText("Progress: "+achievement.getCompletionPercent()+"%");
+        textViewPercent.setText("Progress: "+String.format("%.2f", achievement.getCompletionPercent())+"%");
         return convertView;
     }
 }
