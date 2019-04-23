@@ -203,6 +203,8 @@ public class AchievementsFragment extends Fragment {
         final DbModel model = new DbModel(getContext());
         if (!model.checkIfTableEmpty("user")) {
             User user = model.readUserFromDb();
+            user.setTotalSteps(20);
+            model.updateUser(user);
             monsterDb = model.readMonster();
             totalSteps = user.getTotalSteps();
             dailySteps = user.getDailySteps();
@@ -322,16 +324,16 @@ public class AchievementsFragment extends Fragment {
 
     public void updateAchievements() {
         double[] achievementsDistance = {1, 100, 10000, 85000, 133000};
-        int test = 100;
 
         Log.d("TESTI", ""+arrayListAchievements.size());
 
         for (int i = 0; i<arrayListAchievements.size(); i++) {
             Achievement achievement = arrayListAchievements.get(i);
-            double completionPercent = (test / achievementsDistance[i])*100;
+            double completionPercent = (totalSteps / achievementsDistance[i])*100;
 
             if(completionPercent > 100) {
                 completionPercent = 100;
+
             }
 
             Log.d("TESTI", ""+completionPercent);
