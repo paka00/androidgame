@@ -9,6 +9,7 @@ public class Achievement implements Serializable {
     String description;
     double completionPercent;
 
+    public Achievement() {}
     public Achievement(String name, String description, double completionPercent) {
         this.name = name;
         this.description = description;

@@ -249,7 +249,7 @@ public class AchievementsFragment extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
         getdbdata();
         updatedistance();
-        //updateAchievements();
+        updateAchievements();
     }
 
     @Override
@@ -318,8 +318,24 @@ public class AchievementsFragment extends Fragment {
         super.onStop();
         isStarted = false;
     }
+
+
+    public void updateAchievements() {
+        double[] achievementsDistance = {1, 100, 10000, 85000, 133000};
+        int test = 100;
+
+        Log.d("TESTI", ""+arrayListAchievements.size());
+
+        for (int i = 0; i<arrayListAchievements.size(); i++) {
+            Achievement achievement = arrayListAchievements.get(i);
+            double completionPercent = (test / achievementsDistance[i])*100;
+
+            if(completionPercent > 100) {
+                completionPercent = 100;
+            }
+
+            Log.d("TESTI", ""+completionPercent);
+            achievement.setCompletionPercent(Double.parseDouble(String.format("%.2f", completionPercent)));
+        }
+    }
 }
-
-
-
-
