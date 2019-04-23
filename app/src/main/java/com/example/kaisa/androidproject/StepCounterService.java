@@ -156,6 +156,10 @@ public class StepCounterService extends Service implements SensorEventListener {
                 showNotification("Creature Chase", "You have finished your daily quest!");
             }
 
+            if(monsterDistance > -1000) {
+                showNotification("Run!", "The creature is less than 1 km away!");
+            }
+
             model.updateMonster(monster);
             model.updateUser(user);
         }

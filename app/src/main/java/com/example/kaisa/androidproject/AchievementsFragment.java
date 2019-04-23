@@ -250,7 +250,7 @@ public class AchievementsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
-        if(!dbModel.checkIfTableEmpty("user")){
+        if(!dbModel.checkIfTableEmpty("achievement")){
             getdbdata();
             updatedistance();
             updateAchievements();
