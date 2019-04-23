@@ -3,33 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/tekstilaatikko"
-    android:padding="10dp">
+    android:background="@drawable/tekstilaatikko_iso"
+    android:paddingVertical="50dp"
+    android:id="@+id/instruction_layout">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        android:id="@+id/verGuideline1"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        android:id="@+id/verGuideline2"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_welcome_text"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/dialog_instruction_text"
+        app:layout_constraintLeft_toRightOf="@id/verGuideline1"
+        app:layout_constraintRight_toLeftOf="@id/verGuideline2"
         android:text="Hello"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorButtonText"
         android:textSize="30dp"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_instruction_text"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/dialog_welcome_text"
         app:layout_constraintBottom_toTopOf="@+id/dialog_done_btn"
-        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toRightOf="@id/verGuideline1"
+        app:layout_constraintRight_toLeftOf="@id/verGuideline2"
+        android:textColor="@color/colorButtonText"
         android:textSize="20dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         app:layout_constraintTop_toBottomOf="@+id/dialog_instruction_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

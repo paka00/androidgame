@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.hardware.usb.UsbRequest;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,23 +57,30 @@ public class HomeFragment extends Fragment {
     TextView dailyTask = null;
     TextView dailyTaskTime = null;
     TextView dailyTaskProgress = null;
-    int dailySteps;
+    TextView levelTextView = null;
+    int dailySteps, totalSteps;
     int dailyStepGoal;
     CountDownTimer countDownTimer = null;
     DbModel model = null;
-    Button btnClaimReward, btnTest = null;
+    Button btnClaimReward,btnTest = null;
     MainActivity context;
     int maxClothes = 3;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothesType;
     int clothesID;
-    ConstraintLayout bg = null;
+    ConstraintLayout bg, exitDialogLayout = null;
     boolean randomizeDailyStepGoal = true;
     SharedPreferences prefs = null;
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
+    private ImageView levelProgress, levelBarBackground;
+    View view2;
+    int level = 1;
+    int stepsToNextLevel, previousStepsToNextLevel;
+    ImageView imageview_head_home,imageview_torso_home,imageview_legs_home,imageview_feet_home;
+
 
 
     @Override
@@ -84,9 +94,25 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         checkedValues = new ArrayList<>();
+        imageview_head_home = getView().findViewById(R.id.imageview_head_home);
+        imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
+        imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
+        imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        levelTextView = getView().findViewById(R.id.level_text);
+        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    levelTextView.setBackground(resource);
+                }
+            }
+        });
+        /*levelProgress = getView().findViewById(R.id.level_bar);
+        levelBarBackground = getView().findViewById(R.id.level_bar_background);
+        view2 = getView().findViewById(R.id.level_bar_view);*/
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -100,6 +126,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
         model = new DbModel(getContext());
         dailyTaskProgress = getView().findViewById(R.id.daily_task_progress);
         if (!model.checkIfTableEmpty("user")) {
@@ -110,13 +137,17 @@ public class HomeFragment extends Fragment {
                 dailyStepGoal = getRandomSteps();
             }
             dailyStepsCheck();
+            levelCheck();
+            setImagesToHome();
             randomizeDailyStepGoal = false;
+
         }
         if (randomizeDailyStepGoal) {
             dailyStepGoal = getRandomSteps();
         }
         Log.d("homefragment", "onviewcreated");
         dailyTask.setText("Daily task: Walk " + dailyStepGoal + " steps");
+        levelTextView.setText("" + level);
         startCountdownTimer();
 
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +200,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+        //setLevelBar();
     }
 
     @Override
@@ -182,9 +214,11 @@ public class HomeFragment extends Fragment {
             createDialog();
             try {
                 dailyStepsCheck();
+                levelCheck();
                 User user = model.readUserFromDb();
                 user.setDailyStepGoal(dailyStepGoal);
                 model.updateUser(user);
+                setImagesToHome();
             } catch (NullPointerException e) {
                 Log.d("homefragment", e.toString());
             }
@@ -233,9 +267,25 @@ public class HomeFragment extends Fragment {
             model = new DbModel(getContext());
             if (!model.checkIfTableEmpty("user")) {
                 dailyStepsCheck();
+                levelCheck();
             }
         }
     };
+
+    protected void levelCheck() {
+        User user = model.readUserFromDb();
+        level = user.getLevel();
+        totalSteps = user.getTotalSteps();
+        stepsToNextLevel = previousStepsToNextLevel + level * 100;
+        Log.d("stepstonextlevel", "" + stepsToNextLevel);
+        if(totalSteps >= stepsToNextLevel) {
+            previousStepsToNextLevel = stepsToNextLevel;
+            level++;
+            user.setLevel(level);
+            model.updateUser(user);
+        }
+        levelTextView.setText("" + level);
+    }
 
     protected void dailyStepsCheck() {
         final User user = model.readUserFromDb();
@@ -251,7 +301,7 @@ public class HomeFragment extends Fragment {
         if (dailySteps >= dailyStepGoal && user.getDailyReward() == 0) {
             btnClaimReward.setVisibility(View.VISIBLE);
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done! You can now claim the reward");
+            dailyTask.setText("Task done!");
             btnClaimReward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -260,7 +310,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("TYPE", clothesType);
                     intent.putExtra("ID", clothesID);
                     startActivity(intent);
-                    dailyTask.setText("Task done! Wait for tomorrow");
+                    dailyTask.setText("Task done!");
                     btnClaimReward.setVisibility(View.GONE);
                     user.setDailyReward(1);
                     model.updateUser(user);
@@ -270,7 +320,7 @@ public class HomeFragment extends Fragment {
 
         if (dailySteps >= dailyStepGoal && user.getDailyReward() == 1) {
             dailyTaskProgress.setText("");
-            dailyTask.setText("Task done! Wait for tomorrow!");
+            dailyTask.setText("Task done!");
         }
     }
 
@@ -310,7 +360,7 @@ public class HomeFragment extends Fragment {
                 if (dailySteps < dailyStepGoal) {
                     dailyTaskTime.setText("Time remaining: " + timeRemaining);
                 } else {
-                    dailyTaskTime.setText("Time until next task: " + timeRemaining);
+                    dailyTaskTime.setText("Time until next \ntask: " + timeRemaining);
                 }
                 try {
                     User user = model.readUserFromDb();
@@ -468,6 +518,17 @@ public class HomeFragment extends Fragment {
         return i * 1000;
     }
 
+    /*public void setLevelBar(){
+        int steps = totalSteps-stepsToNextLevel;
+        User user = model.readUserFromDb();
+        int level = user.getLevel();
+        int steplevel = level*100;
+        int kerroin = steps / steplevel;
+        view2.setMinimumHeight(500);
+        levelBarBackground.setBackgroundColor(Color.RED);
+        //10 steppia
+    }*/
+
     @Override
     public void onStart() {
         super.onStart();
@@ -481,5 +542,51 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         isStarted = false;
+    }
+
+    public void setImagesToHome(){
+        DbModel model = new DbModel(getContext());
+        User user = model.readUserFromDb();
+        int gender = user.getGender();
+        int hatPos = user.getHat();
+        int shirtPos = user.getShirt();
+        int pantsPos = user.getPants();
+        int shoesPos = user.getShoes();
+        int hatNumber = model.readHats(gender).get(hatPos);
+        int shirtNumber = model.readShirts(gender).get(shirtPos);
+        int pantsNumber = model.readPants(gender).get(pantsPos);
+        int shoesNumber = model.readShoes(gender).get(shoesPos);
+        String uri1,uri2,uri3,uri4;
+        int imageResource;
+        if(gender == 0){
+            uri1 = "drawable/ukko_paa_" + hatNumber;
+            imageResource = getResources().getIdentifier(uri1, null, getContext().getPackageName());
+            imageview_head_home.setImageResource(imageResource);
+            uri2 = "drawable/ukko_torso_" + shirtNumber;
+            imageResource = getResources().getIdentifier(uri2, null, getContext().getPackageName());
+            imageview_torso_home.setImageResource(imageResource);
+            uri3 = "drawable/ukko_pants_" + pantsNumber;
+            imageResource = getResources().getIdentifier(uri3, null, getContext().getPackageName());
+            imageview_legs_home.setImageResource(imageResource);
+            uri4 = "drawable/ukko_shoes_" + shoesNumber;
+            imageResource = getResources().getIdentifier(uri4, null, getContext().getPackageName());
+            imageview_feet_home.setImageResource(imageResource);
+        }
+        if(gender == 1){
+            uri1 = "drawable/akka_paa_" + hatNumber;
+            imageResource = getResources().getIdentifier(uri1, null, getContext().getPackageName());
+            imageview_head_home.setImageResource(imageResource);
+            uri2 = "drawable/akka_torso_" + shirtNumber;
+            imageResource = getResources().getIdentifier(uri2, null, getContext().getPackageName());
+            imageview_torso_home.setImageResource(imageResource);
+            uri3 = "drawable/akka_pants_" + pantsNumber;
+            imageResource = getResources().getIdentifier(uri3, null, getContext().getPackageName());
+            imageview_legs_home.setImageResource(imageResource);
+            uri4 = "drawable/akka_shoes_" + shoesNumber;
+            imageResource = getResources().getIdentifier(uri4, null, getContext().getPackageName());
+            imageview_feet_home.setImageResource(imageResource);
+        }
+
+
     }
 }

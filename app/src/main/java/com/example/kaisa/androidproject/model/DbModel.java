@@ -33,6 +33,10 @@ public class DbModel {
         userValues.put(DbContract.User.COLUMN_SHIRT, addable.shirt);
         userValues.put(DbContract.User.COLUMN_PANTS, addable.pants);
         userValues.put(DbContract.User.COLUMN_SHOES, addable.shoes);
+        userValues.put(DbContract.User.COLUMN_HAT_IMAGE_NUMBER, addable.hatNumber);
+        userValues.put(DbContract.User.COLUMN_SHIRT_IMAGE_NUMBER, addable.shirtNumber);
+        userValues.put(DbContract.User.COLUMN_PANTS_IMAGE_NUMBER, addable.pantsNumber);
+        userValues.put(DbContract.User.COLUMN_SHOES_IMAGE_NUMBER, addable.shoesNumber);
         userValues.put(DbContract.User.COLUMN_LEVEL, addable.level);
         userValues.put(DbContract.User.COLUMN_TOTAL_STEPS, addable.totalSteps);
         userValues.put(DbContract.User.COLUMN_DAILY_STEPS, addable.dailySteps);
@@ -72,6 +76,10 @@ public class DbModel {
                 DbContract.User.COLUMN_SHIRT,
                 DbContract.User.COLUMN_PANTS,
                 DbContract.User.COLUMN_SHOES,
+                DbContract.User.COLUMN_HAT_IMAGE_NUMBER,
+                DbContract.User.COLUMN_SHIRT_IMAGE_NUMBER,
+                DbContract.User.COLUMN_PANTS_IMAGE_NUMBER,
+                DbContract.User.COLUMN_SHOES_IMAGE_NUMBER,
                 DbContract.User.COLUMN_LEVEL,
                 DbContract.User.COLUMN_TOTAL_STEPS,
                 DbContract.User.COLUMN_DAILY_STEPS,
@@ -106,6 +114,10 @@ public class DbModel {
             int shirt = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHIRT));
             int pants = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_PANTS));
             int shoes = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHOES));
+            int hatNumber = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_HAT_IMAGE_NUMBER));
+            int shirtNumber = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHIRT_IMAGE_NUMBER));
+            int pantsNumber = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_PANTS_IMAGE_NUMBER));
+            int shoesNumber = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_SHOES_IMAGE_NUMBER));
             int level = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_LEVEL));
             int totalSteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_TOTAL_STEPS));
             int dailySteps = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEPS));
@@ -121,7 +133,7 @@ public class DbModel {
             int dailyStepGoal = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DAILY_STEP_GOAL));
             int difficultyLevel = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_DIFFICULTY_LEVEL));
             int height = cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.User.COLUMN_HEIGHT));
-            user = new User(name, gender, hat, shirt, pants, shoes, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward, dailyStepGoal, difficultyLevel, height);
+            user = new User(name, gender, hat, shirt, pants, shoes, hatNumber, shirtNumber, pantsNumber, shoesNumber, level, totalSteps, dailySteps, stepHelper, dailyStepHelper, totalDistance, dailyDistance, averageSpeed, walkDate, walkTime, walkDistance, dailyReward, dailyStepGoal, difficultyLevel, height);
         }
         cursor.close();
 

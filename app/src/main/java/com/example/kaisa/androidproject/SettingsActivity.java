@@ -1,11 +1,15 @@
 package com.example.kaisa.androidproject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.View;
 import android.widget.Button;
@@ -21,17 +25,20 @@ import org.w3c.dom.Text;
 
 import java.util.Set;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private SeekBar seekBarHeight, seekBarDifficulty;
     private TextView textViewHeight, textViewDifficulty, hintHeight, hintDifficulty;
     int height = 0;
-    int level = 0;
+    int level = 1;
     DbModel model;
     User user;
     Button doneButton;
     ModifyFigureFragment modifyFigureFragment;
     Typeface pixelFont = null;
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +58,14 @@ public class SettingsActivity extends AppCompatActivity {
         hintHeight.setTypeface(pixelFont);
         hintDifficulty.setTypeface(pixelFont);
         doneButton = findViewById(R.id.done_button);
+        prefs = this.getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         model = new DbModel(this);
         user = model.readUserFromDb();
         modifyFigureFragment = new ModifyFigureFragment();
         adjustHeight();
         adjustLevel();
+        createDialog();
+
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +83,39 @@ public class SettingsActivity extends AppCompatActivity {
                 model.updateUser(user);
             }
         });
+    }
+
+    //Creates a dialog box with information about the current page.
+    public void createDialog() {
+        prefs = this.getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
+        if (!prefs.getBoolean("appHasRunBeforeSettings", false)) {
+            LayoutInflater inflater = (LayoutInflater) this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View dialoglayout = inflater.inflate(R.layout.instruction_dialog_layout, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialoglayout);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Button doneBtn = dialoglayout.findViewById(R.id.dialog_done_btn);
+            TextView titleText = dialoglayout.findViewById(R.id.dialog_welcome_text);
+            titleText.setTypeface(pixelFont);
+            titleText.setText("Settings");
+            TextView bodyText = dialoglayout.findViewById(R.id.dialog_instruction_text);
+            bodyText.setTypeface(pixelFont);
+            bodyText.setText("Please set your height and the difficulty level you want. " +
+                    "The higher the difficulty level, the faster the creature chases you. " +
+                    "You can change these later.");
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            prefs.edit().putBoolean("appHasRunBeforeSettings", true).apply();
+            Log.d("homefragment", "firstrun");
+        }
     }
 
     private void adjustHeight() {
@@ -98,7 +141,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void adjustLevel() {
-        level = user.getDifficultyLevel();
+        if(!model.checkIfTableEmpty("user")) {
+            level = user.getDifficultyLevel();
+        }
         textViewDifficulty.setText("Current level: " + level);
         seekBarDifficulty.setProgress(level);
         seekBarDifficulty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

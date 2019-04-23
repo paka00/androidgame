@@ -14,6 +14,10 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbContract.User.COLUMN_SHIRT + " INTEGER," +
                     DbContract.User.COLUMN_PANTS + " INTEGER," +
                     DbContract.User.COLUMN_SHOES + " INTEGER," +
+                    DbContract.User.COLUMN_HAT_IMAGE_NUMBER + " INTEGER," +
+                    DbContract.User.COLUMN_SHIRT_IMAGE_NUMBER + " INTEGER," +
+                    DbContract.User.COLUMN_PANTS_IMAGE_NUMBER + " INTEGER," +
+                    DbContract.User.COLUMN_SHOES_IMAGE_NUMBER + " INTEGER," +
                     DbContract.User.COLUMN_LEVEL + " INTEGER," +
                     DbContract.User.COLUMN_DIFFICULTY_LEVEL + " INTEGER," +
                     DbContract.User.COLUMN_HEIGHT + " INTEGER," +

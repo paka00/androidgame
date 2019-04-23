@@ -38,10 +38,16 @@
 
     <Button
         android:id="@+id/button_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="110dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:text="BACK"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginBottom="60dp"
+        android:textSize="25dp"
+        android:textColor="@color/colorButtonText"
+        android:fontFamily="@font/pixel_font"
+        android:background="@drawable/button_layout"/>
 
 </android.support.constraint.ConstraintLayout>

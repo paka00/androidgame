@@ -143,7 +143,15 @@ public class MainActivity extends AppCompatActivity {
            if (monsterOfflineTime - startTimeDb == 0) {
                monsterOfflineTime = Long.valueOf(0);
            }
-           monsterDistance = monsterDistance + (monsterOfflineTime * 1);
+
+           int difficulty = 1;
+           User user = model.readUserFromDb();
+
+           if(!model.checkIfTableEmpty("user"))
+           {
+               difficulty =  user.getDifficultyLevel();
+           }
+           monsterDistance = monsterDistance + (monsterOfflineTime * 0.05 * difficulty);
            monster.setMonsterDistance(monsterDistance);
            model.updateMonster(monster);
            appOn = true;

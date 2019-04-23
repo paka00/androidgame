@@ -41,7 +41,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     private final Handler handler = new Handler();
     User user = null;
     DbModel model = null;
-    double monsterSpeed = 1;
+    double monsterSpeed = 0.5;
     int notificationId = 1;
 
     @Override
@@ -142,7 +142,7 @@ public class StepCounterService extends Service implements SensorEventListener {
             totalDistance = user.getTotalDistance();
 
             double monsterDistance = monster.getMonsterDistance();
-            monsterDistance = monsterDistance + monsterSpeed;
+            monsterDistance = monsterDistance + monsterSpeed * user.getDifficultyLevel();
             monster.setMonsterDistance(monsterDistance);
 
             user.setTotalSteps(totalStepCounter);
@@ -154,6 +154,10 @@ public class StepCounterService extends Service implements SensorEventListener {
 
             if(user.getDailySteps() >= user.getDailyStepGoal() && user.getDailyStepGoal() != 0 && user.getDailyReward() == 0 && !MainActivity.isVisible) {
                 showNotification("Creature Chase", "You have finished your daily quest!");
+            }
+
+            if(monsterDistance > -1000) {
+                showNotification("Run!", "The creature is less than 1 km away!");
             }
 
             model.updateMonster(monster);

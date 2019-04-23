@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/tekstilaatikko"
-    android:padding="10dp"
+    android:background="@drawable/tekstiboxi_1"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="40dp"
     android:id="@+id/exit_layout">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Hello"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorButtonText"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@id/buttons_layout"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,12 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_welcome_text">
+        app:layout_constraintTop_toBottomOf="@id/dialog_welcome_text"
+        android:paddingHorizontal="40dp">
 
         <Button
             android:id="@+id/dialog_ok_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
             android:layout_weight="0.5"
             android:text="Yes"
             android:fontFamily="@font/pixel_font"
@@ -39,8 +41,8 @@
 
         <Button
             android:id="@+id/dialog_cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
             android:layout_weight="0.5"
             android:text="No"
             android:fontFamily="@font/pixel_font"
