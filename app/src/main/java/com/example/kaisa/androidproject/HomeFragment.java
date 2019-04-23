@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.hardware.usb.UsbRequest;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +75,8 @@ public class HomeFragment extends Fragment {
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
+    private ImageView levelProgress, levelBarBackground;
+    View view2;
     int level = 1;
     int stepsToNextLevel, previousStepsToNextLevel;
 
@@ -91,6 +96,9 @@ public class HomeFragment extends Fragment {
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         levelTextView = getView().findViewById(R.id.level_text);
+        levelProgress = getView().findViewById(R.id.level_bar);
+        levelBarBackground = getView().findViewById(R.id.level_bar_background);
+        view2 = getView().findViewById(R.id.level_bar_view);
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         dailyTask = getView().findViewById(R.id.daily_task);
@@ -163,6 +171,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+        setLevelBar();
     }
 
     @Override
@@ -477,6 +486,17 @@ public class HomeFragment extends Fragment {
         Random r = new Random();
         int i = r.nextInt((10 - 5) + 1) + 5;
         return i * 1000;
+    }
+
+    public void setLevelBar(){
+        int steps = totalSteps-stepsToNextLevel;
+        User user = model.readUserFromDb();
+        int level = user.getLevel();
+        int steplevel = level*100;
+        int kerroin = steps / steplevel;
+        view2.setMinimumHeight(500);
+        levelBarBackground.setBackgroundColor(Color.RED);
+        //10 steppia
     }
 
     @Override

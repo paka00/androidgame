@@ -336,10 +336,7 @@ public class AchievementsFragment extends Fragment {
 
             if(completionPercent > 100) {
                 completionPercent = 100;
-
             }
-            DecimalFormat df = new DecimalFormat("#.00");
-            df.format(completionPercent);
             Log.d("TESTI", ""+completionPercent);
             achievement.setCompletionPercent(completionPercent);
         }

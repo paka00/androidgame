@@ -22,6 +22,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/verGuideline1"/>
 
+
+    <android.support.constraint.Guideline
+        android:id="@+id/verGuideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.38" />
+
+            <ImageView
+                android:id="@+id/level_bar"
+                android:layout_width="100dp"
+                android:layout_height="300dp"
+                android:background="@drawable/leveli_palkki"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/level_bar_background"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/verGuideline2"
+                android:background="@drawable/leveli_palkki"
+                tools:ignore="MissingConstraints" />
+
+
+            <View
+                app:layout_constraintBottom_toBottomOf="@id/level_bar"
+                android:id="@+id/level_bar_view"
+                android:layout_width="20dp"
+                android:layout_height="10dp"
+                android:background="@color/colorAccent"/>
+
+
+
+
+
+
+
     <android.support.constraint.Guideline
         android:id="@+id/verGuideline1"
         android:layout_width="wrap_content"
