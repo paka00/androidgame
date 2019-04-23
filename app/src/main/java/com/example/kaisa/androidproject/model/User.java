@@ -10,6 +10,10 @@ public class User implements Serializable {
     int shirt;
     int pants;
     int shoes;
+    int hatNumber;
+    int shirtNumber;
+    int pantsNumber;
+    int shoesNumber;
     int level;
     int totalSteps;
     int dailySteps;
@@ -26,13 +30,17 @@ public class User implements Serializable {
     int difficultyLevel;
     int height;
 
-    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward, int dailyStepGoal, int difficultyLevel, int height) {
+    public User(String name, int gender, int hat, int shirt, int pants, int shoes, int hatNumber, int shirtNumber, int pantsNumber, int shoesNumber, int level, int totalSteps, int dailySteps, int stepHelper, int dailyStepHelper, double totalDistance, double dailyDistance, double averageSpeed, String walkDate, String walkTime, float walkDistance, int dailyReward, int dailyStepGoal, int difficultyLevel, int height) {
         this.name = name;
         this.gender = gender;
         this.hat = hat;
         this.shirt = shirt;
         this.pants = pants;
         this.shoes = shoes;
+        this.hatNumber = hatNumber;
+        this.shirtNumber = shirtNumber;
+        this.pantsNumber = pantsNumber;
+        this.shoesNumber = shoesNumber;
         this.level = level;
         this.totalSteps = totalSteps;
         this.dailySteps = dailySteps;
@@ -224,5 +232,37 @@ public class User implements Serializable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public int getHatNumber() {
+        return hatNumber;
+    }
+
+    public void setHatNumber(int hatNumber) {
+        this.hatNumber = hatNumber;
+    }
+
+    public int getShirtNumber() {
+        return shirtNumber;
+    }
+
+    public void setShirtNumber(int shirtNumber) {
+        this.shirtNumber = shirtNumber;
+    }
+
+    public int getPantsNumber() {
+        return pantsNumber;
+    }
+
+    public void setPantsNumber(int pantsNumber) {
+        this.pantsNumber = pantsNumber;
+    }
+
+    public int getShoesNumber() {
+        return shoesNumber;
+    }
+
+    public void setShoesNumber(int shoesNumber) {
+        this.shoesNumber = shoesNumber;
     }
 }

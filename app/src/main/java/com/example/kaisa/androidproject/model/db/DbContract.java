@@ -14,6 +14,10 @@ public class DbContract {
         public static final String COLUMN_SHIRT = "shirt";
         public static final String COLUMN_PANTS = "pants";
         public static final String COLUMN_SHOES = "shoes";
+        public static final String COLUMN_HAT_IMAGE_NUMBER = "hatNumber";
+        public static final String COLUMN_SHIRT_IMAGE_NUMBER = "shirtNumber";
+        public static final String COLUMN_PANTS_IMAGE_NUMBER = "pantsNumber";
+        public static final String COLUMN_SHOES_IMAGE_NUMBER = "shoesNumber";
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_TOTAL_STEPS = "totalSteps";
         public static final String COLUMN_DAILY_STEPS = "dailySteps";
