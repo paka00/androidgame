@@ -86,8 +86,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
     float gravity[] = {0, 0, 0};
     float linear_acceleration[] = {0, 0, 0};
     double totalacceleration = 0;
-    TextView tv1 = null;
-    TextView tv2 = null;
     TextView previousWalk = null;
     LocationCallback mLocationCallback = null;
     SensorEventListener sensorlistener = null;
@@ -147,8 +145,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                 return false;
             }
         });
-        tv1 = getView().findViewById(R.id.tv1);
-        tv2 = getView().findViewById(R.id.tv2);
     googleApiClient = new GoogleApiClient.Builder(getContext())
             .addOnConnectionFailedListener(this).
                     addConnectionCallbacks(this).addApi(LocationServices.API).build();
@@ -310,7 +306,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                tv1.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude());
                             }
                         }
                     });
@@ -406,20 +401,12 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
                             if (location != null) {
                                 locationNew = location;
                                 if (locationOld == null) {
-                                    tv1.setText("distance: " + "0");
-                                    tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude());
                                     locationOld = locationNew;
                                 } else {
                                     if (totalacceleration > 0.7) {
                                         distance = locationNew.distanceTo(locationOld);
                                         distance2 = distance + distance2;
                                         locationOld = locationNew;
-                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude() + " nopeus " + totalacceleration);
-                                        tv1.setText("Distance:" + distance2);
-                                    } else {
-
-                                        tv1.setText("Distance:" + distance2);
-                                        tv2.setText("longitude " + location.getLongitude() + " latitudi " + location.getLatitude() + " nopeus " + totalacceleration);
                                     }
                                 }
                             }
@@ -442,7 +429,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         int sec = (int) (mills / 1000);
         elapsedTime = hours + ":" + mins + ":" + sec;
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        tv1.setText("elapsed time: " + elapsedTime + " " + currentDate);
         jogtimeseconds = sec + (mins * 60) + (hours / 60 / 60);
 
 
@@ -485,7 +471,6 @@ public class JoggingFragment extends Fragment implements GoogleApiClient.Connect
         }
         user.setWalkDate(currentDate);
         model.updateUser(user);
-        tv1.setText(distance2 + " " + Double.toString(user.getTotalDistance()) + " aika> " + user.getWalkTime() + "< " + Double.toString(jogtimeseconds));
     }
 
     public void checkLocationStatus() {

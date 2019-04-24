@@ -71,7 +71,6 @@ public class AchievementsFragment extends Fragment {
     String dbjogdate;
     TextView jogdata = null;
     double dbdailydistance = 0;
-    AnimationDrawable wifianimation;
     AnimationDrawable monsterAnimation;
     AnimationDrawable characterWalkAnimation;
     ImageView characterimg = null;
@@ -115,8 +114,7 @@ public class AchievementsFragment extends Fragment {
         //boxButton = getView().findViewById(R.id.moveButton);
        // gift = getView().findViewById(R.id.gift);
         giftimg = getView().findViewById(R.id.gift);
-        giftimg.setBackgroundResource(R.drawable.animationtest);
-        wifianimation = (AnimationDrawable) giftimg.getBackground();
+        giftimg.setImageResource(R.drawable.aarrearkku_kiinni);
         //monster = getView().findViewById(R.id.monsterline);
         listView = getView().findViewById(R.id.listview_achievements);
         monsterimg = getView().findViewById(R.id.monsterImage);
@@ -278,7 +276,6 @@ public class AchievementsFragment extends Fragment {
 
         characterdistancetxt.setText(Float.toString(travelleddistance)+ "m");
         giftimg.setX(distancem-dpWidth/16);
-        wifianimation.start();
         monsterAnimation.start();
         characterWalkAnimation.start();
 
