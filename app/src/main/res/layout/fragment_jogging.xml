@@ -6,22 +6,6 @@
     android:background="@drawable/tausta_achievements"
     tools:context=".JoggingFragment">
 
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:fontFamily="@font/pixel_font"
-        android:layout_marginTop="60dp"
-        android:text="Juu"/>
-
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="match_parent"
-        android:fontFamily="@font/pixel_font"
-        android:layout_height="50dp"
-        android:text="jees"
-        android:gravity="center"/>
 
     <Button
         android:layout_width="200dp"

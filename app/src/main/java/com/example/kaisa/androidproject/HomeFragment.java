@@ -18,6 +18,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -75,8 +76,8 @@ public class HomeFragment extends Fragment {
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
+    Guideline guidelineBackground;
     private ImageView levelProgress, levelBarBackground;
-    View view2;
     int level = 1;
     int stepsToNextLevel, previousStepsToNextLevel;
     ImageView imageview_head_home,imageview_torso_home,imageview_legs_home,imageview_feet_home;
@@ -98,6 +99,7 @@ public class HomeFragment extends Fragment {
         imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
         imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
         imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
+        guidelineBackground = getView().findViewById(R.id.guidelineBackground);
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
@@ -110,9 +112,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        /*levelProgress = getView().findViewById(R.id.level_bar);
+        levelProgress = getView().findViewById(R.id.level_bar);
         levelBarBackground = getView().findViewById(R.id.level_bar_background);
-        view2 = getView().findViewById(R.id.level_bar_view);*/
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -200,7 +201,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-        //setLevelBar();
+        setLevelBar();
     }
 
     @Override
@@ -335,6 +336,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        setLevelBar();
         Log.d("homefragment", "onResume");
     }
 
@@ -518,16 +520,30 @@ public class HomeFragment extends Fragment {
         return i * 1000;
     }
 
-    /*public void setLevelBar(){
-        int steps = totalSteps-stepsToNextLevel;
+    public void setLevelBar(){
+        double totalStepsForLevels = 0;
+        int level = 1;
         User user = model.readUserFromDb();
-        int level = user.getLevel();
-        int steplevel = level*100;
-        int kerroin = steps / steplevel;
-        view2.setMinimumHeight(500);
+        if (!model.checkIfTableEmpty("user")) {
+           level = user.getLevel();
+        }
+        for (int i = 0; i<level+1; i++) {
+            totalStepsForLevels = totalStepsForLevels + 100*i;
+        }
+        double stepsCurrentLevel = (totalSteps - totalStepsForLevels);
+        if (stepsCurrentLevel < 0)
+            stepsCurrentLevel = -stepsCurrentLevel;
+
+        double kerroin = 1 - stepsCurrentLevel / (level*100);
+        if (kerroin > 1) {
+            kerroin = 1;
+        }
+        double guidelinePercent = 0.47 - (kerroin * 0.27);
+        guidelineBackground.setGuidelinePercent((float) guidelinePercent);
+
         levelBarBackground.setBackgroundColor(Color.RED);
-        //10 steppia
-    }*/
+        //guidelinepercent 0.47 - 0.17
+    }
 
     @Override
     public void onStart() {
