@@ -45,10 +45,10 @@ public class SplashScreen extends Activity {
                         @Override
                         public void run() {
                             ImageView imageView = findViewById(R.id.logo);
-                            imageView.setImageResource(R.drawable.aarrearkku_auki);
+                            imageView.setImageResource(R.drawable.splashart);
                         }
                     });
-                    while (waited < 3000) {
+                    while (waited < 5500) {
                         sleep(100);
                         waited += 100;
                     }
