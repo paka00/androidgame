@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
-    private ImageView levelProgress, levelBarBackground;
+    private ImageView levelProgress, levelBarBackground, levelBg;
     View view2;
     int level = 1;
     int stepsToNextLevel, previousStepsToNextLevel;
@@ -102,14 +102,8 @@ public class HomeFragment extends Fragment {
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         levelTextView = getView().findViewById(R.id.level_text);
-        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    levelTextView.setBackground(resource);
-                }
-            }
-        });
+        levelBg = getView().findViewById(R.id.level_image_view);
+        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(levelBg);
         /*levelProgress = getView().findViewById(R.id.level_bar);
         levelBarBackground = getView().findViewById(R.id.level_bar_background);
         view2 = getView().findViewById(R.id.level_bar_view);*/
