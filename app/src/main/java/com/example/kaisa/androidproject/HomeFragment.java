@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
     DbModel model = null;
     Button btnClaimReward,btnTest = null;
     MainActivity context;
-    int maxClothes = 3;
+    int maxClothes = 4;
     ArrayList<Integer> clothesArrayList;
     List<Integer> checkedValues;
     int clothesType;

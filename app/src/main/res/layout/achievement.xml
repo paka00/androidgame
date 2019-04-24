@@ -29,7 +29,6 @@
         android:textColor="#FFFFFF"
         android:fontFamily="@font/pixel_font"
         android:paddingTop="10dp"
-        android:paddingLeft="30dp"
         tools:ignore="MissingConstraints"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/text_view_description"
