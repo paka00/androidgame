@@ -5,22 +5,13 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/paanakyma"
     tools:context=".HomeFragment">
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/verGuideline1"
-        app:layout_constraintBottom_toBottomOf="@id/horGuideline5"
-        android:id="@+id/level_image_view"/>
 
     <TextView
         android:id="@+id/level_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:gravity="center"
         android:fontFamily="@font/pixel_font"
         android:padding="20dp"
@@ -29,16 +20,15 @@
         android:textSize="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/level_image_view"
-        app:layout_constraintRight_toRightOf="@id/level_image_view"/>
-
+        app:layout_constraintRight_toLeftOf="@+id/verGuideline1"/>
     <Button
         android:id="@+id/test_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TEST"
         app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toLeftOf="parent"/>
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/horGuideline5"/>
 
 
     <android.support.constraint.Guideline
@@ -46,35 +36,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.38" />
+        app:layout_constraintGuide_percent="0.352" />
 
-            <!--<ImageView
-                android:id="@+id/level_bar"
-                android:layout_width="100dp"
-                android:layout_height="300dp"
-                android:background="@drawable/leveli_palkki"
-                tools:ignore="MissingConstraints" />
+    <android.support.constraint.Guideline
+        android:id="@+id/verGuideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.152"/>
 
-            <ImageView
-                android:id="@+id/level_bar_background"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/verGuideline2"
-                android:background="@drawable/leveli_palkki"
-                tools:ignore="MissingConstraints" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.145" />
 
-
-            <View
-                app:layout_constraintBottom_toBottomOf="@id/level_bar"
-                android:id="@+id/level_bar_view"
-                android:layout_width="20dp"
-                android:layout_height="10dp"
-                android:background="@color/colorAccent"/>-->
+    <android.support.constraint.Guideline
+        android:id="@+id/horGuideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.125" />
 
 
 
+    <ImageView
+        android:id="@+id/level_bar_background"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toLeftOf="@id/verGuideline3"
+        app:layout_constraintTop_toBottomOf="@id/guidelineBackground"
+        app:layout_constraintBottom_toTopOf="@id/verGuideline2"
+        android:background="@drawable/leveli_palkki_2"
+        android:layout_marginBottom="7dp"
+        tools:ignore="MissingConstraints" />
 
-
+    <ImageView
+        android:id="@+id/level_bar"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@drawable/leveli_palkki_2"
+        app:layout_constraintTop_toBottomOf="@id/horGuideline6"
+        app:layout_constraintRight_toLeftOf="@id/verGuideline1"
+        android:layout_marginRight="25dp"
+        app:layout_constraintBottom_toTopOf="@id/verGuideline2"
+        tools:ignore="MissingConstraints" />
 
 
     <android.support.constraint.Guideline
@@ -140,32 +147,32 @@
             app:layout_constraintTop_toBottomOf="@id/horGuideline1"
             app:layout_constraintBottom_toBottomOf="@id/horGuideline4">
 
-        <TextView
-            android:id="@+id/daily_task"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_font"
-            android:text="Daily task: Walk 1000 steps"
-            android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/daily_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pixel_font"
+                android:text="Daily task: Walk 1000 steps"
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/daily_task_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_font"
-            android:text="Time left: "
-            android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/daily_task_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pixel_font"
+                android:text="Time left: "
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/daily_task_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_font"
-            android:text="Progress: "
-            android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/daily_task_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pixel_font"
+                android:text="Progress: "
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
 
         </LinearLayout>
 

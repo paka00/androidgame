@@ -1,16 +1,14 @@
 package com.example.kaisa.androidproject;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.hardware.usb.UsbRequest;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,8 +16,8 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,9 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +35,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.kaisa.androidproject.model.DbModel;
 import com.example.kaisa.androidproject.model.User;
 
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -75,8 +70,8 @@ public class HomeFragment extends Fragment {
     Typeface pixelFont = null;
     private boolean isVisible;
     private boolean isStarted;
-    private ImageView levelProgress, levelBarBackground, levelBg;
-    View view2;
+    Guideline guidelineBackground;
+    private ImageView levelProgress, levelBarBackground;
     int level = 1;
     int stepsToNextLevel, previousStepsToNextLevel;
     ImageView imageview_head_home,imageview_torso_home,imageview_legs_home,imageview_feet_home;
@@ -98,15 +93,21 @@ public class HomeFragment extends Fragment {
         imageview_torso_home = getView().findViewById(R.id.imageview_torso_home);
         imageview_legs_home = getView().findViewById(R.id.imageview_legs_home);
         imageview_feet_home = getView().findViewById(R.id.imageview_feet_home);
+        guidelineBackground = getView().findViewById(R.id.guidelineBackground);
         super.onViewCreated(view, savedInstanceState);
         pixelFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/smallest_pixel-7.ttf");
         prefs = getContext().getSharedPreferences("com.KOTKAME.CreatureChase", MODE_PRIVATE);
         levelTextView = getView().findViewById(R.id.level_text);
-        levelBg = getView().findViewById(R.id.level_image_view);
-        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(levelBg);
-        /*levelProgress = getView().findViewById(R.id.level_bar);
+        Glide.with(this).load(R.drawable.leveli_palkki_tausta).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    levelTextView.setBackground(resource);
+                }
+            }
+        });
+        levelProgress = getView().findViewById(R.id.level_bar);
         levelBarBackground = getView().findViewById(R.id.level_bar_background);
-        view2 = getView().findViewById(R.id.level_bar_view);*/
         btnClaimReward = getView().findViewById(R.id.button_claim_reward);
         btnClaimReward.setVisibility(View.INVISIBLE);
         btnTest = getView().findViewById(R.id.test_button);
@@ -194,7 +195,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-        //setLevelBar();
+        setLevelBar();
     }
 
     @Override
@@ -329,6 +330,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("StepCounter"));
+        setLevelBar();
         Log.d("homefragment", "onResume");
     }
 
@@ -512,16 +514,31 @@ public class HomeFragment extends Fragment {
         return i * 1000;
     }
 
-    /*public void setLevelBar(){
-        int steps = totalSteps-stepsToNextLevel;
+    public void setLevelBar(){
+        double totalStepsForLevels = 0;
+        int level = 1;
         User user = model.readUserFromDb();
-        int level = user.getLevel();
-        int steplevel = level*100;
-        int kerroin = steps / steplevel;
-        view2.setMinimumHeight(500);
-        levelBarBackground.setBackgroundColor(Color.RED);
-        //10 steppia
-    }*/
+        if (!model.checkIfTableEmpty("user")) {
+            level = user.getLevel();
+        }
+        for (int i = 0; i<level+1; i++) {
+            totalStepsForLevels = totalStepsForLevels + 100*i;
+        }
+        double stepsCurrentLevel = (totalSteps - totalStepsForLevels);
+        if (stepsCurrentLevel < 0)
+            stepsCurrentLevel = -stepsCurrentLevel;
+
+        double kerroin = 1 - stepsCurrentLevel / (level*100);
+        if (kerroin > 1) {
+            kerroin = 1;
+        }
+        double guidelinePercent = 0.35 - (kerroin * 0.21);
+        guidelineBackground.setGuidelinePercent((float) guidelinePercent);
+
+        levelBarBackground.setBackgroundColor(Color.parseColor("#be1522"));
+        //guidelinepercent 0.43 - 0.17
+        // 0.35 - 0.145
+    }
 
     @Override
     public void onStart() {

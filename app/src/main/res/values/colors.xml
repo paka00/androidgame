@@ -11,6 +11,7 @@
     <color name="colorSeekbarSelected">#d8a17c</color>
     <color name="colorSeekbarBackground">#916f59</color>
     <color name="colorSplashScreenBackground">#000000</color>
+    <color name="colorLevelBar">#be1522</color>
 </resources>
 
 
