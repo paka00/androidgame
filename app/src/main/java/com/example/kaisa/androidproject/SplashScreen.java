@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -13,6 +14,7 @@ public class SplashScreen extends Activity {
 
     Thread splashTread;
     public static final int RequestPermissionCode = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +22,6 @@ public class SplashScreen extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestPermission();
         setContentView(R.layout.activity_splash_screen);
-
     }
 
     private void requestPermission() {
@@ -36,17 +37,27 @@ public class SplashScreen extends Activity {
                 try {
                     int waited = 0;
                     // Splash screen pause time
-                    while (waited < 3500) {
+                    while (waited < 2500) {
                         sleep(100);
                         waited += 100;
                     }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ImageView imageView = findViewById(R.id.logo);
+                            imageView.setImageResource(R.drawable.aarrearkku_auki);
+                        }
+                    });
+                    while (waited < 3000) {
+                        sleep(100);
+                        waited += 100;
+                    }
+                } catch (InterruptedException e) {
+                } finally {
                     Intent intent = new Intent(SplashScreen.this,
                             MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
-                    SplashScreen.this.finish();
-                } catch (InterruptedException e) {
-                } finally {
                     SplashScreen.this.finish();
                 }
             }

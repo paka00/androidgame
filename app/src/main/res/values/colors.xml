@@ -10,6 +10,7 @@
     <color name="colorButtonText">#775a44</color>
     <color name="colorSeekbarSelected">#d8a17c</color>
     <color name="colorSeekbarBackground">#916f59</color>
+    <color name="colorSplashScreenBackground">#000000</color>
 </resources>
 
 

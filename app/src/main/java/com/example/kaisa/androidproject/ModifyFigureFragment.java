@@ -316,6 +316,7 @@ public class ModifyFigureFragment extends Fragment implements View.OnClickListen
                 isUserCreated = true;
             } else {
                 saveClothesToDatabase();
+                context.viewPager.setCurrentItem(0);
                 Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
                 //Tietojentallennus tietokantaan
             }
